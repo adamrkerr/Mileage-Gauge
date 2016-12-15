@@ -21,5 +21,7 @@ namespace MileageGauge.Abstractions
         Task<LoadVehicleDetailsResponse> LoadVehicleDetails(bool forceRefresh);
 
         IVehicleViewModel CurrentVehicle { get; }
+
+        bool DiagnosticDeviceConnected { get; }
     }
 }
