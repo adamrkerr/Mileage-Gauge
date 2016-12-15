@@ -10,15 +10,27 @@ namespace MileageGauge.DI
 {
     public static class ContainerManager
     {
-        public static IContainer Container { get; set; }
+        private static IContainer _container;
+        public static IContainer Container
+        {
+            get
+            {
+                if (_container == null)
+                {
+                    _container = Initialize();
+                }
 
-        public static void Initialize()
+                return _container;
+            }
+        }
+
+        private static IContainer Initialize()
         {
             var builder = new ContainerBuilder();
-            
-            builder.RegisterType<MainViewModel>().As<IMainViewModel>();
 
-            Container = builder.Build();
+            builder.RegisterType<MainViewModel>().As<IMainViewModel>().InstancePerLifetimeScope();
+
+            return builder.Build();
         }
     }
 }

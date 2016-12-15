@@ -16,9 +16,13 @@ namespace MileageGauge.Abstractions
 {
     public interface IMainViewModel
     {
-        Task<GetDiagnosticDeviceResponse> GetDiagnosticDevice();
+        Action<GetDiagnosticDeviceResponse> GetDiagnosticDeviceComplete { get; set; }
 
-        Task<LoadVehicleDetailsResponse> LoadVehicleDetails(bool forceRefresh);
+        Action<LoadVehicleDetailsResponse> LoadVehicleDetailsComplete { get; set; }
+
+        Task GetDiagnosticDevice();
+
+        Task LoadVehicleDetails(bool forceRefresh);
 
         IVehicleViewModel CurrentVehicle { get; }
 

@@ -3,21 +3,70 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Space
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/space1"
-        android:layout_weight="2" />
-    <Button
-        android:text="Start"
-        android:layout_height="wrap_content"
-        android:id="@+id/StartButton"
-        android:background="#ff00AA00"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal" />
-    <Space
+        android:id="@+id/ConnectingLayout">
+        <TextView
+            android:text="Connecting"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/space2"
-        android:layout_weight="2" />
+        android:id="@+id/VehicleInfoLayout"
+        android:visibility="invisible">
+        <TextView
+            android:text="Current Vehicle:"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6" />
+        <TextView
+            android:text="Year:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/YearText" />
+        <TextView
+            android:text="Make:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MakeText" />
+        <TextView
+            android:text="Model:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ModelText" />
+        <TextView
+            android:text="Engine:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/EngineText" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout1">
+            <Button
+                android:text="Refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/RefreshVehicleButton" />
+            <Button
+                android:text="Start"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/StartScanningButton" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

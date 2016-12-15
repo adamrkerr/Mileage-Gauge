@@ -27,21 +27,32 @@ namespace MileageGauge.Implementations
             get; private set;
         }
 
-        public Task<GetDiagnosticDeviceResponse> GetDiagnosticDevice()
+        public Action<GetDiagnosticDeviceResponse> GetDiagnosticDeviceComplete
+        {
+            get; set;
+        }
+
+        public Action<LoadVehicleDetailsResponse> LoadVehicleDetailsComplete
+        {
+            get; set;
+        }
+
+        public async Task GetDiagnosticDevice()
         {
             //TODO: get real device
-            Thread.Sleep(5000);
+            Thread.Sleep(30000);
 
             DiagnosticDeviceConnected = true;
 
-            return Task.FromResult(new GetDiagnosticDeviceResponse { Success = true });
+            GetDiagnosticDeviceComplete?.Invoke(new GetDiagnosticDeviceResponse { Success = true });
+
         }
 
-        public Task<LoadVehicleDetailsResponse> LoadVehicleDetails(bool forceRefresh)
+        public async Task LoadVehicleDetails(bool forceRefresh)
         {
             if (!DiagnosticDeviceConnected)
             {
-                return Task.FromResult(new LoadVehicleDetailsResponse { Success = false, Message = "Please connect your phone to the ELM327." });
+                LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsResponse { Success = false, Message = "Please connect your phone to the ELM327." });
             }
 
             if (forceRefresh)
@@ -54,18 +65,23 @@ namespace MileageGauge.Implementations
             {
                 VIN = "1C3AN69L24X*", //TODO: not currently including whole vin for security
                 Make = "CHRYSLER",
-                Model="Crossfire",
-                Year=2004,
-                Option= "Man 6-spd, 6 cyl, 3.2 L",
-                CityMPG=15,
-                HighwayMPG=18,
-                CombinedMPG=23
+                Model = "Crossfire",
+                Year = 2004,
+                Option = "Man 6-spd, 6 cyl, 3.2 L",
+                CityMPG = 15,
+                HighwayMPG = 18,
+                CombinedMPG = 23
 
             };
 
             CurrentVehicle = vehicleDetails;
 
-            return Task.FromResult(new LoadVehicleDetailsResponse { Success = true });
+            LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsResponse { Success = true });
+        }
+
+        Task IMainViewModel.LoadVehicleDetails(bool forceRefresh)
+        {
+            throw new NotImplementedException();
         }
     }
 }

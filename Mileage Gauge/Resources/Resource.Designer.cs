@@ -26,6 +26,10 @@ namespace MileageGauge
 		
 		public static void UpdateIdValues()
 		{
+			global::MileageGauge.Abstractions.Resource.String.ApplicationName = global::MileageGauge.Resource.String.ApplicationName;
+			global::MileageGauge.Abstractions.Resource.String.Hello = global::MileageGauge.Resource.String.Hello;
+			global::MileageGauge.DI.Resource.String.ApplicationName = global::MileageGauge.Resource.String.ApplicationName;
+			global::MileageGauge.DI.Resource.String.Hello = global::MileageGauge.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -60,14 +64,38 @@ namespace MileageGauge
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050001
-			public const int StartButton = 2131034113;
-			
 			// aapt resource value: 0x7f050000
-			public const int space1 = 2131034112;
+			public const int ConnectingLayout = 2131034112;
+			
+			// aapt resource value: 0x7f050007
+			public const int EngineText = 2131034119;
+			
+			// aapt resource value: 0x7f050005
+			public const int MakeText = 2131034117;
+			
+			// aapt resource value: 0x7f050006
+			public const int ModelText = 2131034118;
+			
+			// aapt resource value: 0x7f050009
+			public const int RefreshVehicleButton = 2131034121;
+			
+			// aapt resource value: 0x7f05000a
+			public const int StartScanningButton = 2131034122;
 			
 			// aapt resource value: 0x7f050002
-			public const int space2 = 2131034114;
+			public const int VehicleInfoLayout = 2131034114;
+			
+			// aapt resource value: 0x7f050004
+			public const int YearText = 2131034116;
+			
+			// aapt resource value: 0x7f050008
+			public const int linearLayout1 = 2131034120;
+			
+			// aapt resource value: 0x7f050001
+			public const int textView1 = 2131034113;
+			
+			// aapt resource value: 0x7f050003
+			public const int textView6 = 2131034115;
 			
 			static Id()
 			{
