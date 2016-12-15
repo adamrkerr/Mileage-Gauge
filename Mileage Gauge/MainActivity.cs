@@ -2,9 +2,9 @@
 using Android.Widget;
 using Android.OS;
 
-namespace Mileage_Gauge
+namespace MileageGauge
 {
-    [Activity(Label = "Mileage_Gauge", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Mileage Gauge", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)
