@@ -1,4 +1,5 @@
 using MileageGauge.CSharp.Abstractions.ResponseModels;
+using MileageGauge.CSharp.Abstractions.Services.ServiceResponses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
         Action<GetDiagnosticDeviceResponse> GetDiagnosticDeviceComplete { get; set; }
 
         Action<LoadVehicleDetailsResponse> LoadVehicleDetailsComplete { get; set; }
+
+        Func<List<OptionQueryResponseItem>, Task<int>> SelectVehicleOptionCallback { get; set; }
 
         Task GetDiagnosticDevice();
 

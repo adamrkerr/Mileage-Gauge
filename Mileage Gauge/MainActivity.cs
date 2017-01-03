@@ -7,6 +7,9 @@ using System;
 using Android.Content;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
+using MileageGauge.CSharp.Abstractions.Services.ServiceResponses;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MileageGauge
 {
@@ -84,6 +87,8 @@ namespace MileageGauge
 
             ViewModel.GetDiagnosticDeviceComplete += this.GetDiagnosticDeviceComplete;
             ViewModel.LoadVehicleDetailsComplete += this.LoadVehicleDetailsComplete;
+            ViewModel.SelectVehicleOptionCallback += this.PromptVehicleOptions;
+
 
             await ViewModel.GetDiagnosticDevice();
 
@@ -93,6 +98,12 @@ namespace MileageGauge
         {
             var intent = new Intent(this, typeof(LiveMileageActivity));
             StartActivity(intent);
+        }
+
+        private async Task<int> PromptVehicleOptions(List<OptionQueryResponseItem> options)
+        {
+
+            return 0;
         }
 
         private async void GetDiagnosticDeviceComplete(GetDiagnosticDeviceResponse deviceResponse)

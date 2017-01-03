@@ -30,11 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Json">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\System.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +47,8 @@
     <Compile Include="ResponseModels\IResponseModel.cs" />
     <Compile Include="Services\IRestUtility.cs" />
     <Compile Include="Services\IVehicleInformationService.cs" />
+    <Compile Include="Services\ServiceResponses\OptionQueryResponse.cs" />
+    <Compile Include="Services\ServiceResponses\VinQueryResponse.cs" />
     <Compile Include="ViewModels\IMainViewModel.cs" />
     <Compile Include="ViewModels\IVehicleViewModel.cs" />
   </ItemGroup>
