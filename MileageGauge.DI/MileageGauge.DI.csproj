@@ -61,13 +61,13 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MileageGauge.Abstractions\MileageGauge.Abstractions.csproj">
-      <Project>{1d22a7c0-ef7e-4daf-9745-ccd3cc5610a6}</Project>
-      <Name>MileageGauge.Abstractions</Name>
+    <ProjectReference Include="..\MileageGauge.CSharp.Abstractions\MileageGauge.CSharp.Abstractions.csproj">
+      <Project>{7db8fea4-9729-4df8-9032-b52eea00106a}</Project>
+      <Name>MileageGauge.CSharp.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MileageGauge.Implementations\MileageGauge.Implementations.csproj">
-      <Project>{67645b0b-b2fd-4101-b9e1-d649b2334963}</Project>
-      <Name>MileageGauge.Implementations</Name>
+    <ProjectReference Include="..\MileageGauge.CSharp.Implementations\MileageGauge.CSharp.Implementations.csproj">
+      <Project>{051ccba0-e226-4bc7-a1d1-3bba96c80990}</Project>
+      <Name>MileageGauge.CSharp.Implementations</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

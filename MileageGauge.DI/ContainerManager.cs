@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Autofac;
-using MileageGauge.Abstractions;
-using MileageGauge.Implementations;
+using MileageGauge.CSharp.Abstractions.ViewModels;
+using MileageGauge.CSharp.Implementations.ViewModels;
 
 namespace MileageGauge.DI
 {
@@ -30,7 +26,11 @@ namespace MileageGauge.DI
 
             builder.RegisterType<MainViewModel>().As<IMainViewModel>().InstancePerLifetimeScope();
 
-            return builder.Build();
+            var container = builder.Build();
+
+            container.BeginLifetimeScope();
+
+            return container;
         }
     }
 }

@@ -21,42 +21,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/VehicleInfoLayout"
-        android:visibility="invisible">
+        android:visibility="gone">
         <TextView
             android:text="Current Vehicle:"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView6" />
+            android:id="@+id/textView6"
+            android:layout_margin="10dp" />
         <TextView
-            android:text="Year:"
+            android:text="(year)"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/YearText" />
+            android:id="@+id/YearText"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp" />
         <TextView
-            android:text="Make:"
+            android:text="(make)"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/MakeText" />
+            android:id="@+id/MakeText"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp" />
         <TextView
-            android:text="Model:"
+            android:text="(model)"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ModelText" />
+            android:id="@+id/ModelText"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp" />
         <TextView
-            android:text="Engine:"
+            android:text="(engine)"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/EngineText" />
+            android:id="@+id/EngineText"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp" />
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/linearLayout1">
+            android:id="@+id/linearLayout1"
+            android:layout_gravity="center_horizontal">
             <Button
                 android:text="Refresh"
                 android:layout_width="wrap_content"

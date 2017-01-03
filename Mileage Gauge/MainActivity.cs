@@ -1,10 +1,12 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using MileageGauge.Abstractions;
 using MileageGauge.DI;
 using Autofac;
-using MileageGauge.Abstractions.ResponseModels;
+using System;
+using Android.Content;
+using MileageGauge.CSharp.Abstractions.ViewModels;
+using MileageGauge.CSharp.Abstractions.ResponseModels;
 
 namespace MileageGauge
 {
@@ -27,34 +29,99 @@ namespace MileageGauge
             }
         }
 
+        private Button StartScanningButton
+        {
+            get
+            {
+                return FindViewById<Button>(Resource.Id.StartScanningButton);
+            }
+        }
+
+        private TextView YearText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.YearText);
+            }
+        }
+
+        private TextView MakeText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.MakeText);
+            }
+        }
+
+        private TextView ModelText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.ModelText);
+            }
+        }
+
+        private TextView EngineText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.EngineText);
+            }
+        }
+
         IMainViewModel ViewModel { get; set; }
 
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-            
 
-            using (var scope = ContainerManager.Container.BeginLifetimeScope())
-            {
-                ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
-            }
+            StartScanningButton.Click += StartScanningButton_Click;
+
+            ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
 
             ViewModel.GetDiagnosticDeviceComplete += this.GetDiagnosticDeviceComplete;
+            ViewModel.LoadVehicleDetailsComplete += this.LoadVehicleDetailsComplete;
 
-            ViewModel.GetDiagnosticDevice();
-            
+            await ViewModel.GetDiagnosticDevice();
+
         }
 
-        private void GetDiagnosticDeviceComplete(GetDiagnosticDeviceResponse deviceResponse)
+        private void StartScanningButton_Click(object sender, EventArgs e)
         {
-            if (deviceResponse.Success)
+            var intent = new Intent(this, typeof(LiveMileageActivity));
+            StartActivity(intent);
+        }
+
+        private async void GetDiagnosticDeviceComplete(GetDiagnosticDeviceResponse deviceResponse)
+        {
+            if (!deviceResponse.Success)
             {
-                ConnectingLayout.Visibility = Android.Views.ViewStates.Invisible;
-                VehicleInfoLayout.Visibility = Android.Views.ViewStates.Visible;
+                throw new NotImplementedException("Need to handle connection failure!");
             }
+
+            ConnectingLayout.Visibility = Android.Views.ViewStates.Gone;
+            VehicleInfoLayout.Visibility = Android.Views.ViewStates.Visible;
+
+            //TODO: handle real re-load
+            await ViewModel.LoadVehicleDetails(false);
+        }
+
+        private async void LoadVehicleDetailsComplete(LoadVehicleDetailsResponse vehicleResponse)
+        {
+
+            if (!vehicleResponse.Success)
+            {
+                throw new NotImplementedException("need to handle vehicle load failure!");
+            }
+
+            StartScanningButton.Enabled = true;
+            YearText.Text = ViewModel.CurrentVehicle.Year.ToString();
+            MakeText.Text = ViewModel.CurrentVehicle.Make;
+            ModelText.Text = ViewModel.CurrentVehicle.Model;
+            EngineText.Text = ViewModel.CurrentVehicle.Option;
         }
     }
 }

@@ -1,17 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MileageGauge.CSharp.Abstractions.ViewModels;
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using MileageGauge.Abstractions;
-
-namespace MileageGauge.Implementations
+namespace MileageGauge.CSharp.Implementations.ViewModels
 {
     public class VehicleViewModel : IVehicleViewModel
     {

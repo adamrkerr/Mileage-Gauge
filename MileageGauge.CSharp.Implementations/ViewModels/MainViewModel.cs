@@ -1,19 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using MileageGauge.Abstractions;
-using MileageGauge.Abstractions.ResponseModels;
-using Java.Lang;
+using MileageGauge.CSharp.Abstractions.ViewModels;
+using MileageGauge.CSharp.Abstractions.ResponseModels;
 
-namespace MileageGauge.Implementations
+namespace MileageGauge.CSharp.Implementations.ViewModels
 {
     public class MainViewModel : IMainViewModel
     {
@@ -39,13 +29,11 @@ namespace MileageGauge.Implementations
 
         public async Task GetDiagnosticDevice()
         {
-            //TODO: get real device
-            Thread.Sleep(30000);
+            await Task.Delay(10000);
 
             DiagnosticDeviceConnected = true;
 
             GetDiagnosticDeviceComplete?.Invoke(new GetDiagnosticDeviceResponse { Success = true });
-
         }
 
         public async Task LoadVehicleDetails(bool forceRefresh)
@@ -57,7 +45,7 @@ namespace MileageGauge.Implementations
 
             if (forceRefresh)
             {
-                Thread.Sleep(1000);
+                await Task.Delay(5000);
                 throw new NotImplementedException("This feature is not ready yet!");
             }
 
@@ -69,8 +57,8 @@ namespace MileageGauge.Implementations
                 Year = 2004,
                 Option = "Man 6-spd, 6 cyl, 3.2 L",
                 CityMPG = 15,
-                HighwayMPG = 18,
-                CombinedMPG = 23
+                HighwayMPG = 23,
+                CombinedMPG = 18
 
             };
 
@@ -79,9 +67,5 @@ namespace MileageGauge.Implementations
             LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsResponse { Success = true });
         }
 
-        Task IMainViewModel.LoadVehicleDetails(bool forceRefresh)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

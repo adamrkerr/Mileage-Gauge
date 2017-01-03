@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LiveMileageActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +67,9 @@
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\layout\LiveMileage.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
@@ -82,9 +86,9 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MileageGauge.Abstractions\MileageGauge.Abstractions.csproj">
-      <Project>{1d22a7c0-ef7e-4daf-9745-ccd3cc5610a6}</Project>
-      <Name>MileageGauge.Abstractions</Name>
+    <ProjectReference Include="..\MileageGauge.CSharp.Abstractions\MileageGauge.CSharp.Abstractions.csproj">
+      <Project>{7DB8FEA4-9729-4DF8-9032-B52EEA00106A}</Project>
+      <Name>MileageGauge.CSharp.Abstractions</Name>
     </ProjectReference>
     <ProjectReference Include="..\MileageGauge.DI\MileageGauge.DI.csproj">
       <Project>{1a9baf4a-e675-4549-8e80-d59ba38eabf6}</Project>
