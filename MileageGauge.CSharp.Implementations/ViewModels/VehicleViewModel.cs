@@ -14,10 +14,10 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         public string Option { get; set; }
 
-        public int CityMPG { get; set; }
+        public double CityMPG { get; set; }
 
-        public int HighwayMPG { get; set; }
+        public double HighwayMPG { get; set; }
 
-        public int CombinedMPG { get; set; }
+        public double CombinedMPG { get; set; }
     }
 }

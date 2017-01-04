@@ -5,6 +5,7 @@ using MileageGauge.CSharp.Abstractions.ResponseModels;
 using MileageGauge.CSharp.Abstractions.Services;
 using System.Collections.Generic;
 using MileageGauge.CSharp.Abstractions.Services.ServiceResponses;
+using System.Linq;
 
 namespace MileageGauge.CSharp.Implementations.ViewModels
 {
@@ -31,19 +32,19 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             get; set;
         }
 
-        public Action<LoadVehicleDetailsResponse> LoadVehicleDetailsComplete
+        public Action<LoadVehicleDetailsCompleteResponse> LoadVehicleDetailsComplete
         {
             get; set;
         }
 
-        public Func<List<OptionQueryResponseItem>, Task<int>> SelectVehicleOptionCallback
+        public Action<LoadVehicleDetailsOptionRequiredResponse> LoadVehicleDetailsOptionsRequired
         {
             get; set;
         }
 
         public async Task GetDiagnosticDevice()
         {
-            await Task.Delay(10000);
+            await Task.Delay(5000);
 
             DiagnosticDeviceConnected = true;
 
@@ -54,33 +55,67 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
         {
             if (!DiagnosticDeviceConnected)
             {
-                LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsResponse { Success = false, Message = "Please connect your phone to the ELM327." });
+                LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = false, Message = "Please connect your phone to the ELM327." });
             }
 
-            if (forceRefresh || CurrentVehicle == null)
+            if (!(forceRefresh || CurrentVehicle == null))
             {
-                CurrentVehicle = null;
-                var vehicleDetails = await _vehicleInformationService.GetVehicleInformation(SelectVehicleOptionCallback);
-                CurrentVehicle = vehicleDetails;
+                LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = true });
+                return;
             }
 
+            var vehicleDetails = await _vehicleInformationService.GetVehicleInformation();
 
-            //var vehicleDetails = new VehicleViewModel()
-            //{
-            //    VIN = "1C3AN69L24X*", //TODO: not currently including whole vin for security
-            //    Make = "CHRYSLER",
-            //    Model = "Crossfire",
-            //    Year = 2004,
-            //    Option = "Man 6-spd, 6 cyl, 3.2 L",
-            //    CityMPG = 15,
-            //    HighwayMPG = 23,
-            //    CombinedMPG = 18
+            CurrentVehicle = new VehicleViewModel()
+            {
+                VIN = vehicleDetails.VIN,
+                Make = vehicleDetails.Make,
+                Model = vehicleDetails.Model,
+                Year = vehicleDetails.Year
+            };
 
-            //};
+            if (vehicleDetails.SelectedVehicleOption != null)
+            {                
+                await GetVehicleMileage(vehicleDetails.SelectedVehicleOption.Id, vehicleDetails.SelectedVehicleOption.Text);
 
+                LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = false });
+                return;
+            }
 
-            LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsResponse { Success = true });
+            var options = vehicleDetails.VehicleOptions.Select(s => new VehicleOptionViewModel { Id = s.Id, Text = s.Text }).ToList();
+
+            LoadVehicleDetailsOptionsRequired?.Invoke(new LoadVehicleDetailsOptionRequiredResponse { Success = true, Message = "Please select the vehicle's drivetrain.", VehicleOptions = options });
+
         }
 
+        public async Task CompleteVehicleDetails(VehicleOptionViewModel selectedOption)
+        {
+            await GetVehicleMileage(selectedOption.Id, selectedOption.Text);
+
+            LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = false });
+        }
+
+        private async Task GetVehicleMileage(int selectedOptionId, string selectedOptionText)
+        {
+            CurrentVehicle.Option = selectedOptionText;
+            //TODO: use option to get MPG
+            var response = await _vehicleInformationService.GetVehicleMileageRating(selectedOptionId);
+
+            CurrentVehicle.CityMPG = response.CityMpg;
+            CurrentVehicle.CombinedMPG = response.CombinedMpg;
+            CurrentVehicle.HighwayMPG = response.HighwayMpg;
+        }
+
+        public async Task ContinueWithoutVehicleDetails()
+        {
+            await Task.Run(() => {
+                CurrentVehicle.Option = "Unknown";
+                CurrentVehicle.HighwayMPG = 0;
+                CurrentVehicle.CombinedMPG = 0;
+                CurrentVehicle.CityMPG = 0;
+            });
+
+            LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = false });
+        }
     }
 }

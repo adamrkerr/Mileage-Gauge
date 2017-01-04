@@ -14,6 +14,7 @@ namespace MileageGauge.CSharp.Implementations.Services
         //TODO: move this somewhere else?
         private const string VinAPI = "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/{0}*?format=json";
         private const string OptionsAPI = "https://fueleconomy.gov/ws/rest/vehicle/menu/options?year={0}&make={1}&model={2}";
+        private const string MileageAPI = "https://fueleconomy.gov/ws/rest/vehicle/{0}";
 
         private readonly IRestUtility _restUtility;
 
@@ -22,7 +23,26 @@ namespace MileageGauge.CSharp.Implementations.Services
             _restUtility = restUtility;
         }
 
-        public async Task<IVehicleViewModel> GetVehicleInformation(Func<List<OptionQueryResponseItem>, Task<int>> selectVehicleOptionCallback)
+        public async Task<VehicleMileageResponse> GetVehicleMileageRating(int vehicleOptionId)
+        {
+            var mileageQuery = ConstructMileageQuery(vehicleOptionId);
+
+            var mileageResponse = await _restUtility.ExecuteGetRequestAsync<MileageRatingResponse>(mileageQuery);
+
+            return new VehicleMileageResponse
+            {
+                CityMpg = mileageResponse.City08,
+                CombinedMpg = mileageResponse.Comb08,
+                HighwayMpg = mileageResponse.Highway08
+            };
+        }
+
+        private string ConstructMileageQuery(int vehicleOptionId)
+        {
+            return string.Format(MileageAPI, vehicleOptionId);
+        }
+
+        public async Task<VehicleInformationResponse> GetVehicleInformation()
         {
             var vin = await GetVehicleVIN();
 
@@ -30,7 +50,7 @@ namespace MileageGauge.CSharp.Implementations.Services
 
             var vinResponse = await _restUtility.ExecuteGetRequestAsync<VinQueryResponse>(vinQuery);
 
-            var vehicleDetails = new VehicleViewModel()
+            var vehicleDetails = new VehicleInformationResponse()
             {
                 VIN = vin,
                 Make = GetValueFromVinResponse<string>(vinResponse, "Make"),
@@ -49,17 +69,26 @@ namespace MileageGauge.CSharp.Implementations.Services
 
             if(optionResponse.MenuItem.Count == 1)
             {
-                vehicleDetails.Option = optionResponse.MenuItem.First().Text;
+                vehicleDetails.SelectedVehicleOption = new VehicleInformationResponseOption
+                {
+                    Text = optionResponse.MenuItem.First().Text,
+                    Id = optionResponse.MenuItem.First().Value
+                };
+
             }
             else
             {
-                var selectedOption = await selectVehicleOptionCallback?.Invoke(optionResponse.MenuItem);
+                vehicleDetails.VehicleOptions = optionResponse.MenuItem.Select(m => new VehicleInformationResponseOption
+                {
+                    Text = m.Text,
+                    Id = m.Value
+                }).ToList();
             }
 
             return vehicleDetails;
         }
 
-        internal static string ConstructOptionQuery(VehicleViewModel vehicleDetails)
+        internal static string ConstructOptionQuery(VehicleInformationResponse vehicleDetails)
         {
             return String.Format(OptionsAPI, vehicleDetails.Year, vehicleDetails.Make, vehicleDetails.Model);
         }
@@ -91,7 +120,19 @@ namespace MileageGauge.CSharp.Implementations.Services
         private async Task<string> GetVehicleVIN()
         {
             //TODO: get this from the ELM327
-            return await Task.FromResult("1C3AN69L24X12345");
+            Random rnd = new Random();
+            int choice = rnd.Next(1, 4);
+
+            switch (choice)
+            {
+                case 1:
+                    return await Task.FromResult("1C3AN69L24X12345");
+                case 2:
+                    return await Task.FromResult("JHMAP21446S12345");
+                case 3:
+                    return await Task.FromResult("1G4PS5SK2G4142345");
+            }
+            return await Task.FromResult("impossible?");
         }
     }
 }

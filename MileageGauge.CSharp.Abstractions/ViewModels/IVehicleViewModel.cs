@@ -17,10 +17,10 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
 
         string Option { get; set; }
 
-        int CityMPG { get; set; }
+        double CityMPG { get; set; }
 
-        int HighwayMPG { get; set; }
+        double HighwayMPG { get; set; }
 
-        int CombinedMPG { get; set; }
+        double CombinedMPG { get; set; }
     }
 }

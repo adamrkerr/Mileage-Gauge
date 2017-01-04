@@ -10,6 +10,7 @@ using MileageGauge.CSharp.Abstractions.ResponseModels;
 using MileageGauge.CSharp.Abstractions.Services.ServiceResponses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace MileageGauge
 {
@@ -37,6 +38,14 @@ namespace MileageGauge
             get
             {
                 return FindViewById<Button>(Resource.Id.StartScanningButton);
+            }
+        }
+
+        private Button RefreshVehicleButton
+        {
+            get
+            {
+                return FindViewById<Button>(Resource.Id.RefreshVehicleButton);
             }
         }
 
@@ -82,16 +91,23 @@ namespace MileageGauge
             SetContentView(Resource.Layout.Main);
 
             StartScanningButton.Click += StartScanningButton_Click;
+            RefreshVehicleButton.Click += RefreshVehicleButton_Click;
 
             ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
 
             ViewModel.GetDiagnosticDeviceComplete += this.GetDiagnosticDeviceComplete;
             ViewModel.LoadVehicleDetailsComplete += this.LoadVehicleDetailsComplete;
-            ViewModel.SelectVehicleOptionCallback += this.PromptVehicleOptions;
+            ViewModel.LoadVehicleDetailsOptionsRequired += this.PromptVehicleOptions;
 
 
             await ViewModel.GetDiagnosticDevice();
 
+        }
+
+        private async void RefreshVehicleButton_Click(object sender, EventArgs e)
+        {
+            //better way to handle async?
+            await ViewModel.LoadVehicleDetails(true);
         }
 
         private void StartScanningButton_Click(object sender, EventArgs e)
@@ -100,10 +116,32 @@ namespace MileageGauge
             StartActivity(intent);
         }
 
-        private async Task<int> PromptVehicleOptions(List<OptionQueryResponseItem> options)
+        private async void PromptVehicleOptions(LoadVehicleDetailsOptionRequiredResponse vehicleResponse)
         {
+            UpdateVehicleDetails();
 
-            return 0;
+            var menu = new PopupMenu(this, EngineText);
+
+            menu.Inflate(Resource.Menu.default_menu);
+
+            foreach (var option in vehicleResponse.VehicleOptions)
+            {
+                menu.Menu.Add(new Java.Lang.String(option.Text));
+            }
+
+            menu.MenuItemClick += async (s1, arg1) =>
+            {
+                var matched = vehicleResponse.VehicleOptions.Where(v => arg1.Item.TitleFormatted.ToString() == v.Text).Single();
+
+                await ViewModel.CompleteVehicleDetails(matched);
+            };
+
+            menu.DismissEvent += async (s2, arg2) =>
+            {                
+                //await ViewModel.ContinueWithoutVehicleDetails();
+            };
+
+            menu.Show();
         }
 
         private async void GetDiagnosticDeviceComplete(GetDiagnosticDeviceResponse deviceResponse)
@@ -120,7 +158,7 @@ namespace MileageGauge
             await ViewModel.LoadVehicleDetails(false);
         }
 
-        private async void LoadVehicleDetailsComplete(LoadVehicleDetailsResponse vehicleResponse)
+        private async void LoadVehicleDetailsComplete(LoadVehicleDetailsCompleteResponse vehicleResponse)
         {
 
             if (!vehicleResponse.Success)
@@ -128,11 +166,16 @@ namespace MileageGauge
                 throw new NotImplementedException("need to handle vehicle load failure!");
             }
 
+            UpdateVehicleDetails();
+            EngineText.Text = ViewModel.CurrentVehicle.Option;
             StartScanningButton.Enabled = true;
+        }
+
+        private void UpdateVehicleDetails()
+        {
             YearText.Text = ViewModel.CurrentVehicle.Year.ToString();
             MakeText.Text = ViewModel.CurrentVehicle.Make;
             ModelText.Text = ViewModel.CurrentVehicle.Model;
-            EngineText.Text = ViewModel.CurrentVehicle.Option;
         }
     }
 }

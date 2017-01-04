@@ -22,7 +22,7 @@ namespace MileageGauge.CSharp.Implementations.Test.Services
                 var vehicleService = mock.Create<VehicleInformationService>();
 
                 // Act
-                var actual = await vehicleService.GetVehicleInformation(null);
+                var actual = await vehicleService.GetVehicleInformation();
 
                 Assert.IsNotNull(actual);
 

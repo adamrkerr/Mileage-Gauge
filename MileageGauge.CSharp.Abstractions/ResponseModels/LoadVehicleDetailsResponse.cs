@@ -16,9 +16,6 @@ namespace MileageGauge.CSharp.Abstractions.ResponseModels
         {
             get;set;
         }
-
-        public bool DetailsAreComplete { get; set; }
-
-        public bool DetailsAreFromStorage { get; set; }
+        
     }
 }

@@ -12,9 +12,11 @@ namespace MileageGauge.CSharp.Implementations.Services
         public async Task<T> ExecuteGetRequestAsync<T>(string url)
         {
             // Create an HTTP web request using the URL:
-            var request = HttpWebRequest.Create(new Uri(url));
+            var request =(HttpWebRequest) HttpWebRequest.Create(new Uri(url));
             request.ContentType = "application/json";
             request.Method = "GET";
+            request.Accept = "application/json";
+            request.ContentType = "application/json";
 
             var serializer = new JsonSerializer();
 
