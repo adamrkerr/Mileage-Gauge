@@ -12,6 +12,7 @@ using Android.Widget;
 using MileageGauge.DI;
 using Autofac;
 using MileageGauge.CSharp.Abstractions.ViewModels;
+using MileageGauge.CSharp.Abstractions.ResponseModels;
 
 namespace MileageGauge
 {
@@ -50,6 +51,22 @@ namespace MileageGauge
             }
         }
 
+        private TextView MPGText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.MPGText);
+            }
+        }
+
+        private TextView ThrottleText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.ThrottleText);
+            }
+        }
+
         private Button MileageBack
         {
             get
@@ -60,7 +77,9 @@ namespace MileageGauge
 
         IMainViewModel ViewModel { get; set; }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        IMPGMonitorViewModel MonitorViewModel { get; set; }
+
+        protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -76,6 +95,28 @@ namespace MileageGauge
             HighwayText.Text = ViewModel.CurrentVehicle.HighwayMPG.ToString();
 
             MileageBack.Click += MileageBack_Click;
+
+            MonitorViewModel = ContainerManager.Container.Resolve<IMPGMonitorViewModel>();
+
+            MonitorViewModel.UpdateMPG += MonitorViewModel_UpdateMPG;
+
+            await MonitorViewModel.BeginMonitoringMPG();
+        }
+
+        protected async override void OnStop()
+        {
+            base.OnStop();
+
+            await MonitorViewModel.EndMonitoringMPG();
+        }
+
+        private void MonitorViewModel_UpdateMPG(MPGUpdateResponse response)
+        {
+            RunOnUiThread(() =>
+            {
+                MPGText.Text = response.InstantMPG.ToString("##0.00");
+                ThrottleText.Text = response.CurrentThrottlePercentage.ToString("##0") + " %";
+            });
         }
 
         private void MileageBack_Click(object sender, EventArgs e)

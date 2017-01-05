@@ -30,7 +30,6 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
         Task ContinueWithoutVehicleDetails();
 
         IVehicleViewModel CurrentVehicle { get; }
-
-        bool DiagnosticDeviceConnected { get; }
+        
     }
 }

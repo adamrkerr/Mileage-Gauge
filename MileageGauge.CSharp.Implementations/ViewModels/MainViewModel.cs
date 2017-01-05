@@ -12,17 +12,15 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
     public class MainViewModel : IMainViewModel
     {
         private readonly IVehicleInformationService _vehicleInformationService;
-        public MainViewModel(IVehicleInformationService vehicleInformationService)
+        private readonly IDiagnosticDeviceService _diagnosticService;
+
+        public MainViewModel(IVehicleInformationService vehicleInformationService, IDiagnosticDeviceService diagnosticService)
         {
             _vehicleInformationService = vehicleInformationService;
+            _diagnosticService = diagnosticService;
         }
 
         public IVehicleViewModel CurrentVehicle
-        {
-            get; private set;
-        }
-
-        public bool DiagnosticDeviceConnected
         {
             get; private set;
         }
@@ -49,16 +47,14 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         public async Task GetDiagnosticDevice()
         {
-            await Task.Delay(5000);
+            var connected = await _diagnosticService.Connect();
 
-            DiagnosticDeviceConnected = true;
-
-            GetDiagnosticDeviceComplete?.Invoke(new GetDiagnosticDeviceResponse { Success = true });
+            GetDiagnosticDeviceComplete?.Invoke(new GetDiagnosticDeviceResponse { Success = connected });
         }
 
         public async Task LoadVehicleDetails(bool forceRefresh)
         {
-            if (!DiagnosticDeviceConnected)
+            if (!_diagnosticService.IsConnected)
             {
                 LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = false, Message = "Please connect your phone to the ELM327." });
             }

@@ -42,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MockDiagnosticDeviceService.cs" />
     <Compile Include="Services\RestUtility.cs" />
     <Compile Include="Services\VehicleInformationService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MPGMonitorViewModel.cs" />
     <Compile Include="ViewModels\VehicleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

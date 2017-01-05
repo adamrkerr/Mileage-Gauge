@@ -1,9 +1,13 @@
+using System;
+using System.Threading.Tasks;
+using MileageGauge.CSharp.Abstractions.ResponseModels;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 
 namespace MileageGauge.CSharp.Implementations.ViewModels
 {
     public class VehicleViewModel : IVehicleViewModel
     {
+
         public string VIN { get; set; }
 
         public int Year { get; set; }
@@ -19,5 +23,6 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
         public double HighwayMPG { get; set; }
 
         public double CombinedMPG { get; set; }
+
     }
 }

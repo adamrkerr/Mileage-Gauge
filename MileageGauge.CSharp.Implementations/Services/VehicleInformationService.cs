@@ -19,10 +19,12 @@ namespace MileageGauge.CSharp.Implementations.Services
         private const string MileageAPI = "https://fueleconomy.gov/ws/rest/vehicle/{0}";
 
         private readonly IRestUtility _restUtility;
+        private readonly IDiagnosticDeviceService _diagnosticService;
 
-        public VehicleInformationService(IRestUtility restUtility)
+        public VehicleInformationService(IRestUtility restUtility, IDiagnosticDeviceService diagnosticService)
         {
             _restUtility = restUtility;
+            _diagnosticService = diagnosticService;
         }
 
         public async Task<VehicleMileageResponse> GetVehicleMileageRating(int vehicleOptionId)
@@ -46,7 +48,7 @@ namespace MileageGauge.CSharp.Implementations.Services
 
         public async Task<VehicleInformationResponse> GetVehicleInformation()
         {
-            var vin = await GetVehicleVIN();
+            var vin = await _diagnosticService.GetVin();
 
             var vinQuery = ConstructVinQuery(vin);
 
@@ -149,26 +151,6 @@ namespace MileageGauge.CSharp.Implementations.Services
             return responseValue;
         }
 
-        private async Task<string> GetVehicleVIN()
-        {            
-            //TODO: get this from the ELM327
-            Random rnd = new Random();
-            int choice = rnd.Next(1, 5);
-
-            switch (choice)
-            {
-                case 1:
-                    return await Task.FromResult("1C3AN69L24X12345");
-                case 2:
-                    return await Task.FromResult("JHMAP21446S12345");
-                case 3:
-                    return await Task.FromResult("1G4PS5SK2G4142345");
-                case 4:
-                    return await Task.FromResult("WDBBA48D2GA051234");
-            }
-            return await Task.FromResult("impossible?");
-        }
-
         public async Task<VehicleInformationResponse> GetVehicleInformation(int year, string make, string model)
         {
             var vehicleDetails = new VehicleInformationResponse()
@@ -177,11 +159,6 @@ namespace MileageGauge.CSharp.Implementations.Services
                 Make = make,
                 SelectedModel = model,
                 Year = year
-                //Option = "Man 6-spd, 6 cyl, 3.2 L",
-                //CityMPG = 15,
-                //HighwayMPG = 23,
-                //CombinedMPG = 18
-
             };
 
             return await GetOptions(vehicleDetails);

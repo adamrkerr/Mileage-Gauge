@@ -53,14 +53,32 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/linearLayout1"
         android:layout_weight="1"
-        android:layout_gravity="fill_vertical" />
+        android:layout_gravity="fill_vertical"
+        android:gravity="center_vertical">
+        <TextView
+            android:text="0.0"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MPGText"
+            android:gravity="center_horizontal"
+            android:textSize="100dip" />
+        <TextView
+            android:text="0%"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ThrottleText"
+            android:gravity="center_horizontal"
+            android:textSize="40dip" />
+    </LinearLayout>
     <Button
         android:text="Back"
         android:layout_width="wrap_content"

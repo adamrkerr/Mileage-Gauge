@@ -48,6 +48,8 @@
     <Compile Include="ResponseModels\LoadVehicleDetailsResponse.cs" />
     <Compile Include="ResponseModels\IResponseModel.cs" />
     <Compile Include="ResponseModels\LoadVehicleDetailsOptionRequiredResponse.cs" />
+    <Compile Include="ResponseModels\MPGUpdateResponse.cs" />
+    <Compile Include="Services\IDiagnosticDeviceService.cs" />
     <Compile Include="Services\IRestUtility.cs" />
     <Compile Include="Services\IVehicleInformationService.cs" />
     <Compile Include="Services\Json\SingleOrCollectionConverter.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Services\ServiceResponses\VinQueryResponse.cs" />
     <Compile Include="ViewModels\IMainViewModel.cs" />
     <Compile Include="ViewModels\IVehicleViewModel.cs" />
+    <Compile Include="ViewModels\IMPGMonitorViewModel.cs" />
     <Compile Include="ViewModels\VehicleOptionViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
