@@ -44,12 +44,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModels\GetDiagnosticDeviceResponse.cs" />
     <Compile Include="ResponseModels\LoadVehicleDetailsCompleteResponse.cs" />
+    <Compile Include="ResponseModels\LoadVehicleDetailsModelRequiredResponse.cs" />
     <Compile Include="ResponseModels\LoadVehicleDetailsResponse.cs" />
     <Compile Include="ResponseModels\IResponseModel.cs" />
     <Compile Include="ResponseModels\LoadVehicleDetailsOptionRequiredResponse.cs" />
     <Compile Include="Services\IRestUtility.cs" />
     <Compile Include="Services\IVehicleInformationService.cs" />
+    <Compile Include="Services\Json\SingleOrCollectionConverter.cs" />
     <Compile Include="Services\ServiceResponses\MileageRatingResponse.cs" />
+    <Compile Include="Services\ServiceResponses\ModelQueryResponse.cs" />
     <Compile Include="Services\ServiceResponses\OptionQueryResponse.cs" />
     <Compile Include="Services\ServiceResponses\VehicleInformationResponse.cs" />
     <Compile Include="Services\ServiceResponses\VehicleMileageResponse.cs" />

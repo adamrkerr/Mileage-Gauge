@@ -28,5 +28,24 @@ namespace MileageGauge.CSharp.Implementations.Test.Services
 
             }
         }
+
+        [TestMethod]
+        public async Task GetVehicleMileageRatingTest()
+        {
+            using (var mock = AutoMock.GetLoose())
+            {
+                // Arrange - configure the mock
+                var restUtility = mock.Create<RestUtility>();
+                mock.Provide<IRestUtility>(restUtility);
+
+                var vehicleService = mock.Create<VehicleInformationService>();
+
+                // Act
+                var actual = await vehicleService.GetVehicleMileageRating(21633);
+
+                Assert.IsNotNull(actual);
+
+            }
+        }
     }
 }

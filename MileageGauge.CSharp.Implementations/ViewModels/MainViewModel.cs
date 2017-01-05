@@ -42,6 +42,11 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             get; set;
         }
 
+        public Action<LoadVehicleDetailsModelRequiredResponse> LoadVehicleDetailsModelRequired
+        {
+            get;set;
+        }
+
         public async Task GetDiagnosticDevice()
         {
             await Task.Delay(5000);
@@ -70,35 +75,49 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             {
                 VIN = vehicleDetails.VIN,
                 Make = vehicleDetails.Make,
-                Model = vehicleDetails.Model,
+                Model = vehicleDetails.SelectedModel,
                 Year = vehicleDetails.Year
             };
 
-            if (vehicleDetails.SelectedVehicleOption != null)
-            {                
-                await GetVehicleMileage(vehicleDetails.SelectedVehicleOption.Id, vehicleDetails.SelectedVehicleOption.Text);
+            if (vehicleDetails.SelectedModel == null)
+            {
+                var models = vehicleDetails.VehicleModels.ToList();
 
-                LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = false });
+                LoadVehicleDetailsModelRequired?.Invoke(new LoadVehicleDetailsModelRequiredResponse { Success = true, Message = "Please select the vehicle's model.", ModelOptions = models });
                 return;
             }
 
-            var options = vehicleDetails.VehicleOptions.Select(s => new VehicleOptionViewModel { Id = s.Id, Text = s.Text }).ToList();
-
-            LoadVehicleDetailsOptionsRequired?.Invoke(new LoadVehicleDetailsOptionRequiredResponse { Success = true, Message = "Please select the vehicle's drivetrain.", VehicleOptions = options });
+            await ProcessVehicleOptions(vehicleDetails);
 
         }
 
-        public async Task CompleteVehicleDetails(VehicleOptionViewModel selectedOption)
+        private async Task ProcessVehicleOptions(VehicleInformationResponse vehicleDetails)
         {
-            await GetVehicleMileage(selectedOption.Id, selectedOption.Text);
+            if (vehicleDetails.SelectedVehicleOption == null)
+            {
+                var options = vehicleDetails.VehicleOptions.Select(s => new VehicleOptionViewModel { Id = s.Id, Text = s.Text }).ToList();
+
+                LoadVehicleDetailsOptionsRequired?.Invoke(new LoadVehicleDetailsOptionRequiredResponse { Success = true, Message = "Please select the vehicle's drivetrain.", VehicleOptions = options });
+                return;
+            }
+
+            await SetVehicleOptionAndGetMileage(vehicleDetails.SelectedVehicleOption.Id, vehicleDetails.SelectedVehicleOption.Text);
+
+            LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = false });
+            return;
+        }
+
+        public async Task CompleteVehicleOption(VehicleOptionViewModel selectedOption)
+        {
+            await SetVehicleOptionAndGetMileage(selectedOption.Id, selectedOption.Text);
 
             LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = false });
         }
 
-        private async Task GetVehicleMileage(int selectedOptionId, string selectedOptionText)
+        private async Task SetVehicleOptionAndGetMileage(int selectedOptionId, string selectedOptionText)
         {
             CurrentVehicle.Option = selectedOptionText;
-            //TODO: use option to get MPG
+            
             var response = await _vehicleInformationService.GetVehicleMileageRating(selectedOptionId);
 
             CurrentVehicle.CityMPG = response.CityMpg;
@@ -116,6 +135,15 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             });
 
             LoadVehicleDetailsComplete?.Invoke(new LoadVehicleDetailsCompleteResponse { Success = true, DetailsAreFromStorage = false });
+        }
+
+        public async Task CompleteVehicleModel(string selectedModel)
+        {
+            CurrentVehicle.Model = selectedModel;
+
+            var vehicleDetails = await _vehicleInformationService.GetVehicleInformation(CurrentVehicle.Year, CurrentVehicle.Make, CurrentVehicle.Model);
+
+            await ProcessVehicleOptions(vehicleDetails);
         }
     }
 }

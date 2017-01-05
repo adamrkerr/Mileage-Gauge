@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace MileageGauge.CSharp.Abstractions.Services.ServiceResponses
 {
-    public class OptionQueryResponse
+    public class ModelQueryResponse
     {
 
-        [JsonConverter(typeof(SingleOrCollectionConverter<OptionQueryResponseItem>))]
-        public List<OptionQueryResponseItem> MenuItem { get; set; }
+        [JsonConverter(typeof(SingleOrCollectionConverter<ModelQueryResponseItem>))]
+        public List<ModelQueryResponseItem> MenuItem { get; set; }
     }
 
-    public class OptionQueryResponseItem
+    public class ModelQueryResponseItem
     {
         public string Text { get; set; }
-        public int Value { get; set; }
+        public string Value { get; set; }
     }
 }

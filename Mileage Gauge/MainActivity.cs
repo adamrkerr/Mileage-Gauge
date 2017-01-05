@@ -98,6 +98,7 @@ namespace MileageGauge
             ViewModel.GetDiagnosticDeviceComplete += this.GetDiagnosticDeviceComplete;
             ViewModel.LoadVehicleDetailsComplete += this.LoadVehicleDetailsComplete;
             ViewModel.LoadVehicleDetailsOptionsRequired += this.PromptVehicleOptions;
+            ViewModel.LoadVehicleDetailsModelRequired += this.PromptVehicleModels;
 
 
             await ViewModel.GetDiagnosticDevice();
@@ -106,6 +107,11 @@ namespace MileageGauge
 
         private async void RefreshVehicleButton_Click(object sender, EventArgs e)
         {
+            YearText.Text = "year";
+            MakeText.Text = "make";
+            ModelText.Text = "model";
+            EngineText.Text = "engine";
+
             //better way to handle async?
             await ViewModel.LoadVehicleDetails(true);
         }
@@ -133,11 +139,37 @@ namespace MileageGauge
             {
                 var matched = vehicleResponse.VehicleOptions.Where(v => arg1.Item.TitleFormatted.ToString() == v.Text).Single();
 
-                await ViewModel.CompleteVehicleDetails(matched);
+                await ViewModel.CompleteVehicleOption(matched);
             };
 
             menu.DismissEvent += async (s2, arg2) =>
-            {                
+            {
+                //await ViewModel.ContinueWithoutVehicleDetails();
+            };
+
+            menu.Show();
+        }
+
+        private async void PromptVehicleModels(LoadVehicleDetailsModelRequiredResponse vehicleResponse)
+        {
+            UpdateVehicleDetails();
+
+            var menu = new PopupMenu(this, ModelText);
+
+            menu.Inflate(Resource.Menu.default_menu);
+
+            foreach (var option in vehicleResponse.ModelOptions)
+            {
+                menu.Menu.Add(new Java.Lang.String(option));
+            }
+
+            menu.MenuItemClick += async (s1, arg1) =>
+            {
+                await ViewModel.CompleteVehicleModel(arg1.Item.TitleFormatted.ToString());
+            };
+
+            menu.DismissEvent += async (s2, arg2) =>
+            {
                 //await ViewModel.ContinueWithoutVehicleDetails();
             };
 

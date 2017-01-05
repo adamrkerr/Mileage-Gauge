@@ -6,6 +6,7 @@ using MileageGauge.CSharp.Implementations.ViewModels;
 using MileageGauge.CSharp.Abstractions.Services.ServiceResponses;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MileageGauge.CSharp.Implementations.Services
 {
@@ -14,6 +15,7 @@ namespace MileageGauge.CSharp.Implementations.Services
         //TODO: move this somewhere else?
         private const string VinAPI = "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/{0}*?format=json";
         private const string OptionsAPI = "https://fueleconomy.gov/ws/rest/vehicle/menu/options?year={0}&make={1}&model={2}";
+        private const string ModelsAPI = "https://fueleconomy.gov/ws/rest/vehicle/menu/model?year={0}&make={1}";
         private const string MileageAPI = "https://fueleconomy.gov/ws/rest/vehicle/{0}";
 
         private readonly IRestUtility _restUtility;
@@ -54,20 +56,27 @@ namespace MileageGauge.CSharp.Implementations.Services
             {
                 VIN = vin,
                 Make = GetValueFromVinResponse<string>(vinResponse, "Make"),
-                Model = GetValueFromVinResponse<string>(vinResponse, "Model"),
+                SelectedModel = GetValueFromVinResponse<string>(vinResponse, "Model"),
                 Year = GetValueFromVinResponse<int>(vinResponse, "Model Year")
-                //Option = "Man 6-spd, 6 cyl, 3.2 L",
-                //CityMPG = 15,
-                //HighwayMPG = 23,
-                //CombinedMPG = 18
-
             };
 
-            var optionQuery = ConstructOptionQuery(vehicleDetails);
+            return await GetOptions(vehicleDetails);
+        }
 
-            var optionResponse = await _restUtility.ExecuteGetRequestAsync<OptionQueryResponse>(optionQuery);
+        private async Task<VehicleInformationResponse> GetOptions(VehicleInformationResponse vehicleDetails)
+        {
+            var optionResponse = await GetVehicleOptions(vehicleDetails.Year, vehicleDetails.Make, vehicleDetails.SelectedModel);
 
-            if(optionResponse.MenuItem.Count == 1)
+            if (optionResponse.MenuItem == null || optionResponse.MenuItem.Count == 0)
+            {
+                //TODO: possible infinite loop
+                //If we got no options, it means the model may be wrong, so we need to send choices back
+                var modelOptions = await GetManufacturerModels(vehicleDetails.Year, vehicleDetails.Make);
+
+                vehicleDetails.SelectedModel = null;
+                vehicleDetails.VehicleModels = modelOptions.MenuItem.Select(m => m.Value).ToList();
+            }
+            else if (optionResponse.MenuItem.Count == 1)
             {
                 vehicleDetails.SelectedVehicleOption = new VehicleInformationResponseOption
                 {
@@ -88,14 +97,37 @@ namespace MileageGauge.CSharp.Implementations.Services
             return vehicleDetails;
         }
 
-        internal static string ConstructOptionQuery(VehicleInformationResponse vehicleDetails)
+        private async Task<ModelQueryResponse> GetManufacturerModels(int year, string make)
         {
-            return String.Format(OptionsAPI, vehicleDetails.Year, vehicleDetails.Make, vehicleDetails.Model);
+            var modelsQuery = ConstructModelQuery(year, make);
+
+            var modelsResponse = await _restUtility.ExecuteGetRequestAsync<ModelQueryResponse>(modelsQuery);
+
+            return modelsResponse;
+        }
+
+        private string ConstructModelQuery(int year, string make)
+        {
+            return String.Format(ModelsAPI, year, make);
+        }
+
+        private async Task<OptionQueryResponse> GetVehicleOptions(int year, string make, string selectedModel)
+        {
+            var optionQuery = ConstructOptionQuery(year, make, selectedModel);
+
+            var optionResponse = await _restUtility.ExecuteGetRequestAsync<OptionQueryResponse>(optionQuery);
+
+            return optionResponse;
+        }
+
+        internal static string ConstructOptionQuery(int year, string make, string selectedModel)
+        {
+            return String.Format(OptionsAPI, year, make, selectedModel);
         }
 
         internal static string ConstructVinQuery(string vin)
         {
-            if(vin.Length > 11)
+            if (vin.Length > 11)
             {
                 vin = vin.Substring(0, 11);
             }
@@ -118,10 +150,10 @@ namespace MileageGauge.CSharp.Implementations.Services
         }
 
         private async Task<string> GetVehicleVIN()
-        {
+        {            
             //TODO: get this from the ELM327
             Random rnd = new Random();
-            int choice = rnd.Next(1, 4);
+            int choice = rnd.Next(1, 5);
 
             switch (choice)
             {
@@ -131,8 +163,28 @@ namespace MileageGauge.CSharp.Implementations.Services
                     return await Task.FromResult("JHMAP21446S12345");
                 case 3:
                     return await Task.FromResult("1G4PS5SK2G4142345");
+                case 4:
+                    return await Task.FromResult("WDBBA48D2GA051234");
             }
             return await Task.FromResult("impossible?");
+        }
+
+        public async Task<VehicleInformationResponse> GetVehicleInformation(int year, string make, string model)
+        {
+            var vehicleDetails = new VehicleInformationResponse()
+            {
+                VIN = null,
+                Make = make,
+                SelectedModel = model,
+                Year = year
+                //Option = "Man 6-spd, 6 cyl, 3.2 L",
+                //CityMPG = 15,
+                //HighwayMPG = 23,
+                //CombinedMPG = 18
+
+            };
+
+            return await GetOptions(vehicleDetails);
         }
     }
 }

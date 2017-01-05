@@ -9,7 +9,7 @@ namespace MileageGauge.CSharp.Implementations.Services
 {
     public class RestUtility : IRestUtility
     {
-        public async Task<T> ExecuteGetRequestAsync<T>(string url)
+        public async Task<T> ExecuteGetRequestAsync<T>(string url) where T : new()
         {
             // Create an HTTP web request using the URL:
             var request =(HttpWebRequest) HttpWebRequest.Create(new Uri(url));
@@ -26,11 +26,19 @@ namespace MileageGauge.CSharp.Implementations.Services
             using (var stream = response.GetResponseStream())
             // get the stream reader
             using (var sr = new StreamReader(stream))
-            //now a json reader
-            using (var jsonTextReader = new JsonTextReader(sr))
             {
+                var stringObject = await sr.ReadToEndAsync();
+
+                if (string.IsNullOrWhiteSpace(stringObject))
+                {
+                    return new T();
+                }
+                else if (stringObject.Equals("null", StringComparison.InvariantCultureIgnoreCase)) // there are actually services that do this :(
+                {
+                    return new T();
+                }
                 // Use this stream to build a JSON document object:
-                var jsonDoc = await Task.Run(() => serializer.Deserialize<T>(jsonTextReader));
+                var jsonDoc = JsonConvert.DeserializeObject<T>(stringObject);
 
                 // Return the JSON document:
                 return jsonDoc;

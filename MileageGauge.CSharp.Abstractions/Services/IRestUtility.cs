@@ -8,6 +8,6 @@ namespace MileageGauge.CSharp.Abstractions.Services
 {
     public interface IRestUtility
     {
-        Task<T> ExecuteGetRequestAsync<T>(string url);
+        Task<T> ExecuteGetRequestAsync<T>(string url) where T : new();
     }
 }
