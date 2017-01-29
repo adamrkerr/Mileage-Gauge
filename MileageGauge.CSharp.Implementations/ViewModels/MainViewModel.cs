@@ -45,9 +45,9 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             get;set;
         }
 
-        public async Task GetDiagnosticDevice()
+        public async Task GetDiagnosticDevice(string deviceAddress)
         {
-            var connected = await _diagnosticService.Connect();
+            var connected = await _diagnosticService.Connect(deviceAddress);
 
             GetDiagnosticDeviceComplete?.Invoke(new GetDiagnosticDeviceResponse { Success = connected });
         }

@@ -19,7 +19,7 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
 
         Action<LoadVehicleDetailsModelRequiredResponse> LoadVehicleDetailsModelRequired { get; set; }
 
-        Task GetDiagnosticDevice();
+        Task GetDiagnosticDevice(string deviceAddress);
 
         Task LoadVehicleDetails(bool forceRefresh);
 

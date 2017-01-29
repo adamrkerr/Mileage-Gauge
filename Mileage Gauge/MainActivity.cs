@@ -5,12 +5,14 @@ using MileageGauge.DI;
 using Autofac;
 using System;
 using Android.Content;
+using Android.Bluetooth;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
 using MileageGauge.CSharp.Abstractions.Services.ServiceResponses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Android.Runtime;
 
 namespace MileageGauge
 {
@@ -100,9 +102,93 @@ namespace MileageGauge
             ViewModel.LoadVehicleDetailsOptionsRequired += this.PromptVehicleOptions;
             ViewModel.LoadVehicleDetailsModelRequired += this.PromptVehicleModels;
 
+            await Task.Delay(1); //return control to UI?
 
-            await ViewModel.GetDiagnosticDevice();
+            await ValidateBluetoothEnabled();            
 
+        }
+
+        protected override async void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if(requestCode == BluetoothEnableRequest)
+            {
+                if(resultCode == Result.Ok)
+                {
+                    await FindBluetoothDeviceForConnection();
+                }
+                else
+                {
+                    //TODO problem!
+                }
+            }
+        }
+
+        private async Task FindBluetoothDeviceForConnection()
+        {
+            var adapter = BluetoothAdapter.DefaultAdapter;
+
+            var pairedDevices = adapter.BondedDevices;
+
+            if (pairedDevices == null)
+                return;
+
+            //TODO: somehow detect if this is already connected to an appropriate device
+            //Perhaps store device after successful connection
+
+            await PromptBluetoothOptions(pairedDevices);
+        }
+
+        private async Task PromptBluetoothOptions(ICollection<BluetoothDevice> pairedDevices)
+        {            
+            var menu = new PopupMenu(this, ConnectingLayout);
+
+            menu.Inflate(Resource.Menu.default_menu);
+
+            foreach (var option in pairedDevices)
+            {
+                menu.Menu.Add(new Java.Lang.String(option.Name));
+            }
+
+            menu.MenuItemClick += async (s1, arg1) =>
+            {
+                var matched = pairedDevices.Where(v => arg1.Item.TitleFormatted.ToString() == v.Name).Single();
+
+                await ViewModel.GetDiagnosticDevice(matched.Address);
+            };
+
+            menu.DismissEvent += async (s2, arg2) =>
+            {
+                //await ViewModel.ContinueWithoutVehicleDetails();
+            };
+
+            menu.Show();
+        }
+
+        private const int BluetoothEnableRequest = 1;
+
+        private async Task ValidateBluetoothEnabled()
+        {
+            var adapter = BluetoothAdapter.DefaultAdapter;
+
+            if (adapter == null)
+            {
+                //bluetooth is not supported, this would be a big problem
+            }
+            else
+            {
+                if (!adapter.IsEnabled)
+                {
+                    var enableBtIntent = new Intent(BluetoothAdapter.ActionRequestEnable);
+
+                    StartActivityForResult(enableBtIntent, BluetoothEnableRequest);
+                }
+                else
+                {
+                    await FindBluetoothDeviceForConnection();
+                }
+            }
         }
 
         private async void RefreshVehicleButton_Click(object sender, EventArgs e)
@@ -125,6 +211,8 @@ namespace MileageGauge
         private async void PromptVehicleOptions(LoadVehicleDetailsOptionRequiredResponse vehicleResponse)
         {
             UpdateVehicleDetails();
+
+            EngineText.Text = "Please select:";
 
             var menu = new PopupMenu(this, EngineText);
 
@@ -153,6 +241,8 @@ namespace MileageGauge
         private async void PromptVehicleModels(LoadVehicleDetailsModelRequiredResponse vehicleResponse)
         {
             UpdateVehicleDetails();
+            
+            ModelText.Text = "Please select:";
 
             var menu = new PopupMenu(this, ModelText);
 

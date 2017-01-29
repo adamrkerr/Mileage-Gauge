@@ -38,7 +38,7 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
                 {
                     await Task.Delay(500);
                     Random rnd = new Random();
-                    int mpgInt = rnd.Next(1, 50);
+                    int mpgInt = rnd.Next(1, 40);
                     int throttleInt = rnd.Next(1, 101);
 
                     UpdateMPG?.Invoke(new MPGUpdateResponse() { Success = true, CurrentThrottlePercentage = throttleInt, InstantMPG = mpgInt });

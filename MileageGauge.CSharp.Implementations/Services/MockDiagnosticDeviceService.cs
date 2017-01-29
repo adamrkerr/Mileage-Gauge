@@ -14,7 +14,7 @@ namespace MileageGauge.CSharp.Implementations.Services
             get; private set;
         }
 
-        public async Task<bool> Connect()
+        public async Task<bool> Connect(string deviceAddress)
         {
             await Task.Delay(5000);
 

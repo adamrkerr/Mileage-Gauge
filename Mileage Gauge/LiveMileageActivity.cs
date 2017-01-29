@@ -116,6 +116,32 @@ namespace MileageGauge
             {
                 MPGText.Text = response.InstantMPG.ToString("##0.00");
                 ThrottleText.Text = response.CurrentThrottlePercentage.ToString("##0") + " %";
+
+                if (response.CurrentThrottlePercentage < 33)
+                {
+                    ThrottleText.SetTextColor(new Android.Graphics.Color(14,234,14));
+                }
+                else if (response.CurrentThrottlePercentage < 67)
+                {
+                    ThrottleText.SetTextColor(new Android.Graphics.Color(234,234,14));
+                }
+                else
+                {
+                    ThrottleText.SetTextColor(new Android.Graphics.Color(234,14,14));
+                }
+
+                if (response.InstantMPG < (ViewModel.CurrentVehicle.CombinedMPG * .33))
+                {
+                    MPGText.SetTextColor(new Android.Graphics.Color(234, 14, 14));
+                }
+                else if (response.InstantMPG < (ViewModel.CurrentVehicle.CombinedMPG * .67))
+                {
+                    MPGText.SetTextColor(new Android.Graphics.Color(234, 234, 14));
+                }
+                else
+                {
+                    MPGText.SetTextColor(new Android.Graphics.Color(14, 234, 14));
+                }
             });
         }
 

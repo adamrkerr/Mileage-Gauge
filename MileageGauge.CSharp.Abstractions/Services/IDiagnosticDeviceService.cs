@@ -8,7 +8,7 @@ namespace MileageGauge.CSharp.Abstractions.Services
 {
     public interface IDiagnosticDeviceService : IDisposable
     {
-        Task<bool> Connect();
+        Task<bool> Connect(string deviceAddress);
 
         bool IsConnected { get; }
 
