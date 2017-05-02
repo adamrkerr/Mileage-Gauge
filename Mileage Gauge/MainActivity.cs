@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Android.Runtime;
+using MileageGauge.CSharp.Abstractions.Models;
 
 namespace MileageGauge
 {
@@ -104,7 +105,7 @@ namespace MileageGauge
 
             await Task.Delay(1); //return control to UI?
 
-            await ValidateBluetoothEnabled();            
+            await ValidateBluetoothEnabled();
 
         }
 
@@ -112,9 +113,9 @@ namespace MileageGauge
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if(requestCode == BluetoothEnableRequest)
+            if (requestCode == BluetoothEnableRequest)
             {
-                if(resultCode == Result.Ok)
+                if (resultCode == Result.Ok)
                 {
                     await FindBluetoothDeviceForConnection();
                 }
@@ -131,17 +132,33 @@ namespace MileageGauge
 
             var pairedDevices = adapter.BondedDevices;
 
+            IEnumerable<BluetoothDeviceModel> deviceCollection;
+
             if (pairedDevices == null)
-                return;
+            {
+                deviceCollection = null;
+            }
+            else
+            {
+                //TODO: somehow detect if this is already connected to an appropriate device
+                //Perhaps store device after successful connection
 
-            //TODO: somehow detect if this is already connected to an appropriate device
-            //Perhaps store device after successful connection
+                deviceCollection = pairedDevices.Select(p => new BluetoothDeviceModel { Address = p.Address, Name = p.Name });
+            }
 
-            await PromptBluetoothOptions(pairedDevices);
+            await PromptBluetoothOptions(deviceCollection);
         }
 
-        private async Task PromptBluetoothOptions(ICollection<BluetoothDevice> pairedDevices)
-        {            
+        private async Task PromptBluetoothOptions(IEnumerable<BluetoothDeviceModel> pairedDevices)
+        {
+
+            if(pairedDevices == null)
+            {
+                pairedDevices = new List<BluetoothDeviceModel>();
+            }
+
+            pairedDevices = pairedDevices.Append(BluetoothDeviceModel.GetDemoDevice());
+
             var menu = new PopupMenu(this, ConnectingLayout);
 
             menu.Inflate(Resource.Menu.default_menu);
@@ -174,7 +191,8 @@ namespace MileageGauge
 
             if (adapter == null)
             {
-                //bluetooth is not supported, this would be a big problem
+                //bluetooth is not supported, just show the demo device
+                await PromptBluetoothOptions(null);
             }
             else
             {
@@ -241,7 +259,7 @@ namespace MileageGauge
         private async void PromptVehicleModels(LoadVehicleDetailsModelRequiredResponse vehicleResponse)
         {
             UpdateVehicleDetails();
-            
+
             ModelText.Text = "Please select:";
 
             var menu = new PopupMenu(this, ModelText);

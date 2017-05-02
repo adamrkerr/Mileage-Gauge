@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileageGauge.CSharp.Impleme
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileageGauge.CSharp.Implementations.Test", "MileageGauge.CSharp.Implementations.Test\MileageGauge.CSharp.Implementations.Test.csproj", "{0479B3FB-AB14-46B5-8F12-2C08BD2C9DE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileageGauge.Diagnostic.Implementation", "MileageGauge.Diagnostic.Implementation\MileageGauge.Diagnostic.Implementation.csproj", "{3D61022B-2E6B-44B0-A500-A7870611FD9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileageGauge.ELM327.Implementation", "MileageGauge.Diagnostic.Implementation\MileageGauge.ELM327.Implementation.csproj", "{3D61022B-2E6B-44B0-A500-A7870611FD9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

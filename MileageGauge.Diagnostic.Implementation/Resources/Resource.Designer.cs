@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("MileageGauge.Diagnostic.Implementation.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("MileageGauge.ELM327.Implementation.Resource", IsApplication=false)]
 
-namespace MileageGauge.Diagnostic.Implementation
+namespace MileageGauge.ELM327.Implementation
 {
 	
 	

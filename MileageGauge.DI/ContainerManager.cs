@@ -27,7 +27,7 @@ namespace MileageGauge.DI
             var builder = new ContainerBuilder();
 
             builder.RegisterType<MainViewModel>().As<IMainViewModel>().InstancePerLifetimeScope();
-            builder.RegisterType<MockDiagnosticDeviceService>().As<IDiagnosticDeviceService>().InstancePerLifetimeScope();
+            builder.RegisterType<DiagnosticDeviceService>().As<IDiagnosticDeviceService>().InstancePerLifetimeScope();
             builder.RegisterType<VehicleInformationService>().As<IVehicleInformationService>();
             builder.RegisterType<RestUtility>().As<IRestUtility>();
             builder.RegisterType<MPGMonitorViewModel>().As<IMPGMonitorViewModel>();
