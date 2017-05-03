@@ -84,6 +84,10 @@ namespace MileageGauge
             }
         }
 
+        private string CurrentDeviceAddress { get; set; }
+
+        private bool VehicleDetailsComplete { get; set; }
+
         IMainViewModel ViewModel { get; set; }
 
         protected override async void OnCreate(Bundle bundle)
@@ -98,15 +102,49 @@ namespace MileageGauge
 
             ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
 
-            ViewModel.GetDiagnosticDeviceComplete += this.GetDiagnosticDeviceComplete;
-            ViewModel.LoadVehicleDetailsComplete += this.LoadVehicleDetailsComplete;
-            ViewModel.LoadVehicleDetailsOptionsRequired += this.PromptVehicleOptions;
-            ViewModel.LoadVehicleDetailsModelRequired += this.PromptVehicleModels;
+            CurrentDeviceAddress = string.Empty;
+            VehicleDetailsComplete = false;
 
             await Task.Delay(1); //return control to UI?
 
-            await ValidateBluetoothEnabled();
+        }
 
+        protected override async void OnResume()
+        {
+
+            ViewModel.GetDiagnosticDeviceComplete = this.GetDiagnosticDeviceComplete;
+            ViewModel.LoadVehicleDetailsComplete = this.LoadVehicleDetailsComplete;
+            ViewModel.LoadVehicleDetailsOptionsRequired = this.PromptVehicleOptions;
+            ViewModel.LoadVehicleDetailsModelRequired = this.PromptVehicleModels;
+
+            if (String.IsNullOrEmpty(CurrentDeviceAddress)){
+                //we need to connect to a device
+                await ValidateBluetoothEnabled();
+            }
+            else
+            {
+                await ViewModel.GetDiagnosticDevice(CurrentDeviceAddress);
+            }
+
+        }
+
+        private const string CURRENT_DEVICE_ADDRESS = "CURRENT_DEVICE_ADDRESS";
+        private const string VEHICLE_DETAILS_COMPLETE = "VEHICLE_DETAILS_COMPLETE";
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+
+            outState.PutString(CURRENT_DEVICE_ADDRESS, CurrentDeviceAddress);
+            outState.PutBoolean(VEHICLE_DETAILS_COMPLETE, VehicleDetailsComplete);
+        }
+
+        protected override void OnRestoreInstanceState(Bundle savedInstanceState)
+        {
+            base.OnRestoreInstanceState(savedInstanceState);
+
+            CurrentDeviceAddress = savedInstanceState.GetString(CURRENT_DEVICE_ADDRESS);
+            VehicleDetailsComplete = savedInstanceState.GetBoolean(VEHICLE_DETAILS_COMPLETE);
         }
 
         protected override async void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -180,7 +218,15 @@ namespace MileageGauge
                 //await ViewModel.ContinueWithoutVehicleDetails();
             };
 
-            menu.Show();
+            try
+            {
+
+                menu.Show();
+            }
+            catch(Exception ex)
+            {
+                var test = ex;
+            }
         }
 
         private const int BluetoothEnableRequest = 1;
@@ -215,6 +261,7 @@ namespace MileageGauge
             MakeText.Text = "make";
             ModelText.Text = "model";
             EngineText.Text = "engine";
+            VehicleDetailsComplete = false;
 
             //better way to handle async?
             await ViewModel.LoadVehicleDetails(true);
@@ -293,12 +340,20 @@ namespace MileageGauge
 
             ConnectingLayout.Visibility = Android.Views.ViewStates.Gone;
             VehicleInfoLayout.Visibility = Android.Views.ViewStates.Visible;
+            CurrentDeviceAddress = deviceResponse.DeviceAddress;
 
             //TODO: handle real re-load
-            await ViewModel.LoadVehicleDetails(false);
+            if (!VehicleDetailsComplete)
+            {
+                await ViewModel.LoadVehicleDetails(false);
+            }
+            else
+            {
+                LoadVehicleDetailsComplete(new LoadVehicleDetailsCompleteResponse { Success = true });
+            }
         }
 
-        private async void LoadVehicleDetailsComplete(LoadVehicleDetailsCompleteResponse vehicleResponse)
+        private void LoadVehicleDetailsComplete(LoadVehicleDetailsCompleteResponse vehicleResponse)
         {
 
             if (!vehicleResponse.Success)
@@ -308,6 +363,7 @@ namespace MileageGauge
 
             UpdateVehicleDetails();
             EngineText.Text = ViewModel.CurrentVehicle.Option;
+            VehicleDetailsComplete = true;
             StartScanningButton.Enabled = true;
         }
 

@@ -49,7 +49,9 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
         {
             var connected = await _diagnosticService.Connect(deviceAddress);
 
-            GetDiagnosticDeviceComplete?.Invoke(new GetDiagnosticDeviceResponse { Success = connected });
+            //TODO: handle failure
+
+            GetDiagnosticDeviceComplete?.Invoke(new GetDiagnosticDeviceResponse { Success = connected, DeviceAddress = deviceAddress });
         }
 
         public async Task LoadVehicleDetails(bool forceRefresh)

@@ -105,25 +105,45 @@ namespace MileageGauge
             ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
 
             VehicleText.Text = $"{ViewModel.CurrentVehicle.Make} {ViewModel.CurrentVehicle.Model}";
-
             CityText.Text = ViewModel.CurrentVehicle.CityMPG.ToString();
             CombinedText.Text = ViewModel.CurrentVehicle.CombinedMPG.ToString();
             HighwayText.Text = ViewModel.CurrentVehicle.HighwayMPG.ToString();
-
+            
             MileageBack.Click += MileageBack_Click;
+
+        }
+
+        protected async override void OnResume()
+        {
+            base.OnResume();
 
             MonitorViewModel = ContainerManager.Container.Resolve<IMPGMonitorViewModel>();
 
-            MonitorViewModel.UpdateMPG += MonitorViewModel_UpdateMPG;
+            MonitorViewModel.UpdateMPG = MonitorViewModel_UpdateMPG;
 
             await MonitorViewModel.BeginMonitoringMPG();
         }
 
-        protected async override void OnStop()
+        protected override void OnPause()
         {
             base.OnStop();
 
-            await MonitorViewModel.EndMonitoringMPG();
+            MonitorViewModel.UpdateMPG = null;
+
+            MonitorViewModel.EndMonitoringMPG().Wait(); //do this synchronously
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            //this should already be done, but be safe in case of background termination
+            if (MonitorViewModel != null)
+            {
+                MonitorViewModel.UpdateMPG = null;
+
+                MonitorViewModel.EndMonitoringMPG().Wait();
+            }
         }
 
         private void MonitorViewModel_UpdateMPG(MPGUpdateResponse response)

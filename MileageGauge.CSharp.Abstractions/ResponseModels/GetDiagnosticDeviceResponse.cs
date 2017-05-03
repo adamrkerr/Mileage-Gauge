@@ -17,5 +17,7 @@ namespace MileageGauge.CSharp.Abstractions.ResponseModels
         {
             get; set;
         }
+
+        public string DeviceAddress { get; set; }
     }
 }
