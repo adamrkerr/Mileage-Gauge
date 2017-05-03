@@ -73,7 +73,7 @@ namespace MileageGauge.ELM327.Implementation
                 return await GetRandomVin();
             }
 
-            var pidCode = String.Format("{0:X}\r", pid).Substring(4);
+            var pidCode = String.Format("{0:X}1\r", pid).Substring(4);
 
             await _diagnosticSocket.OutputStream.WriteAsync(pidCode.Select(c => (byte)c).ToArray(), 0, pidCode.Length);
 
