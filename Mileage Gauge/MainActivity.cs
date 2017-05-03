@@ -90,7 +90,13 @@ namespace MileageGauge
 
         IMainViewModel ViewModel { get; set; }
 
-        protected override async void OnCreate(Bundle bundle)
+        public MainActivity()
+        {
+            CurrentDeviceAddress = string.Empty;
+            VehicleDetailsComplete = false;
+        }
+
+        protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
@@ -102,22 +108,26 @@ namespace MileageGauge
 
             ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
 
-            CurrentDeviceAddress = string.Empty;
-            VehicleDetailsComplete = false;
-
-            await Task.Delay(1); //return control to UI?
-
+            //Do this here, because it does not always restore
+            if (bundle != null)
+            {
+                RestoreValues(bundle);
+            }
         }
 
-        protected override async void OnResume()
+        protected async override void OnResume()
         {
+            base.OnResume();
 
             ViewModel.GetDiagnosticDeviceComplete = this.GetDiagnosticDeviceComplete;
             ViewModel.LoadVehicleDetailsComplete = this.LoadVehicleDetailsComplete;
             ViewModel.LoadVehicleDetailsOptionsRequired = this.PromptVehicleOptions;
             ViewModel.LoadVehicleDetailsModelRequired = this.PromptVehicleModels;
 
-            if (String.IsNullOrEmpty(CurrentDeviceAddress)){
+            await Task.Delay(1); //return control to UI?
+
+            if (String.IsNullOrEmpty(CurrentDeviceAddress))
+            {
                 //we need to connect to a device
                 await ValidateBluetoothEnabled();
             }
@@ -133,16 +143,28 @@ namespace MileageGauge
 
         protected override void OnSaveInstanceState(Bundle outState)
         {
-            base.OnSaveInstanceState(outState);
-
             outState.PutString(CURRENT_DEVICE_ADDRESS, CurrentDeviceAddress);
             outState.PutBoolean(VEHICLE_DETAILS_COMPLETE, VehicleDetailsComplete);
+
+            base.OnSaveInstanceState(outState);
+        }
+
+        public override void OnRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState)
+        {
+            RestoreValues(savedInstanceState);
+
+            base.OnRestoreInstanceState(savedInstanceState, persistentState);
         }
 
         protected override void OnRestoreInstanceState(Bundle savedInstanceState)
         {
-            base.OnRestoreInstanceState(savedInstanceState);
+            RestoreValues(savedInstanceState);
 
+            base.OnRestoreInstanceState(savedInstanceState);
+        }
+
+        private void RestoreValues(Bundle savedInstanceState)
+        {
             CurrentDeviceAddress = savedInstanceState.GetString(CURRENT_DEVICE_ADDRESS);
             VehicleDetailsComplete = savedInstanceState.GetBoolean(VEHICLE_DETAILS_COMPLETE);
         }
@@ -190,7 +212,7 @@ namespace MileageGauge
         private async Task PromptBluetoothOptions(IEnumerable<BluetoothDeviceModel> pairedDevices)
         {
 
-            if(pairedDevices == null)
+            if (pairedDevices == null)
             {
                 pairedDevices = new List<BluetoothDeviceModel>();
             }
@@ -223,7 +245,7 @@ namespace MileageGauge
 
                 menu.Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var test = ex;
             }
