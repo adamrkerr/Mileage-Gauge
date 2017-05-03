@@ -14,5 +14,10 @@ namespace MileageGauge.CSharp.Abstractions.Services
 
         Task<string> GetVin();
 
+        Task<double> GetThrottlePercentage();
+
+        Task<double> GetMPH();
+
+        Task<double> GetGPH();
     }
 }

@@ -51,11 +51,19 @@ namespace MileageGauge
             }
         }
 
-        private TextView MPGText
+        private TextView AverageMPGText
         {
             get
             {
-                return FindViewById<TextView>(Resource.Id.MPGText);
+                return FindViewById<TextView>(Resource.Id.AverageMPGText);
+            }
+        }
+
+        private TextView InstantMPGText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.InstantMPGText);
             }
         }
 
@@ -64,6 +72,14 @@ namespace MileageGauge
             get
             {
                 return FindViewById<TextView>(Resource.Id.ThrottleText);
+            }
+        }
+
+        private TextView MPHText
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.MPHText);
             }
         }
 
@@ -114,8 +130,10 @@ namespace MileageGauge
         {
             RunOnUiThread(() =>
             {
-                MPGText.Text = response.InstantMPG.ToString("##0.00");
-                ThrottleText.Text = response.CurrentThrottlePercentage.ToString("##0") + " %";
+                InstantMPGText.Text = response.InstantMPG.ToString("##0.00");
+                ThrottleText.Text = response.CurrentThrottlePercentage.ToString("##0");
+                AverageMPGText.Text = response.AverageMPG.ToString("##0.00");
+                MPHText.Text = response.CurrentMPH.ToString("##0");
 
                 if (response.CurrentThrottlePercentage < 33)
                 {
@@ -132,15 +150,28 @@ namespace MileageGauge
 
                 if (response.InstantMPG < (ViewModel.CurrentVehicle.CombinedMPG * .33))
                 {
-                    MPGText.SetTextColor(new Android.Graphics.Color(234, 14, 14));
+                    InstantMPGText.SetTextColor(new Android.Graphics.Color(234, 14, 14));
                 }
                 else if (response.InstantMPG < (ViewModel.CurrentVehicle.CombinedMPG * .67))
                 {
-                    MPGText.SetTextColor(new Android.Graphics.Color(234, 234, 14));
+                    InstantMPGText.SetTextColor(new Android.Graphics.Color(234, 234, 14));
                 }
                 else
                 {
-                    MPGText.SetTextColor(new Android.Graphics.Color(14, 234, 14));
+                    InstantMPGText.SetTextColor(new Android.Graphics.Color(14, 234, 14));
+                }
+
+                if (response.AverageMPG < (ViewModel.CurrentVehicle.CombinedMPG * .33))
+                {
+                    AverageMPGText.SetTextColor(new Android.Graphics.Color(234, 14, 14));
+                }
+                else if (response.AverageMPG < (ViewModel.CurrentVehicle.CombinedMPG * .67))
+                {
+                    AverageMPGText.SetTextColor(new Android.Graphics.Color(234, 234, 14));
+                }
+                else
+                {
+                    AverageMPGText.SetTextColor(new Android.Graphics.Color(14, 234, 14));
                 }
             });
         }

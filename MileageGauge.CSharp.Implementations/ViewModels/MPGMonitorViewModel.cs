@@ -23,6 +23,10 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         Task MonitorTask { get; set; }
 
+        double PointsSampled { get; set; }
+
+        double AverageMPG { get; set; }
+
         public Action<MPGUpdateResponse> UpdateMPG
         {
             get; set;
@@ -32,16 +36,33 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
         {
             MonitorFlag = true;
 
+            PointsSampled = 0;
+
+            AverageMPG = 0;
+
             MonitorTask = Task.Factory.StartNew(async () =>
             {
                 while (MonitorFlag)
                 {
-                    await Task.Delay(500);
-                    Random rnd = new Random();
-                    int mpgInt = rnd.Next(1, 40);
-                    int throttleInt = rnd.Next(1, 101);
+                    var rnd = new Random();
+                    var throttleInt = await _diagnosticDeviceService.GetThrottlePercentage();
+                    var mph = await _diagnosticDeviceService.GetMPH();
+                    var gph = await _diagnosticDeviceService.GetGPH();
 
-                    UpdateMPG?.Invoke(new MPGUpdateResponse() { Success = true, CurrentThrottlePercentage = throttleInt, InstantMPG = mpgInt });
+                    var instantMpg = mph / gph;
+
+                    PointsSampled++;
+
+                    AverageMPG = (AverageMPG * ((PointsSampled - 1) / PointsSampled)) + (instantMpg / PointsSampled);
+
+                    UpdateMPG?.Invoke(new MPGUpdateResponse()
+                    {
+                        Success = true,
+                        CurrentThrottlePercentage = throttleInt,
+                        CurrentMPH = mph,
+                        InstantMPG = instantMpg,
+                        AverageMPG = AverageMPG
+                    });
                 }
             });
         }

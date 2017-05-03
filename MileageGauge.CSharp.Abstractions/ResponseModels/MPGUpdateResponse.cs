@@ -9,6 +9,11 @@ namespace MileageGauge.CSharp.Abstractions.ResponseModels
     public class MPGUpdateResponse : IResponseModel
     {
         public double InstantMPG { get; set; }
+
+        public double AverageMPG { get; set; }
+
+        public double CurrentMPH { get; set; }
+
         public double CurrentThrottlePercentage { get; set; }
 
         public bool Success
