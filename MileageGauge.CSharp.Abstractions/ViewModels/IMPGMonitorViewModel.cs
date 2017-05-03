@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MileageGauge.CSharp.Abstractions.ViewModels
 {
-    public interface IMPGMonitorViewModel
+    public interface IMPGMonitorViewModel : IDisposable
     {
         Task BeginMonitoringMPG();
 

@@ -72,5 +72,10 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             MonitorFlag = false;
             MonitorTask?.Wait();
         }
+
+        public void Dispose()
+        {
+            Task.WaitAll(EndMonitoringMPG());
+        }
     }
 }
