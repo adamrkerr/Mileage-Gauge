@@ -136,5 +136,10 @@ namespace MileageGauge.ELM327.Implementation
             }
             return await Task.FromResult("impossible?");
         }
+
+        public void Dispose()
+        {
+            //do nothing, this is a demo
+        }
     }
 }

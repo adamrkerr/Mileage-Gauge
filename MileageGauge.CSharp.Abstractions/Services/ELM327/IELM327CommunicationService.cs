@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MileageGauge.CSharp.Abstractions.Services.ELM327
 {
-    public interface IELM327CommunicationService
+    public interface IELM327CommunicationService : IDisposable
     {
         Task<ConnectionResponse> Connect(string deviceAddress);
 

@@ -33,7 +33,7 @@ namespace MileageGauge.CSharp.Implementations.Services
             }
             else
             {
-
+                _communicationService = new BluetoothELM327CommunicationService();
             }
 
             var connectionResponse = await _communicationService.Connect(deviceAddress);            
@@ -47,7 +47,8 @@ namespace MileageGauge.CSharp.Implementations.Services
 
         public void Dispose()
         {
-            
+            if(_communicationService != null)
+                _communicationService.Dispose();
         }
 
         public async Task<string> GetVin()
