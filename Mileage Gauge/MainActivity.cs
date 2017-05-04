@@ -124,7 +124,7 @@ namespace MileageGauge
             ViewModel.LoadVehicleDetailsOptionsRequired = this.PromptVehicleOptions;
             ViewModel.LoadVehicleDetailsModelRequired = this.PromptVehicleModels;
 
-            await Task.Delay(1); //return control to UI?
+            await Task.Delay(10); //return control to UI?
 
             if (String.IsNullOrEmpty(CurrentDeviceAddress))
             {
