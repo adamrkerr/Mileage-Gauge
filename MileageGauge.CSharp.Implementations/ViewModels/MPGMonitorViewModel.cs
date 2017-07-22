@@ -23,9 +23,15 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         Task MonitorTask { get; set; }
 
-        double PointsSampled { get; set; }
+        //double PointsSampled { get; set; }
 
         double AverageMPG { get; set; }
+
+        private DateTime TimeOfLastSample { get; set; }
+
+        private double GallonsUsed { get; set; }
+
+        private double MilesTravelled { get; set; }
 
         public Action<MPGUpdateResponse> UpdateMPG
         {
@@ -36,9 +42,15 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
         {
             MonitorFlag = true;
 
-            PointsSampled = 0;
+            //PointsSampled = 0;
 
             AverageMPG = 0;
+
+            MilesTravelled = 0;
+
+            GallonsUsed = 0;
+
+            TimeOfLastSample = DateTime.MinValue;
 
             MonitorTask = Task.Factory.StartNew(async () =>
             {
@@ -49,11 +61,18 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
                     var mph = await _diagnosticDeviceService.GetMPH();
                     var gph = await _diagnosticDeviceService.GetGPH();
 
+                    var timeOfCurrentSample = DateTime.Now;
+                    
                     var instantMpg = mph / gph;
 
-                    PointsSampled++;
+                    GallonsUsed += GetGallonsUsed(gph, timeOfCurrentSample, TimeOfLastSample);
 
-                    AverageMPG = (AverageMPG * ((PointsSampled - 1) / PointsSampled)) + (instantMpg / PointsSampled);
+                    MilesTravelled += GetMilesTravelled(mph, timeOfCurrentSample, TimeOfLastSample);
+                    
+                    if (GallonsUsed != 0)
+                    {
+                        AverageMPG = MilesTravelled / GallonsUsed;
+                    }
 
                     UpdateMPG?.Invoke(new MPGUpdateResponse()
                     {
@@ -63,8 +82,34 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
                         InstantMPG = instantMpg,
                         AverageMPG = AverageMPG
                     });
+                    
+                    TimeOfLastSample = timeOfCurrentSample;
                 }
             });
+        }
+
+        private static double GetGallonsUsed(double instantGallonsPerHour, DateTime timeOfCurrentSample, DateTime timeOfPreviousSample)
+        {
+            if (timeOfPreviousSample == null || timeOfPreviousSample == DateTime.MinValue)
+                return 0;
+
+            var timeSpan = timeOfCurrentSample - timeOfPreviousSample;
+
+            var timeSpanInHours = timeSpan.TotalHours;
+
+            return timeSpan.TotalHours * instantGallonsPerHour;
+        }
+
+        private static double GetMilesTravelled(double instantMilesPerHour, DateTime timeOfCurrentSample, DateTime timeOfPreviousSample)
+        {
+            if (timeOfPreviousSample == null || timeOfPreviousSample == DateTime.MinValue)
+                return 0;
+
+            var timeSpan = timeOfCurrentSample - timeOfPreviousSample;
+
+            var timeSpanInHours = timeSpan.TotalHours;
+
+            return timeSpan.TotalHours * instantMilesPerHour;
         }
 
         public async Task EndMonitoringMPG()
