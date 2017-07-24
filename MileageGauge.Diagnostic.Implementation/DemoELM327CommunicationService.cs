@@ -43,6 +43,10 @@ namespace MileageGauge.ELM327.Implementation
                 if (String.IsNullOrWhiteSpace(trimmedLine))
                     continue;
 
+                //Allow us to comment stuff out.
+                if (trimmedLine.StartsWith("*"))
+                    continue;
+
                 if (trimmedLine.Length == 4)
                 {
                     if (!_sampleParameterValues.ContainsKey(trimmedLine))
