@@ -30,6 +30,8 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
         Task ContinueWithoutVehicleDetails();
 
         IVehicleViewModel CurrentVehicle { get; }
+
+        String DiagnosticDeviceAddress { get; set; }
         
     }
 }

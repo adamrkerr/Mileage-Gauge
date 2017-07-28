@@ -45,9 +45,16 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             get;set;
         }
 
+        public string DiagnosticDeviceAddress
+        {
+            get;set;
+        }
+
         public async Task GetDiagnosticDevice(string deviceAddress)
         {
             var connected = await _diagnosticService.Connect(deviceAddress);
+
+            DiagnosticDeviceAddress = deviceAddress;
 
             //TODO: handle failure
 
