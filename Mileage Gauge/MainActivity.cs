@@ -28,8 +28,16 @@ namespace MileageGauge
             {
                 return FindViewById<LinearLayout>(Resource.Id.ConnectingLayout);
             }
-        }  
-        
+        }
+
+        private LinearLayout DeviceSelectionLayout
+        {
+            get
+            {
+                return FindViewById<LinearLayout>(Resource.Id.DeviceSelectionLayout);
+            }
+        }
+
         private RecyclerView DeviceList
         {
             get
@@ -136,14 +144,14 @@ namespace MileageGauge
             {
                 //TODO: somehow detect if this is already connected to an appropriate device
                 //Perhaps store device after successful connection
-
+                
                 deviceCollection = pairedDevices.Select(p => new BluetoothDeviceModel { Address = p.Address, Name = p.Name });
             }
 
-            await PromptBluetoothOptions(deviceCollection);
+            PromptBluetoothOptions(deviceCollection);
         }
 
-        private async Task PromptBluetoothOptions(IEnumerable<BluetoothDeviceModel> pairedDevices)
+        private void PromptBluetoothOptions(IEnumerable<BluetoothDeviceModel> pairedDevices)
         {
 
             if (pairedDevices == null)
@@ -162,7 +170,8 @@ namespace MileageGauge
 
             DeviceList.SetAdapter(adapter);
 
-            ConnectingLayout.Visibility = Android.Views.ViewStates.Gone
+            ConnectingLayout.Visibility = Android.Views.ViewStates.Gone;
+            DeviceSelectionLayout.Visibility = Android.Views.ViewStates.Visible;
         }
 
         private const int BluetoothEnableRequest = 1;
@@ -174,7 +183,7 @@ namespace MileageGauge
             if (adapter == null)
             {
                 //bluetooth is not supported, just show the demo device
-                await PromptBluetoothOptions(null);
+                PromptBluetoothOptions(null);
             }
             else
             {
@@ -200,7 +209,8 @@ namespace MileageGauge
 
             ConnectingLayout.Visibility = Android.Views.ViewStates.Gone;
 
-            var intent = new Intent(this, typeof(VehicleSelectionActivity));
+            //var intent = new Intent(this, typeof(VehicleSelectionActivity));
+            var intent = new Intent(this, typeof(AddVehicleActivity));
             StartActivity(intent);
 
         }
