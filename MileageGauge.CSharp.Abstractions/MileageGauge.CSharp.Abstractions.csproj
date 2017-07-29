@@ -55,6 +55,7 @@
     <Compile Include="Services\ELM327\IELM327CommunicationService.cs" />
     <Compile Include="Services\IDiagnosticDeviceService.cs" />
     <Compile Include="Services\IRestUtility.cs" />
+    <Compile Include="Services\IVehicleHistoryService.cs" />
     <Compile Include="Services\IVehicleInformationService.cs" />
     <Compile Include="Services\Json\SingleOrCollectionConverter.cs" />
     <Compile Include="Services\ServiceResponses\MileageRatingResponse.cs" />

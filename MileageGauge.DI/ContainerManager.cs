@@ -31,6 +31,7 @@ namespace MileageGauge.DI
             builder.RegisterType<VehicleInformationService>().As<IVehicleInformationService>();
             builder.RegisterType<RestUtility>().As<IRestUtility>();
             builder.RegisterType<MPGMonitorViewModel>().As<IMPGMonitorViewModel>();
+            builder.RegisterType<VehicleHistoryService>().As<IVehicleHistoryService>();
 
             var container = builder.Build();
 

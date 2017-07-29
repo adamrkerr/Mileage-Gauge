@@ -209,8 +209,8 @@ namespace MileageGauge
 
             ConnectingLayout.Visibility = Android.Views.ViewStates.Gone;
 
-            //var intent = new Intent(this, typeof(VehicleSelectionActivity));
-            var intent = new Intent(this, typeof(AddVehicleActivity));
+            var intent = new Intent(this, typeof(VehicleSelectionActivity));
+            //var intent = new Intent(this, typeof(AddVehicleActivity));
             StartActivity(intent);
 
         }

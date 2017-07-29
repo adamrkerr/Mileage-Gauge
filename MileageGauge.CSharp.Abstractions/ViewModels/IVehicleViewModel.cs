@@ -25,5 +25,7 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
 
         double CombinedMPG { get; set; }
 
+        Guid VehicleId { get; set; }
+
     }
 }
