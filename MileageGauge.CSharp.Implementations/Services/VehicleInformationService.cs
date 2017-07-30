@@ -46,6 +46,12 @@ namespace MileageGauge.CSharp.Implementations.Services
 
         public async Task<VehicleInformationResponse> GetVehicleInformation(string vin)
         {
+            //truncate to remove specific vehicle identification characters
+            if (vin.Length > 11)
+            {
+                vin = vin.Substring(0, 11);
+            }
+
             var vinQuery = ConstructVinQuery(vin);
 
             var vinResponse = await _restUtility.ExecuteGetRequestAsync<VinQueryResponse>(vinQuery);
@@ -125,11 +131,6 @@ namespace MileageGauge.CSharp.Implementations.Services
 
         internal static string ConstructVinQuery(string vin)
         {
-            if (vin.Length > 11)
-            {
-                vin = vin.Substring(0, 11);
-            }
-
             return String.Format(VinAPI, vin);
         }
 

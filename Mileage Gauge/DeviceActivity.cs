@@ -20,7 +20,7 @@ using MileageGauge.Adapters;
 namespace MileageGauge
 {
     [Activity(Label = "Mileage Gauge", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity
+    public class DeviceActivity : Activity
     {
         private LinearLayout ConnectingLayout
         {
@@ -53,7 +53,7 @@ namespace MileageGauge
             base.OnCreate(bundle);
 
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Main);
+            SetContentView(Resource.Layout.DeviceSelection);
 
             var layoutManager = new LinearLayoutManager(this);
             DeviceRecyclerView.SetLayoutManager(layoutManager);

@@ -22,7 +22,7 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         public VehicleModel CurrentVehicle
         {
-            get; set;
+            get; private set;
         }
 
         public Action<GetDiagnosticDeviceResponse> GetDiagnosticDeviceComplete
@@ -49,6 +49,20 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
         public async Task<IEnumerable<VehicleModel>> GetVehicleHistory()
         {
             return await _vehicleHistoryService.GetVehicleHistory();
+        }
+
+        public async Task RemoveVehicle(string vin)
+        {
+            await _vehicleHistoryService.RemoveVehicle(vin);
+        }
+
+        public async Task SetCurrentVehicle(VehicleModel vehicle)
+        {
+            vehicle.LastSelected = DateTime.UtcNow;
+
+            await _vehicleHistoryService.AddOrUpdateVehicle(vehicle);
+
+            CurrentVehicle = vehicle;
         }
     }
 }

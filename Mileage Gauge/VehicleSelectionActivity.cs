@@ -66,20 +66,9 @@ namespace MileageGauge
         {
             base.OnResume();
 
-            var vehicles = await MainViewModel.GetVehicleHistory();
-            // specify an adapter
-            var adapter = new VehicleHistoryAdapter(vehicles);
-            adapter.ItemClick += (s1, arg1) =>
-            {
-                MainViewModel.CurrentVehicle = arg1.ViewModel;
-
-                var intent = new Intent(this, typeof(LiveMileageActivity));
-                StartActivity(intent);
-            };
-
-            VehicleRecyclerView.SetAdapter(adapter);
+            await LoadVehicleHistory();
         }
-                
+
         protected override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
@@ -108,6 +97,57 @@ namespace MileageGauge
         {
             var intent = new Intent(this, typeof(AddVehicleActivity));
             StartActivity(intent);
+        }
+
+        private void LaunchMileageActivity(VehicleModel vehicle)
+        {
+            MainViewModel.SetCurrentVehicle(vehicle);
+
+            var intent = new Intent(this, typeof(LiveMileageActivity));
+            StartActivity(intent);
+        }
+
+        private async void DeleteVehicle(VehicleModel vehicle)
+        {
+            await MainViewModel.RemoveVehicle(vehicle.VIN);
+
+            await LoadVehicleHistory();
+        }
+
+        private void LaunchDiagnosticActivity(VehicleModel vehicle)
+        {
+            MainViewModel.SetCurrentVehicle(vehicle);
+
+            var intent = new Intent(this, typeof(DiagnosticActivity));
+            StartActivity(intent);
+        }
+
+        private async Task LoadVehicleHistory()
+        {
+            var vehicles = (await MainViewModel.GetVehicleHistory()).OrderByDescending(v => v.LastSelected);
+            // specify an adapter
+            var adapter = new VehicleHistoryAdapter(vehicles);
+            adapter.ItemClick += (s1, arg1) =>
+            {
+                LaunchMileageActivity(arg1.ViewModel);
+            };
+
+            adapter.DeleteRequest += (s1, arg1) =>
+            {
+                DeleteVehicle(arg1.ViewModel);
+            };
+
+            adapter.MileageRequest += (s1, arg1) =>
+            {
+                LaunchMileageActivity(arg1.ViewModel);
+            };
+
+            adapter.DiagnosticRequest += (s1, arg1) =>
+            {
+                LaunchDiagnosticActivity(arg1.ViewModel);
+            };
+
+            VehicleRecyclerView.SetAdapter(adapter);
         }
 
     }

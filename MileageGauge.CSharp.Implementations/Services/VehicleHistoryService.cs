@@ -27,7 +27,7 @@ namespace MileageGauge.CSharp.Implementations.Services
 
             var match = currentCollection.SingleOrDefault(s => s.VIN == newVehicle.VIN);
 
-            newVehicle.LastSelected = DateTime.MaxValue; //force this to the top
+            newVehicle.LastSelected = DateTime.UtcNow; //force this to the top
 
             if(match != null)
             {

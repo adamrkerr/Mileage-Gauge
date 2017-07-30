@@ -15,11 +15,15 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
 
         Task GetDiagnosticDevice(string deviceAddress);
                 
-        VehicleModel CurrentVehicle { get; set; }
+        VehicleModel CurrentVehicle { get; }
 
         String DiagnosticDeviceAddress { get; set; }
 
         Task<IEnumerable<VehicleModel>> GetVehicleHistory();
-        
+
+        Task RemoveVehicle(string vin);
+
+        Task SetCurrentVehicle(VehicleModel vehicle);
+
     }
 }

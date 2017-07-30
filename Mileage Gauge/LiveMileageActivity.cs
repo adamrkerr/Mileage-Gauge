@@ -198,7 +198,7 @@ namespace MileageGauge
 
         private void MileageBack_Click(object sender, EventArgs e)
         {
-            var intent = new Intent(this, typeof(MainActivity));
+            var intent = new Intent(this, typeof(DeviceActivity));
             StartActivity(intent);
         }
     }

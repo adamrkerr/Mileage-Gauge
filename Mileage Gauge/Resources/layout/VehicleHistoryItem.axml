@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="13dp"
+    android:paddingBottom="13dp"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp">
+  <TextView
+      android:text="(Vehicle)"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/VehicleDescription"
+      android:layout_gravity="right"
+      android:hapticFeedbackEnabled="true" />
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      android:id="@+id/OptionsLayout"
+      android:layout_gravity="center_horizontal">
+    <Button
+        android:text="Mileage"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/MileageButton" />
+    <Button
+        android:text="Diagnostic"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/DiagnosticButton" />
+    <Button
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/DeleteButton" />
+  </LinearLayout>
+</LinearLayout>

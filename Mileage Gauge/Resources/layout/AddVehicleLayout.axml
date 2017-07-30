@@ -26,7 +26,8 @@
         android:layout_column="1"
         android:layout_columnWeight="1"
         android:layout_height="match_parent"
-        android:inputType="textCapCharacters" />
+        android:maxLength="11"
+        android:inputType="textCapCharacters|textNoSuggestions" />
     <ImageButton
         android:id="@+id/ScanButton"
         app:srcCompat="@drawable/ic_settings_remote_black_24px"
