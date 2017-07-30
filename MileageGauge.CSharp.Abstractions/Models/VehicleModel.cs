@@ -26,6 +26,8 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
         public double CombinedMPG { get; set; }
 
         public DateTime LastSelected { get; set; }
+
+        public string Description => $"{Year} {Make} {Model}";
         
     }
 }

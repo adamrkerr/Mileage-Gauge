@@ -45,7 +45,7 @@ namespace MileageGauge.Adapters
 
             // Replace the contents of the view with that element
             var holder = viewHolder as VehicleHistoryAdapterViewHolder;
-            holder.VehicleText.Text = $"{item.Year} {item.Make} {item.Model}";
+            holder.VehicleText.Text = item.Description;
             holder.ViewModel = item;
         }
 

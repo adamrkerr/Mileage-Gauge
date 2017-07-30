@@ -1701,17 +1701,20 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070061
 			public const int AddVehicleButton = 2131165281;
 			
-			// aapt resource value: 0x7f070070
-			public const int AverageMPGText = 2131165296;
+			// aapt resource value: 0x7f070071
+			public const int AverageMPGText = 2131165297;
+			
+			// aapt resource value: 0x7f07006c
+			public const int BackButton = 2131165292;
 			
 			// aapt resource value: 0x7f070063
 			public const int CancelButton = 2131165283;
 			
-			// aapt resource value: 0x7f07006d
-			public const int CityText = 2131165293;
-			
 			// aapt resource value: 0x7f07006e
-			public const int CombinedText = 2131165294;
+			public const int CityText = 2131165294;
+			
+			// aapt resource value: 0x7f07006f
+			public const int CombinedText = 2131165295;
 			
 			// aapt resource value: 0x7f070065
 			public const int ConnectingLayout = 2131165285;
@@ -1734,26 +1737,23 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07005f
 			public const int EngineText = 2131165279;
 			
-			// aapt resource value: 0x7f07006c
-			public const int EpaMileageLayout = 2131165292;
+			// aapt resource value: 0x7f07006d
+			public const int EpaMileageLayout = 2131165293;
 			
-			// aapt resource value: 0x7f07006f
-			public const int HighwayText = 2131165295;
+			// aapt resource value: 0x7f070070
+			public const int HighwayText = 2131165296;
+			
+			// aapt resource value: 0x7f070076
+			public const int InstantMPGText = 2131165302;
 			
 			// aapt resource value: 0x7f070075
-			public const int InstantMPGText = 2131165301;
-			
-			// aapt resource value: 0x7f070074
-			public const int MPHText = 2131165300;
+			public const int MPHText = 2131165301;
 			
 			// aapt resource value: 0x7f07006a
 			public const int MainLayout = 2131165290;
 			
 			// aapt resource value: 0x7f07005d
 			public const int MakeText = 2131165277;
-			
-			// aapt resource value: 0x7f070076
-			public const int MileageBack = 2131165302;
 			
 			// aapt resource value: 0x7f070090
 			public const int MileageButton = 2131165328;
@@ -1773,8 +1773,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070059
 			public const int ScanButton = 2131165273;
 			
-			// aapt resource value: 0x7f070073
-			public const int ThrottleText = 2131165299;
+			// aapt resource value: 0x7f070074
+			public const int ThrottleText = 2131165300;
 			
 			// aapt resource value: 0x7f07008e
 			public const int VehicleDescription = 2131165326;
@@ -1917,8 +1917,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07003e
 			public const int expanded_menu = 2131165246;
 			
-			// aapt resource value: 0x7f070071
-			public const int gridLayout1 = 2131165297;
+			// aapt resource value: 0x7f070072
+			public const int gridLayout1 = 2131165298;
 			
 			// aapt resource value: 0x7f070005
 			public const int home = 2131165189;
@@ -2106,8 +2106,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070068
 			public const int textView2 = 2131165288;
 			
-			// aapt resource value: 0x7f070072
-			public const int textView3 = 2131165298;
+			// aapt resource value: 0x7f070073
+			public const int textView3 = 2131165299;
 			
 			// aapt resource value: 0x7f070057
 			public const int textView6 = 2131165271;
@@ -2262,10 +2262,10 @@ namespace MileageGauge
 			public const int abc_select_dialog_material = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public const int AddVehicleLayout = 2130903067;
+			public const int AddVehicle = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int BluetoothDeviceLayout = 2130903068;
+			public const int BluetoothDeviceItem = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
 			public const int DeviceSelection = 2130903069;

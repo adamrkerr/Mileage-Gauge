@@ -87,7 +87,7 @@ namespace MileageGauge
         {
             get
             {
-                return FindViewById<Button>(Resource.Id.MileageBack);
+                return FindViewById<Button>(Resource.Id.BackButton);
             }
         }
 
@@ -104,7 +104,7 @@ namespace MileageGauge
 
             ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
 
-            VehicleText.Text = $"{ViewModel.CurrentVehicle.Make} {ViewModel.CurrentVehicle.Model}";
+            VehicleText.Text = ViewModel.CurrentVehicle.Description;
             CityText.Text = ViewModel.CurrentVehicle.CityMPG.ToString();
             CombinedText.Text = ViewModel.CurrentVehicle.CombinedMPG.ToString();
             HighwayText.Text = ViewModel.CurrentVehicle.HighwayMPG.ToString();
@@ -198,7 +198,7 @@ namespace MileageGauge
 
         private void MileageBack_Click(object sender, EventArgs e)
         {
-            var intent = new Intent(this, typeof(DeviceActivity));
+            var intent = new Intent(this, typeof(VehicleSelectionActivity));
             StartActivity(intent);
         }
     }

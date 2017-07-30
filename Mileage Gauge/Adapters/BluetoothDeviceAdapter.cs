@@ -26,7 +26,7 @@ namespace MileageGauge.Adapters
 
             //Setup your layout here
             View itemView = null;
-            var id = Resource.Layout.BluetoothDeviceLayout;
+            var id = Resource.Layout.BluetoothDeviceItem;
             itemView = LayoutInflater.From(parent.Context).
                    Inflate(id, parent, false);
 

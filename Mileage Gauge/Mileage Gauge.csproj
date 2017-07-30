@@ -123,7 +123,7 @@
     <Compile Include="VehicleSelectionActivity.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\BluetoothDeviceLayout.axml">
+    <AndroidResource Include="Resources\layout\BluetoothDeviceItem.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <None Include="GettingStarted.Xamarin" />
@@ -139,7 +139,7 @@
     <AndroidResource Include="Resources\layout\Diagnostic.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\AddVehicleLayout.axml">
+    <AndroidResource Include="Resources\layout\AddVehicle.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\VehicleHistoryItem.axml">
