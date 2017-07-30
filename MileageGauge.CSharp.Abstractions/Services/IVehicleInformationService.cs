@@ -11,7 +11,7 @@ namespace MileageGauge.CSharp.Abstractions.Services
 {
     public interface IVehicleInformationService
     {
-        Task<VehicleInformationResponse> GetVehicleInformation();
+        Task<VehicleInformationResponse> GetVehicleInformation(string vin);
         Task<VehicleInformationResponse> GetVehicleInformation(int year, string make, string model);
         Task<VehicleMileageResponse> GetVehicleMileageRating(int vehicleOptionId);
     }

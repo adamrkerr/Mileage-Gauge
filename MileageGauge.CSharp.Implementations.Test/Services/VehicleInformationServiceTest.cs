@@ -10,24 +10,24 @@ namespace MileageGauge.CSharp.Implementations.Test.Services
     [TestClass]
     public class VehicleInformationServiceTest
     {
-        [TestMethod]
-        public async Task GetVehicleInformationFromApiTest()
-        {
-            using (var mock = AutoMock.GetLoose())
-            {
-                // Arrange - configure the mock
-                var restUtility = mock.Create<RestUtility>();
-                mock.Provide<IRestUtility>(restUtility);
+        //[TestMethod]
+        //public async Task GetVehicleInformationFromApiTest()
+        //{
+        //    using (var mock = AutoMock.GetLoose())
+        //    {
+        //        // Arrange - configure the mock
+        //        var restUtility = mock.Create<RestUtility>();
+        //        mock.Provide<IRestUtility>(restUtility);
 
-                var vehicleService = mock.Create<VehicleInformationService>();
+        //        var vehicleService = mock.Create<VehicleInformationService>();
 
-                // Act
-                var actual = await vehicleService.GetVehicleInformation();
+        //        // Act
+        //        var actual = await vehicleService.GetVehicleInformation();
 
-                Assert.IsNotNull(actual);
+        //        Assert.IsNotNull(actual);
 
-            }
-        }
+        //    }
+        //}
 
         [TestMethod]
         public async Task GetVehicleMileageRatingTest()

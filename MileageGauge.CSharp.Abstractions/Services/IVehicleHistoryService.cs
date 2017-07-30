@@ -9,11 +9,11 @@ namespace MileageGauge.CSharp.Abstractions.Services
 {
     public interface IVehicleHistoryService
     {
-        Task<IEnumerable<IVehicleViewModel>> GetVehicleHistory();
+        Task<IEnumerable<VehicleModel>> GetVehicleHistory();
 
-        Task AddNewVehicle(IVehicleViewModel newVehicle);
+        Task AddOrUpdateVehicle(VehicleModel newVehicle);
 
-        Task RemoveVehicle(Guid internalId);
+        Task RemoveVehicle(string vin);
 
     }
 }

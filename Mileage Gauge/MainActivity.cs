@@ -38,7 +38,7 @@ namespace MileageGauge
             }
         }
 
-        private RecyclerView DeviceList
+        private RecyclerView DeviceRecyclerView
         {
             get
             {
@@ -56,7 +56,7 @@ namespace MileageGauge
             SetContentView(Resource.Layout.Main);
 
             var layoutManager = new LinearLayoutManager(this);
-            DeviceList.SetLayoutManager(layoutManager);
+            DeviceRecyclerView.SetLayoutManager(layoutManager);
 
             ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
 
@@ -168,7 +168,7 @@ namespace MileageGauge
                 await ViewModel.GetDiagnosticDevice(arg1.DeviceAddress);
             };
 
-            DeviceList.SetAdapter(adapter);
+            DeviceRecyclerView.SetAdapter(adapter);
 
             ConnectingLayout.Visibility = Android.Views.ViewStates.Gone;
             DeviceSelectionLayout.Visibility = Android.Views.ViewStates.Visible;

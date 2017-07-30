@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\BluetoothDeviceAdapter.cs" />
+    <Compile Include="Adapters\VehicleHistoryAdapter.cs" />
     <Compile Include="AddVehicleActivity.cs" />
     <Compile Include="DiagnosticActivity.cs" />
     <Compile Include="LiveMileageActivity.cs" />

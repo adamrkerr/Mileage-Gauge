@@ -19,12 +19,10 @@ namespace MileageGauge.CSharp.Implementations.Services
         private const string MileageAPI = "https://fueleconomy.gov/ws/rest/vehicle/{0}";
 
         private readonly IRestUtility _restUtility;
-        private readonly IDiagnosticDeviceService _diagnosticService;
 
-        public VehicleInformationService(IRestUtility restUtility, IDiagnosticDeviceService diagnosticService)
+        public VehicleInformationService(IRestUtility restUtility)
         {
             _restUtility = restUtility;
-            _diagnosticService = diagnosticService;
         }
 
         public async Task<VehicleMileageResponse> GetVehicleMileageRating(int vehicleOptionId)
@@ -46,10 +44,8 @@ namespace MileageGauge.CSharp.Implementations.Services
             return string.Format(MileageAPI, vehicleOptionId);
         }
 
-        public async Task<VehicleInformationResponse> GetVehicleInformation()
+        public async Task<VehicleInformationResponse> GetVehicleInformation(string vin)
         {
-            var vin = await _diagnosticService.GetVin();
-
             var vinQuery = ConstructVinQuery(vin);
 
             var vinResponse = await _restUtility.ExecuteGetRequestAsync<VinQueryResponse>(vinQuery);

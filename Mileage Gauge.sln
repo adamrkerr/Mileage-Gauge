@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileageGauge.CSharp.Impleme
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileageGauge.ELM327.Implementation", "MileageGauge.Diagnostic.Implementation\MileageGauge.ELM327.Implementation.csproj", "{3D61022B-2E6B-44B0-A500-A7870611FD9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileageGauge.Android.Implementations", "MileageGauge.Android.Implementations\MileageGauge.Android.Implementations.csproj", "{48886048-818D-499C-B2A3-7B596C7D912D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{3D61022B-2E6B-44B0-A500-A7870611FD9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D61022B-2E6B-44B0-A500-A7870611FD9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D61022B-2E6B-44B0-A500-A7870611FD9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48886048-818D-499C-B2A3-7B596C7D912D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48886048-818D-499C-B2A3-7B596C7D912D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48886048-818D-499C-B2A3-7B596C7D912D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48886048-818D-499C-B2A3-7B596C7D912D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

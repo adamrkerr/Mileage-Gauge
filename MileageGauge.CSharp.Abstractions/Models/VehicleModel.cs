@@ -1,13 +1,14 @@
-using System;
-using System.Threading.Tasks;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
-using MileageGauge.CSharp.Abstractions.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MileageGauge.CSharp.Implementations.ViewModels
+namespace MileageGauge.CSharp.Abstractions.ViewModels
 {
-    public class VehicleViewModel : IVehicleViewModel
+    public class VehicleModel
     {
-
         public string VIN { get; set; }
 
         public int Year { get; set; }
@@ -24,5 +25,7 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         public double CombinedMPG { get; set; }
 
+        public DateTime LastSelected { get; set; }
+        
     }
 }
