@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using Android.Support.V4.Content;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using MileageGauge.DI;
 using Autofac;
@@ -19,7 +14,7 @@ using Android.Support.V7.App;
 
 namespace MileageGauge
 {
-    [Activity(Label = "AddVehicleActivity", Theme = "@style/Theme.AppCompat")]
+    [Activity(Label = "Mileage Gauge: Add New Vehicle", Theme = "@style/Theme.AppCompat")]
     public class AddVehicleActivity : AppCompatActivity
     {
         private ImageButton ScanButton

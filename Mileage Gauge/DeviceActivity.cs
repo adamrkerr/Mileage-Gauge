@@ -8,7 +8,6 @@ using Android.Content;
 using Android.Bluetooth;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
-using MileageGauge.CSharp.Abstractions.Services.ServiceResponses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -20,7 +19,7 @@ using Android.Support.V7.App;
 
 namespace MileageGauge
 {
-    [Activity(Label = "Mileage Gauge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/Theme.AppCompat")]
+    [Activity(Label = "Mileage Gauge: Select Your Device", MainLauncher = true, Icon = "@drawable/ic_local_gas_station_black_24px", Theme = "@style/Theme.AppCompat")]
     public class DeviceActivity : AppCompatActivity
     {
         private LinearLayout ConnectingLayout

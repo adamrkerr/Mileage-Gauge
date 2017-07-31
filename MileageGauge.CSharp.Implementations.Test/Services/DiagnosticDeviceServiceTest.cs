@@ -23,6 +23,9 @@ namespace MileageGauge.CSharp.Implementations.Test.Services
                 elmSvc.Setup(e => e.GetDiagnosticCodes())
                 .ReturnsAsync("165600000000");
 
+                elmSvc.Setup(e => e.GetVehicleParameterValue(DiagnosticPIDs.GetSupportedPIDs1))
+                .ReturnsAsync("BF9FB990");
+
                 elmSvc.Setup(e => e.Connect(It.IsAny<string>()))
                     .ReturnsAsync(new ConnectionResponse { Success=true });
 

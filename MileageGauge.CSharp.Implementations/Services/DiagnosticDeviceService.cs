@@ -14,6 +14,8 @@ namespace MileageGauge.CSharp.Implementations.Services
 
         private IELM327CommunicationService _communicationService;
 
+        private HashSet<DiagnosticPIDs> _supportedPIDs;
+
         public bool IsConnected
         {
             get; private set;
@@ -24,6 +26,7 @@ namespace MileageGauge.CSharp.Implementations.Services
         public DiagnosticDeviceService(ICommunicationServiceResolver serviceResolver)
         {
             _serviceResolver = serviceResolver;
+            _supportedPIDs = new HashSet<DiagnosticPIDs>();
         }
 
         public async Task<bool> Connect(string deviceAddress)
@@ -39,7 +42,48 @@ namespace MileageGauge.CSharp.Implementations.Services
 
             IsConnected = connectionResponse.Success;
 
+            if (IsConnected)
+            {
+                await LoadSupportedPIDs();
+            }
+
             return IsConnected;
+        }
+
+        private async Task LoadSupportedPIDs()
+        {
+            if (!IsConnected)
+            {
+                throw new Exception("Device is not connected");
+            }
+                        
+            var supportedString = await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.GetSupportedPIDs1);
+
+            if (supportedString == "NO DATA") //TODO: constant?
+            {
+                return;
+            }
+
+            var intValue = Convert.ToUInt32(GetNumericValueFromHexString(supportedString));
+
+            var supportedBinary = Convert.ToString(intValue, toBase:2);
+
+            const int mode1Offset = 0x0100; //add this to each positive value to find the key
+
+            for(int i = 0; i < supportedBinary.Length; i++)
+            {
+                var currentPosition = supportedBinary[i];
+
+                if (currentPosition == '0')
+                    continue;
+
+                var currentPIDValue = mode1Offset + (i + 1);
+
+                var currentPID = (DiagnosticPIDs) currentPIDValue;
+
+                _supportedPIDs.Add(currentPID);
+            }
+
         }
 
         public void Dispose()
@@ -55,12 +99,6 @@ namespace MileageGauge.CSharp.Implementations.Services
                 throw new Exception("Device is not connected");
             }
 
-            if (!(await _communicationService.CheckParameterSupported(DiagnosticPIDs.GetVIN)))
-            {
-                //TODO: prompt user for manual VIN
-                throw new Exception("This vehicle does not support VIN retrieval.");
-            }
-
             return await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.GetVIN);
         }
 
@@ -71,7 +109,7 @@ namespace MileageGauge.CSharp.Implementations.Services
                 throw new Exception("Device is not connected");
             }
 
-            if (!(await _communicationService.CheckParameterSupported(DiagnosticPIDs.ThrottlePercentage)))
+            if (!_supportedPIDs.Contains(DiagnosticPIDs.ThrottlePercentage))
             {
                 throw new Exception("This vehicle does not support throttle percentage.");
             }
@@ -95,17 +133,17 @@ namespace MileageGauge.CSharp.Implementations.Services
                 throw new Exception("Device is not connected");
             }
 
-            if (!(await _communicationService.CheckParameterSupported(DiagnosticPIDs.MassAirflow)))
+            if (!_supportedPIDs.Contains(DiagnosticPIDs.MassAirflowRate))
             {
                 throw new Exception("This vehicle does not support MAF.");
             }
 
-            if (!(await _communicationService.CheckParameterSupported(DiagnosticPIDs.VehicleSpeed)))
+            if (!_supportedPIDs.Contains(DiagnosticPIDs.VehicleSpeed))
             {
                 throw new Exception("This vehicle does not support speed.");
             }
 
-            var MAFReading = await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.MassAirflow);
+            var MAFReading = await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.MassAirflowRate);
 
             if (MAFReading == "NO DATA") //TODO: constant?
             {
@@ -153,7 +191,7 @@ namespace MileageGauge.CSharp.Implementations.Services
                 throw new Exception("Device is not connected");
             }
             
-            if (!(await _communicationService.CheckParameterSupported(DiagnosticPIDs.VehicleSpeed)))
+            if (!_supportedPIDs.Contains(DiagnosticPIDs.VehicleSpeed))
             {
                 throw new Exception("This vehicle does not support speed.");
             }
@@ -177,12 +215,12 @@ namespace MileageGauge.CSharp.Implementations.Services
                 throw new Exception("Device is not connected");
             }
 
-            if (!(await _communicationService.CheckParameterSupported(DiagnosticPIDs.MassAirflow)))
+            if (!_supportedPIDs.Contains(DiagnosticPIDs.MassAirflowRate))
             {
                 throw new Exception("This vehicle does not support MAF.");
             }
                         
-            var MAFReading = await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.MassAirflow);
+            var MAFReading = await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.MassAirflowRate);
 
             if (MAFReading == "NO DATA") //TODO: constant?
             {
@@ -293,12 +331,6 @@ namespace MileageGauge.CSharp.Implementations.Services
             }                      
 
             return $"{prefix}{rawCode.Substring(1)}";
-        }
-
-        private static string ConvertBinaryStringToHex(string binaryString)
-        {
-            var hextString = Convert.ToInt32(binaryString, 2).ToString("X");
-            return hextString.Replace("0x", string.Empty);
         }
 
         public async Task ClearDiagnosticCodes()

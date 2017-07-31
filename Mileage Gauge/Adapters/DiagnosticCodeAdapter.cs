@@ -52,11 +52,14 @@ namespace MileageGauge.Adapters
     {
         public TextView CodeText { get; set; }
 
+        public ImageButton SearchButton { get; set; }
+
 
         public DiagnosticCodeAdapterViewHolder(View itemView, Action<DiagnosticCodeAdapterClickEventArgs> clickListener) : base(itemView)
         {
             CodeText = itemView.FindViewById<TextView>(Resource.Id.CodeText);
-            itemView.Click += (sender, e) => clickListener(new DiagnosticCodeAdapterClickEventArgs { Code = CodeText.Text });            
+            SearchButton = itemView.FindViewById<ImageButton>(Resource.Id.SearchButton);
+            SearchButton.Click += (sender, e) => clickListener(new DiagnosticCodeAdapterClickEventArgs { Code = CodeText.Text });            
         }
     }
 

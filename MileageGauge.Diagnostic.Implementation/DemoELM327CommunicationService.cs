@@ -84,12 +84,7 @@ namespace MileageGauge.ELM327.Implementation
                 }
             }
         }
-
-        public Task<bool> CheckParameterSupported(DiagnosticPIDs pid)
-        {
-            return Task.FromResult(true);
-        }
-
+        
         public async Task<ConnectionResponse> Connect(string deviceAddress)
         {
             //load the sample data
@@ -104,10 +99,10 @@ namespace MileageGauge.ELM327.Implementation
             {
                 case DiagnosticPIDs.GetVIN:
                     return await GetRandomVin();
-                case DiagnosticPIDs.MassAirflow:
+                case DiagnosticPIDs.MassAirflowRate:
                 case DiagnosticPIDs.ThrottlePercentage:
                 case DiagnosticPIDs.VehicleSpeed:
-                case DiagnosticPIDs.GetSupportedPIDs:
+                case DiagnosticPIDs.GetSupportedPIDs1:
                     return await GetNextValue(pid);
                 default:
                     return await Task.FromResult("NO DATA");
@@ -160,45 +155,41 @@ namespace MileageGauge.ELM327.Implementation
             //do nothing, this is a demo
         }
 
+        private const string DiagnosticPID = "03";
+
         public async Task ClearDiagnosticCodes()
         {
             await Task.Delay(200);
 
-            var diagnosticPid = "03";
-
-            var nextDiagnosticResponse = _sampleParameterValues[diagnosticPid].Peek();
+            var nextDiagnosticResponse = _sampleParameterValues[DiagnosticPID].Peek();
 
             //cycle until the "all clear" record is next
             while(!String.IsNullOrEmpty(nextDiagnosticResponse.Replace("0", string.Empty).Trim()))
             {
-                var nextValue = _sampleParameterValues[diagnosticPid].Dequeue();
+                var nextValue = _sampleParameterValues[DiagnosticPID].Dequeue();
 
                 //roll this back onto the end of the queue so it keeps going
 
-                _sampleParameterValues[diagnosticPid].Enqueue(nextValue);
+                _sampleParameterValues[DiagnosticPID].Enqueue(nextValue);
 
-                nextDiagnosticResponse = _sampleParameterValues[diagnosticPid].Peek();
+                nextDiagnosticResponse = _sampleParameterValues[DiagnosticPID].Peek();
             }
             
         }
 
-        private const int DiagnosticPID = 0x03;
 
         public async Task<string> GetDiagnosticCodes()
         {
             await Task.Delay(200);
 
-            string pidCode = String.Format("{0:X}", DiagnosticPID).Substring(6);
-
-
-            if (!_sampleParameterValues.ContainsKey(pidCode))
+            if (!_sampleParameterValues.ContainsKey(DiagnosticPID))
                 return await Task.FromResult("NO DATA");
 
-            var nextValue = _sampleParameterValues[pidCode].Dequeue();
+            var nextValue = _sampleParameterValues[DiagnosticPID].Dequeue();
 
             //roll this back onto the end of the queue so it keeps going
 
-            _sampleParameterValues[pidCode].Enqueue(nextValue);
+            _sampleParameterValues[DiagnosticPID].Enqueue(nextValue);
 
             return await Task.FromResult(nextValue);
         }

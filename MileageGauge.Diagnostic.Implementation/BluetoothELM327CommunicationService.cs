@@ -15,13 +15,6 @@ namespace MileageGauge.ELM327.Implementation
         private static UUID SERIAL_UUID = UUID.FromString("00001101-0000-1000-8000-00805f9b34fb");
         private const char RESPONSE_END = '>';
 
-        public async Task<bool> CheckParameterSupported(DiagnosticPIDs pid)
-        {
-            //TODO: check this from the device
-
-            return await Task.FromResult(true);
-        }
-
         public async Task<ConnectionResponse> Connect(string deviceAddress)
         {
             var bluetoothAdapter = BluetoothAdapter.DefaultAdapter;

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MileageGauge.CSharp.Abstractions.ViewModels;
@@ -19,7 +16,7 @@ using MileageGauge.Adapters;
 
 namespace MileageGauge
 {
-    [Activity(Label = "DiagnosticActivity", Theme = "@style/Theme.AppCompat")]
+    [Activity(Label = "Mileage Gauge: Read Diagnostic Codes", Theme = "@style/Theme.AppCompat")]
     public class DiagnosticActivity : AppCompatActivity
     {
         private TextView VehicleText
@@ -162,7 +159,7 @@ namespace MileageGauge
         private void LaunchSearch(string code)
         {
             var intent = new Intent(Intent.ActionWebSearch);
-            intent.PutExtra(SearchManager.Query, $"{ViewModel.CurrentVehicle.Description} {code}");
+            intent.PutExtra(SearchManager.Query, $"{ViewModel.CurrentVehicle.Year} {ViewModel.CurrentVehicle.Make} cel {code}");
             StartActivity(intent);
         }
 
