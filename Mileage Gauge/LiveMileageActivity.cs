@@ -13,11 +13,12 @@ using MileageGauge.DI;
 using Autofac;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
+using Android.Support.V7.App;
 
 namespace MileageGauge
 {
-    [Activity(Label = "LiveMileageActivity")]
-    public class LiveMileageActivity : Activity
+    [Activity(Label = "LiveMileageActivity", Theme = "@style/Theme.AppCompat")]
+    public class LiveMileageActivity : AppCompatActivity
     {
         private TextView VehicleText
         {

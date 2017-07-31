@@ -16,11 +16,12 @@ using Android.Runtime;
 using MileageGauge.CSharp.Abstractions.Models;
 using Android.Support.V7.Widget;
 using MileageGauge.Adapters;
+using Android.Support.V7.App;
 
 namespace MileageGauge
 {
-    [Activity(Label = "Mileage Gauge", MainLauncher = true, Icon = "@drawable/icon")]
-    public class DeviceActivity : Activity
+    [Activity(Label = "Mileage Gauge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/Theme.AppCompat")]
+    public class DeviceActivity : AppCompatActivity
     {
         private LinearLayout ConnectingLayout
         {

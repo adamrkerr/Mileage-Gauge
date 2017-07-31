@@ -16,11 +16,12 @@ using MileageGauge.CSharp.Abstractions.ResponseModels;
 using Autofac;
 using Android.Support.V7.Widget;
 using MileageGauge.Adapters;
+using Android.Support.V7.App;
 
 namespace MileageGauge
 {
-    [Activity(Label = "VehicleSelectionActivity")]
-    public class VehicleSelectionActivity : Activity
+    [Activity(Label = "VehicleSelectionActivity", Theme = "@style/Theme.AppCompat")]
+    public class VehicleSelectionActivity : AppCompatActivity
     {
         private Button AddNewVehicleButton
         {

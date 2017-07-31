@@ -15,11 +15,12 @@ using MileageGauge.DI;
 using Autofac;
 using System.Threading.Tasks;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
+using Android.Support.V7.App;
 
 namespace MileageGauge
 {
-    [Activity(Label = "AddVehicleActivity")]
-    public class AddVehicleActivity : Activity
+    [Activity(Label = "AddVehicleActivity", Theme = "@style/Theme.AppCompat")]
+    public class AddVehicleActivity : AppCompatActivity
     {
         private ImageButton ScanButton
         {

@@ -12,11 +12,13 @@ using Android.Widget;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using MileageGauge.DI;
 using Autofac;
+using Android.Support.V7.Widget;
+using Android.Support.V7.App;
 
 namespace MileageGauge
 {
-    [Activity(Label = "DiagnosticActivity")]
-    public class DiagnosticActivity : Activity
+    [Activity(Label = "DiagnosticActivity", Theme = "@style/Theme.AppCompat")]
+    public class DiagnosticActivity : AppCompatActivity
     {
         private TextView VehicleText
         {
@@ -31,6 +33,14 @@ namespace MileageGauge
             get
             {
                 return FindViewById<Button>(Resource.Id.BackButton);
+            }
+        }
+
+        private RecyclerView DiagnosticCodeRecyclerView
+        {
+            get
+            {
+                return FindViewById<RecyclerView>(Resource.Id.DiagnosticCodeRecyclerView);
             }
         }
 

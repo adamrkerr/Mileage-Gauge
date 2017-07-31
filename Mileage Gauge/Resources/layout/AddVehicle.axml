@@ -4,110 +4,110 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <TextView
-      android:text="Enter Your VIN:"
-      android:textAppearance="?android:attr/textAppearanceLarge"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/textView6"
-      android:layout_marginLeft="25dp"
-      android:layout_marginRight="25dp"
-      android:layout_marginTop="13dp"
-      android:layout_marginBottom="13dp" />
-  <GridLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginRight="25dp"
-      android:layout_marginLeft="25dp"
-      android:layout_marginTop="13dp"
-      android:layout_marginBottom="13dp">
-    <EditText
-        android:id="@+id/VinEntryText"
-        android:layout_column="1"
-        android:layout_columnWeight="1"
-        android:layout_height="match_parent"
-        android:maxLength="11"
-        android:inputType="textCapCharacters|textNoSuggestions" />
-    <ImageButton
-        android:id="@+id/ScanButton"
-        app:srcCompat="@drawable/ic_settings_remote_black_24px"
-        android:clickable="true"
-        android:hapticFeedbackEnabled="true"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="13dp" />
-    <ImageButton
-        android:id="@+id/RetrieveButton"
-        app:srcCompat="@drawable/ic_check_black_24px"
-        android:clickable="true"
-        android:hapticFeedbackEnabled="true"
-        android:layout_height="50dp"
-        android:layout_width="50dp"
-        android:layout_marginLeft="13dp" />
-  </GridLayout>
-  <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/VehicleInfoLayout"
-      android:layout_marginLeft="25dp"
-      android:layout_marginRight="25dp">
     <TextView
-        android:text="Current Vehicle:"
+        android:text="Enter Your VIN:"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView6"
-        android:layout_marginBottom="10dp" />
-    <TextView
-        android:text="(year)"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp" />
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/YearText"
-        android:layout_marginBottom="5dp" />
-    <TextView
-        android:text="(make)"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/MakeText"
-        android:layout_marginBottom="5dp" />
-    <TextView
-        android:text="(model)"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ModelText"
-        android:layout_marginBottom="5dp" />
-    <TextView
-        android:text="(engine)"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/EngineText"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp">
+        <EditText
+            android:id="@+id/VinEntryText"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_height="match_parent"
+            android:maxLength="11"
+            android:inputType="textCapCharacters|textNoSuggestions" />
+        <ImageButton
+            android:id="@+id/ScanButton"
+            app:srcCompat="@drawable/ic_settings_remote_black_24px"
+            android:clickable="true"
+            android:hapticFeedbackEnabled="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="13dp" />
+        <ImageButton
+            android:id="@+id/RetrieveButton"
+            app:srcCompat="@drawable/ic_check_black_24px"
+            android:clickable="true"
+            android:hapticFeedbackEnabled="true"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_marginLeft="13dp" />
+    </GridLayout>
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1"
-        android:layout_gravity="center_horizontal">
-      <Button
-          android:text="Add"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:id="@+id/AddVehicleButton" />
-      <Button
-          android:text="Refresh"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:id="@+id/RefreshVehicleButton" />
-      <Button
-          android:text="Cancel"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:id="@+id/CancelButton" />
+        android:id="@+id/VehicleInfoLayout"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
+        <TextView
+            android:text="Current Vehicle:"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:layout_marginBottom="10dp" />
+        <TextView
+            android:text="(year)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/YearText"
+            android:layout_marginBottom="5dp" />
+        <TextView
+            android:text="(make)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MakeText"
+            android:layout_marginBottom="5dp" />
+        <TextView
+            android:text="(model)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ModelText"
+            android:layout_marginBottom="5dp" />
+        <TextView
+            android:text="(engine)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/EngineText"
+            android:layout_marginBottom="5dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout1"
+            android:layout_gravity="center_horizontal">
+            <Button
+                android:text="Add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/AddVehicleButton" />
+            <Button
+                android:text="Refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/RefreshVehicleButton" />
+            <Button
+                android:text="Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/CancelButton" />
+        </LinearLayout>
     </LinearLayout>
-  </LinearLayout>
 </LinearLayout>
