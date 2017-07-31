@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/AllClearText"
             android:layout_margin="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_gravity="center_horizontal" />
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -44,9 +45,26 @@
             android:visibility="gone"
             android:id="@+id/DiagnosticCodeRecyclerView" />
     </LinearLayout>
-    <Button
-        android:text="Back"
-        android:layout_width="wrap_content"
+    <GridLayout
         android:layout_height="wrap_content"
-        android:id="@+id/BackButton" />
+        android:layout_width="match_parent">
+        <Button
+            android:text="Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ClearCodeButton"
+            android:layout_column="3" />
+        <Button
+            android:text="Back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/BackButton"
+            android:layout_column="1"
+            android:layout_gravity="left" />
+        <Button
+            android:text="Refresh"
+            android:id="@+id/RefreshButton"
+            android:layout_column="2"
+            android:layout_gravity="center_horizontal" />
+    </GridLayout>
 </LinearLayout>

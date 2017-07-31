@@ -11,6 +11,8 @@ namespace MileageGauge.CSharp.Abstractions.Services.ELM327
         ThrottlePercentage = 0x0111,
         VehicleSpeed = 0x010D,
         MassAirflow = 0x0110,
-        GetVIN = 0x9999
+        GetVIN = 0x9999,
+        GetDiagnosticCodes = 0x03,
+        GetSupportedPIDs = 0x0100
     }
 }

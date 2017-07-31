@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BluetoothELM327CommunicationService.cs" />
+    <Compile Include="CommunicationServiceResolver.cs" />
     <Compile Include="DemoELM327CommunicationService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

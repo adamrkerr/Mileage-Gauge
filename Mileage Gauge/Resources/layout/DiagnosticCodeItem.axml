@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <TextView
+        android:text="(code)"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/CodeText"
+        android:layout_column="1"
+        android:layout_gravity="center_vertical|left"
+        android:layout_row="1"
+        android:layout_marginLeft="25dp" />
+    <ImageButton
+        android:id="@+id/SearchButton"
+        app:srcCompat="@drawable/ic_search_black_24px"
+        android:layout_column="2"
+        android:layout_gravity="center_vertical|right"
+        android:layout_row="1"
+        android:layout_marginRight="25dp" />
+</GridLayout>

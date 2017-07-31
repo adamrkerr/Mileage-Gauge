@@ -1,14 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using MileageGauge.CSharp.Abstractions.Services.ELM327;
 using Android.Bluetooth;
 using Java.Util;
@@ -16,7 +9,7 @@ using System.IO;
 
 namespace MileageGauge.ELM327.Implementation
 {
-    public class BluetoothELM327CommunicationService : IELM327CommunicationService
+    class BluetoothELM327CommunicationService : IELM327CommunicationService
     {
         private BluetoothSocket _diagnosticSocket;
         private static UUID SERIAL_UUID = UUID.FromString("00001101-0000-1000-8000-00805f9b34fb");
@@ -144,6 +137,19 @@ namespace MileageGauge.ELM327.Implementation
                     return await Task.FromResult("WDBBA48D2GA051234");
             }
             return await Task.FromResult("impossible?");
+        }
+
+        private const int ResetDiagnosticPID = 0x40;
+
+        public async Task ClearDiagnosticCodes()
+        {
+            var pidCode = String.Format("{0:X}1\r", ResetDiagnosticPID).Substring(4);
+
+            await _diagnosticSocket.OutputStream.WriteAsync(pidCode.Select(c => (byte)c).ToArray(), 0, pidCode.Length);
+
+            await _diagnosticSocket.OutputStream.FlushAsync();
+
+            await GetResponseFromStream(_diagnosticSocket.InputStream);
         }
     }
 }

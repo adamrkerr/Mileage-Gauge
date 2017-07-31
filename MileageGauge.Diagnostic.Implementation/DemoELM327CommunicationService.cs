@@ -1,20 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using MileageGauge.CSharp.Abstractions.Services.ELM327;
-using System.IO;
 
 namespace MileageGauge.ELM327.Implementation
 {
-    public class DemoELM327CommunicationService : IELM327CommunicationService
+    class DemoELM327CommunicationService : IELM327CommunicationService
     {
         private Dictionary<string, Queue<string>> _sampleParameterValues;
 
@@ -47,7 +40,7 @@ namespace MileageGauge.ELM327.Implementation
                 if (trimmedLine.StartsWith("*"))
                     continue;
 
-                if (trimmedLine.Length == 4)
+                if (trimmedLine.Length == 4 || trimmedLine.Length == 2) //2 for reading trouble codes
                 {
                     if (!_sampleParameterValues.ContainsKey(trimmedLine))
                     {
@@ -56,17 +49,37 @@ namespace MileageGauge.ELM327.Implementation
                 }
                 else if (trimmedLine.Length > 4)
                 {
-                    //get first 5
-                    var pid = trimmedLine.Substring(0, 5);
+                    string pid;
+
+                    if (trimmedLine.StartsWith("41"))
+                    {
+                        //get first 5
+                        pid = trimmedLine.Substring(0, 5);
+                    }
+                    else
+                    {
+                        //get first 3, trouble codes
+                        pid = trimmedLine.Substring(0, 3);
+                    }
 
                     pid = pid.Replace(" ", string.Empty);
 
-                    var key = "0" + pid.Substring(1, 3); //replace leading 4 with 0 4111 -> 0111
+                    string key, responseValue;
+
+                    if (trimmedLine.StartsWith("41"))
+                    {
+                        key = "0" + pid.Substring(1, 3); //replace leading 4 with 0 4111 -> 0111
+                        responseValue = trimmedLine.Substring(5).Trim().Replace(" ", string.Empty);
+                    }
+                    else
+                    {
+                        key = "0" + pid.Substring(1, 1); //replace leading 4 with 0 43 -> 03
+                        responseValue = trimmedLine.Substring(3).Trim().Replace(" ", string.Empty);
+                    }
 
                     if (_sampleParameterValues.ContainsKey(key))
                     {
-                        var trimmedValue = trimmedLine.Substring(5).Trim().Replace(" ", string.Empty);
-                        _sampleParameterValues[key].Enqueue(trimmedValue);
+                        _sampleParameterValues[key].Enqueue(responseValue);
                     }
                 }
             }
@@ -94,6 +107,8 @@ namespace MileageGauge.ELM327.Implementation
                 case DiagnosticPIDs.MassAirflow:
                 case DiagnosticPIDs.ThrottlePercentage:
                 case DiagnosticPIDs.VehicleSpeed:
+                case DiagnosticPIDs.GetDiagnosticCodes:
+                case DiagnosticPIDs.GetSupportedPIDs:
                     return await GetNextValue(pid);
                 default:
                     return await Task.FromResult("NO DATA");
@@ -105,7 +120,16 @@ namespace MileageGauge.ELM327.Implementation
         {
             await Task.Delay(200);
 
-            var pidCode = String.Format("{0:X}", pid).Substring(4);
+            string pidCode;
+
+            if (pid == DiagnosticPIDs.GetDiagnosticCodes)
+            {
+                pidCode = String.Format("{0:X}", pid).Substring(6);
+            }
+            else
+            {
+                pidCode = String.Format("{0:X}", pid).Substring(4);
+            }
 
             if (!_sampleParameterValues.ContainsKey(pidCode))
                 return await Task.FromResult("NO DATA");
@@ -144,6 +168,28 @@ namespace MileageGauge.ELM327.Implementation
         public void Dispose()
         {
             //do nothing, this is a demo
+        }
+
+        public async Task ClearDiagnosticCodes()
+        {
+            await Task.Delay(200);
+
+            var diagnosticPid = "03";
+
+            var nextDiagnosticResponse = _sampleParameterValues[diagnosticPid].Peek();
+
+            //cycle until the "all clear" record is next
+            while(!String.IsNullOrEmpty(nextDiagnosticResponse.Replace("0", string.Empty).Trim()))
+            {
+                var nextValue = _sampleParameterValues[diagnosticPid].Dequeue();
+
+                //roll this back onto the end of the queue so it keeps going
+
+                _sampleParameterValues[diagnosticPid].Enqueue(nextValue);
+
+                nextDiagnosticResponse = _sampleParameterValues[diagnosticPid].Peek();
+            }
+            
         }
     }
 }

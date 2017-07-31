@@ -73,6 +73,10 @@
       <Project>{051ccba0-e226-4bc7-a1d1-3bba96c80990}</Project>
       <Name>MileageGauge.CSharp.Implementations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MileageGauge.Diagnostic.Implementation\MileageGauge.ELM327.Implementation.csproj">
+      <Project>{3d61022b-2e6b-44b0-a500-a7870611fd9c}</Project>
+      <Name>MileageGauge.ELM327.Implementation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,6 +4,8 @@ using MileageGauge.CSharp.Abstractions.Services;
 using MileageGauge.CSharp.Implementations.ViewModels;
 using MileageGauge.CSharp.Implementations.Services;
 using MileageGauge.Android.Implementations.Services;
+using MileageGauge.ELM327.Implementation;
+using MileageGauge.CSharp.Abstractions.Services.ELM327;
 
 namespace MileageGauge.DI
 {
@@ -35,6 +37,8 @@ namespace MileageGauge.DI
             builder.RegisterType<VehicleHistoryService>().As<IVehicleHistoryService>();
             builder.RegisterType<AddVehicleViewModel>().As<IAddVehicleViewModel>();
             builder.RegisterType<DeviceFileSystemService>().As<IDeviceFileSystemService>().InstancePerLifetimeScope();
+            builder.RegisterType<CommunicationServiceResolver>().As<ICommunicationServiceResolver>().InstancePerLifetimeScope();
+            builder.RegisterType<DiagnosticViewModel>().As<IDiagnosticViewModel>().InstancePerLifetimeScope();
 
             var container = builder.Build();
 

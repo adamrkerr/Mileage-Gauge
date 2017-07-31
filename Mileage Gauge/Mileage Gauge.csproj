@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\BluetoothDeviceAdapter.cs" />
+    <Compile Include="Adapters\DiagnosticCodeAdapter.cs" />
     <Compile Include="Adapters\VehicleHistoryAdapter.cs" />
     <Compile Include="AddVehicleActivity.cs" />
     <Compile Include="DiagnosticActivity.cs" />
@@ -143,6 +144,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\VehicleHistoryItem.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\DiagnosticCodeItem.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -181,6 +185,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_check_black_24px.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_search_black_24px.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

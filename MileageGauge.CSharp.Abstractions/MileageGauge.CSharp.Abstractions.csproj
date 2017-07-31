@@ -53,6 +53,7 @@
     <Compile Include="ResponseModels\MPGUpdateResponse.cs" />
     <Compile Include="Services\ELM327\ConnectionResponse.cs" />
     <Compile Include="Services\ELM327\DiagnosticPIDs.cs" />
+    <Compile Include="Services\ELM327\ICommunicationServiceResolver.cs" />
     <Compile Include="Services\ELM327\IELM327CommunicationService.cs" />
     <Compile Include="Services\IDeviceFileSystemService.cs" />
     <Compile Include="Services\IDiagnosticDeviceService.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Services\ServiceResponses\VehicleMileageResponse.cs" />
     <Compile Include="Services\ServiceResponses\VinQueryResponse.cs" />
     <Compile Include="ViewModels\IAddVehicleViewModel.cs" />
+    <Compile Include="ViewModels\IDiagnosticViewModel.cs" />
     <Compile Include="ViewModels\IMainViewModel.cs" />
     <Compile Include="Models\VehicleModel.cs" />
     <Compile Include="ViewModels\IMPGMonitorViewModel.cs" />

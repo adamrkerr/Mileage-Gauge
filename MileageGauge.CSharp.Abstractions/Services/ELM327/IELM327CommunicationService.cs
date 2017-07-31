@@ -13,5 +13,7 @@ namespace MileageGauge.CSharp.Abstractions.Services.ELM327
         Task<string> GetVehicleParameterValue(DiagnosticPIDs pid);
 
         Task<bool> CheckParameterSupported(DiagnosticPIDs pid);
+
+        Task ClearDiagnosticCodes();
     }
 }

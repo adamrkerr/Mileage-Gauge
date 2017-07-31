@@ -1,10 +1,7 @@
-﻿using MileageGauge.CSharp.Abstractions.Models;
-using MileageGauge.CSharp.Abstractions.Services;
+﻿using MileageGauge.CSharp.Abstractions.Services;
 using MileageGauge.CSharp.Abstractions.Services.ELM327;
-using MileageGauge.ELM327.Implementation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,19 +19,19 @@ namespace MileageGauge.CSharp.Implementations.Services
             get; private set;
         }
 
+        private readonly ICommunicationServiceResolver _serviceResolver;
+
+        public DiagnosticDeviceService(ICommunicationServiceResolver serviceResolver)
+        {
+            _serviceResolver = serviceResolver;
+        }
+
         public async Task<bool> Connect(string deviceAddress)
         {
             if (IsConnected)
                 return IsConnected;
 
-            if(deviceAddress == BluetoothDeviceModel.DemoAddress)
-            {
-                _communicationService = new DemoELM327CommunicationService();
-            }
-            else
-            {
-                _communicationService = new BluetoothELM327CommunicationService();
-            }
+            _communicationService = _serviceResolver.ResolveCommunicationService(deviceAddress);
 
             var connectionResponse = await _communicationService.Connect(deviceAddress);            
 
@@ -197,6 +194,102 @@ namespace MileageGauge.CSharp.Implementations.Services
             var convertedGPH = MAFValue * AirGramsSecToFuelGalHour;
             
             return convertedGPH;
+        }
+
+        public async Task<IEnumerable<string>> GetDiagnosticCodes()
+        {
+            if (!IsConnected)
+            {
+                throw new Exception("Device is not connected");
+            }
+
+            var rawErrorCodeString = await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.GetDiagnosticCodes);
+
+            var individualRawCodes = new List<string>();
+
+            //all zeroes means no errors
+            if (String.IsNullOrEmpty(rawErrorCodeString.Replace("0", String.Empty)))
+            {
+                return individualRawCodes;
+            }
+
+            for(int startIndex = 0; startIndex < rawErrorCodeString.Length; startIndex += 4)
+            {
+                individualRawCodes.Add(rawErrorCodeString.Substring(startIndex, 4));
+            }
+
+            var formattedCodes = new List<string>();
+
+            foreach(var rawCode in individualRawCodes)
+            {
+                if (String.IsNullOrEmpty(rawCode.Replace("0", String.Empty)))
+                    continue;
+
+                formattedCodes.Add(FormatRawDiagnosticCode(rawCode));
+            }
+
+            return formattedCodes;
+        }
+
+        private static string FormatRawDiagnosticCode(string rawCode)
+        {
+            //first, convert this string from foru alpha characters to two bytes
+            var firstByte = Convert.ToByte(rawCode.Substring(0, 2));
+            var secondByte = Convert.ToByte(rawCode.Substring(2, 2));
+
+            //then, convert the int to a binary string
+            var binaryString = String.Format("{0}{1}",
+                Convert.ToString(firstByte, 2).PadLeft(8, '0'),
+                Convert.ToString(secondByte, 2).PadLeft(8, '0'));
+
+            //now, that parsing
+            var codeBuilder = new StringBuilder(6);
+
+            var firstPosition = binaryString.Substring(0, 2);
+
+            switch (firstPosition)
+            {
+                case "00":
+                    codeBuilder.Append("P");
+                    break;
+                case "01":
+                    codeBuilder.Append("C");
+                    break;
+                case "10":
+                    codeBuilder.Append("B");
+                    break;
+                case "11":
+                    codeBuilder.Append("N");
+                    break;
+            }
+
+            var secondPosition = binaryString.Substring(2, 2);
+
+            codeBuilder.Append(Convert.ToInt32(secondPosition, 2));
+
+            codeBuilder.Append(ConvertBinaryStringToHex(binaryString.Substring(4, 4)));
+
+            codeBuilder.Append(ConvertBinaryStringToHex(binaryString.Substring(8, 4)));
+
+            codeBuilder.Append(ConvertBinaryStringToHex(binaryString.Substring(12, 4)));
+
+            return codeBuilder.ToString();
+        }
+
+        private static string ConvertBinaryStringToHex(string binaryString)
+        {
+            var hextString = Convert.ToInt32(binaryString, 2).ToString("X");
+            return hextString.Replace("0x", string.Empty);
+        }
+
+        public async Task ClearDiagnosticCodes()
+        {
+            if (!IsConnected)
+            {
+                throw new Exception("Device is not connected");
+            }
+
+            await _communicationService.ClearDiagnosticCodes();
         }
     }
 }

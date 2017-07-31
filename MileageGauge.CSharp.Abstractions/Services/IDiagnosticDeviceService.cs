@@ -19,5 +19,9 @@ namespace MileageGauge.CSharp.Abstractions.Services
         Task<double> GetMPH();
 
         Task<double> GetGPH();
+
+        Task<IEnumerable<string>> GetDiagnosticCodes();
+
+        Task ClearDiagnosticCodes();
     }
 }
