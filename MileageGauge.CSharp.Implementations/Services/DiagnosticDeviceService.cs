@@ -203,7 +203,7 @@ namespace MileageGauge.CSharp.Implementations.Services
                 throw new Exception("Device is not connected");
             }
 
-            var rawErrorCodeString = await _communicationService.GetVehicleParameterValue(DiagnosticPIDs.GetDiagnosticCodes);
+            var rawErrorCodeString = await _communicationService.GetDiagnosticCodes();
 
             var individualRawCodes = new List<string>();
 
@@ -232,48 +232,67 @@ namespace MileageGauge.CSharp.Implementations.Services
         }
 
         private static string FormatRawDiagnosticCode(string rawCode)
-        {
-            //first, convert this string from foru alpha characters to two bytes
-            var firstByte = Convert.ToByte(rawCode.Substring(0, 2));
-            var secondByte = Convert.ToByte(rawCode.Substring(2, 2));
+        {            
+            var firstChar = rawCode.Substring(0, 1);
 
-            //then, convert the int to a binary string
-            var binaryString = String.Format("{0}{1}",
-                Convert.ToString(firstByte, 2).PadLeft(8, '0'),
-                Convert.ToString(secondByte, 2).PadLeft(8, '0'));
+            string prefix;
 
-            //now, that parsing
-            var codeBuilder = new StringBuilder(6);
-
-            var firstPosition = binaryString.Substring(0, 2);
-
-            switch (firstPosition)
+            switch (firstChar)
             {
-                case "00":
-                    codeBuilder.Append("P");
+                case "0":
+                    prefix = "P0";
                     break;
-                case "01":
-                    codeBuilder.Append("C");
+                case "1":
+                    prefix = "P1";
                     break;
-                case "10":
-                    codeBuilder.Append("B");
+                case "2":
+                    prefix = "P2";
                     break;
-                case "11":
-                    codeBuilder.Append("N");
+                case "3":
+                    prefix = "P3";
                     break;
-            }
+                case "4":
+                    prefix = "C0";
+                    break;
+                case "5":
+                    prefix = "C1";
+                    break;
+                case "6":
+                    prefix = "C2";
+                    break;
+                case "7":
+                    prefix = "C3";
+                    break;
+                case "8":
+                    prefix = "B0";
+                    break;
+                case "9":
+                    prefix = "B1";
+                    break;
+                case "A":
+                    prefix = "B2";
+                    break;
+                case "B":
+                    prefix = "B3";
+                    break;
+                case "C":
+                    prefix = "U0";
+                    break;
+                case "D":
+                    prefix = "U1";
+                    break;
+                case "E":
+                    prefix = "U2";
+                    break;
+                case "F":
+                    prefix = "U3";
+                    break;
+                default:
+                    prefix = "00";
+                    break;
+            }                      
 
-            var secondPosition = binaryString.Substring(2, 2);
-
-            codeBuilder.Append(Convert.ToInt32(secondPosition, 2));
-
-            codeBuilder.Append(ConvertBinaryStringToHex(binaryString.Substring(4, 4)));
-
-            codeBuilder.Append(ConvertBinaryStringToHex(binaryString.Substring(8, 4)));
-
-            codeBuilder.Append(ConvertBinaryStringToHex(binaryString.Substring(12, 4)));
-
-            return codeBuilder.ToString();
+            return $"{prefix}{rawCode.Substring(1)}";
         }
 
         private static string ConvertBinaryStringToHex(string binaryString)

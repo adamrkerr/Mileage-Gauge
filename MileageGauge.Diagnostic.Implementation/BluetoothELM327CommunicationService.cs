@@ -139,17 +139,30 @@ namespace MileageGauge.ELM327.Implementation
             return await Task.FromResult("impossible?");
         }
 
-        private const int ResetDiagnosticPID = 0x40;
+        private const string ResetDiagnosticPID = "04";
 
         public async Task ClearDiagnosticCodes()
         {
-            var pidCode = String.Format("{0:X}1\r", ResetDiagnosticPID).Substring(4);
+            var pidCode = $"{ResetDiagnosticPID}\r";
 
             await _diagnosticSocket.OutputStream.WriteAsync(pidCode.Select(c => (byte)c).ToArray(), 0, pidCode.Length);
 
             await _diagnosticSocket.OutputStream.FlushAsync();
 
             await GetResponseFromStream(_diagnosticSocket.InputStream);
+        }
+
+        private const string DiagnosticPID = "03";
+
+        public async Task<string> GetDiagnosticCodes()
+        {
+            var pidCode = $"{DiagnosticPID}\r";
+
+            await _diagnosticSocket.OutputStream.WriteAsync(pidCode.Select(c => (byte)c).ToArray(), 0, pidCode.Length);
+
+            await _diagnosticSocket.OutputStream.FlushAsync();
+
+            return await GetResponseFromStream(_diagnosticSocket.InputStream);
         }
     }
 }

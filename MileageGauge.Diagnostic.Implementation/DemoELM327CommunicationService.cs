@@ -107,7 +107,6 @@ namespace MileageGauge.ELM327.Implementation
                 case DiagnosticPIDs.MassAirflow:
                 case DiagnosticPIDs.ThrottlePercentage:
                 case DiagnosticPIDs.VehicleSpeed:
-                case DiagnosticPIDs.GetDiagnosticCodes:
                 case DiagnosticPIDs.GetSupportedPIDs:
                     return await GetNextValue(pid);
                 default:
@@ -120,17 +119,8 @@ namespace MileageGauge.ELM327.Implementation
         {
             await Task.Delay(200);
 
-            string pidCode;
-
-            if (pid == DiagnosticPIDs.GetDiagnosticCodes)
-            {
-                pidCode = String.Format("{0:X}", pid).Substring(6);
-            }
-            else
-            {
-                pidCode = String.Format("{0:X}", pid).Substring(4);
-            }
-
+            string pidCode = String.Format("{0:X}", pid).Substring(4);
+            
             if (!_sampleParameterValues.ContainsKey(pidCode))
                 return await Task.FromResult("NO DATA");
 
@@ -190,6 +180,27 @@ namespace MileageGauge.ELM327.Implementation
                 nextDiagnosticResponse = _sampleParameterValues[diagnosticPid].Peek();
             }
             
+        }
+
+        private const int DiagnosticPID = 0x03;
+
+        public async Task<string> GetDiagnosticCodes()
+        {
+            await Task.Delay(200);
+
+            string pidCode = String.Format("{0:X}", DiagnosticPID).Substring(6);
+
+
+            if (!_sampleParameterValues.ContainsKey(pidCode))
+                return await Task.FromResult("NO DATA");
+
+            var nextValue = _sampleParameterValues[pidCode].Dequeue();
+
+            //roll this back onto the end of the queue so it keeps going
+
+            _sampleParameterValues[pidCode].Enqueue(nextValue);
+
+            return await Task.FromResult(nextValue);
         }
     }
 }
