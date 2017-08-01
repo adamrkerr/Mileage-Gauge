@@ -65,10 +65,10 @@ namespace MileageGauge.ELM327.Implementation
 
             await _diagnosticSocket.OutputStream.FlushAsync();
 
-            return await GetResponseFromStream(_diagnosticSocket.InputStream);            
+            return await GetResponseFromStream(_diagnosticSocket.InputStream, 4);            
         }
 
-        private async Task<string> GetResponseFromStream(Stream inputStream)
+        private async Task<string> GetResponseFromStream(Stream inputStream, int commandLength)
         {
             var builder = new StringBuilder();
 
@@ -98,8 +98,12 @@ namespace MileageGauge.ELM327.Implementation
 
             var responseOnly = commandAndResponse[1];
 
+            var skipLength = commandLength + ((commandLength / 2) - 1);
+
+            skipLength = skipLength >= responseOnly.Length ? 0 : skipLength; //Don't overrun in case of no data or 00
+
             responseOnly = responseOnly
-                                .Substring(5) //First 5 chars are just the command pid
+                                .Substring(skipLength) //First 5 chars are just the command pid
                                 .Trim()
                                 .TrimEnd('\0')
                                 .Replace("\r", string.Empty)
@@ -142,7 +146,7 @@ namespace MileageGauge.ELM327.Implementation
 
             await _diagnosticSocket.OutputStream.FlushAsync();
 
-            await GetResponseFromStream(_diagnosticSocket.InputStream);
+            await GetResponseFromStream(_diagnosticSocket.InputStream, ResetDiagnosticPID.Length);
         }
 
         private const string DiagnosticPID = "03";
@@ -155,7 +159,7 @@ namespace MileageGauge.ELM327.Implementation
 
             await _diagnosticSocket.OutputStream.FlushAsync();
 
-            return await GetResponseFromStream(_diagnosticSocket.InputStream);
+            return await GetResponseFromStream(_diagnosticSocket.InputStream, DiagnosticPID.Length);
         }
     }
 }
