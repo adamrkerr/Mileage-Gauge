@@ -6,6 +6,7 @@ using Android.Support.V7.Widget;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
+using Android.Support.V7.Content.Res;
 
 namespace MileageGauge.Adapters
 {
@@ -46,6 +47,10 @@ namespace MileageGauge.Adapters
             // Replace the contents of the view with that element
             var holder = viewHolder as VehicleHistoryAdapterViewHolder;
             holder.VehicleText.Text = item.Description;
+            holder.VehicleVin.Text = item.VIN;
+            holder.VehicleMpg.Text = $"{item.CityMPG} / {item.CombinedMPG} / {item.HighwayMPG}";
+            holder.VehicleEngine.Text = item.Option;
+
             holder.ViewModel = item;
         }
 
@@ -70,28 +75,42 @@ namespace MileageGauge.Adapters
 
         public TextView VehicleText { get; set; }
 
+        public TextView VehicleMpg { get; set; }
+        public TextView VehicleVin { get; set; }
+        public TextView VehicleEngine { get; set; }
+
         public VehicleModel ViewModel { get; set; }
 
-        Button MileageButton { get; set; }
+        ImageButton MileageButton { get; set; }
 
-        Button DiagnosticButton { get; set; }
+        ImageButton DiagnosticButton { get; set; }
 
-        Button DeleteButton { get; set; }
+        ImageButton DeleteButton { get; set; }
 
         LinearLayout OptionsLayout { get; set; }
 
 
-        public VehicleHistoryAdapterViewHolder(View itemView, Action<VehicleHistoryAdapterClickEventArgs> onClick, Action<VehicleHistoryAdapterClickEventArgs> mileageRequest, 
+        public VehicleHistoryAdapterViewHolder(View itemView, Action<VehicleHistoryAdapterClickEventArgs> onClick, Action<VehicleHistoryAdapterClickEventArgs> mileageRequest,
             Action<VehicleHistoryAdapterClickEventArgs> diagnosticRequest, Action<VehicleHistoryAdapterClickEventArgs> deleteRequest) : base(itemView)
         {
             VehicleText = itemView.FindViewById<TextView>(Resource.Id.VehicleDescription);
-            MileageButton = itemView.FindViewById<Button>(Resource.Id.MileageButton);
-            DiagnosticButton = itemView.FindViewById<Button>(Resource.Id.DiagnosticButton);
-            DeleteButton = itemView.FindViewById<Button>(Resource.Id.DeleteButton);
+
+            VehicleMpg = itemView.FindViewById<TextView>(Resource.Id.MileageText);
+            VehicleVin = itemView.FindViewById<TextView>(Resource.Id.VinText);
+            VehicleEngine = itemView.FindViewById<TextView>(Resource.Id.EngineText);
+
+            MileageButton = itemView.FindViewById<ImageButton>(Resource.Id.MileageButton);
+            DiagnosticButton = itemView.FindViewById<ImageButton>(Resource.Id.DiagnosticButton);
+            DeleteButton = itemView.FindViewById<ImageButton>(Resource.Id.DeleteButton);
             OptionsLayout = itemView.FindViewById<LinearLayout>(Resource.Id.OptionsLayout);
 
 
-            itemView.Click += (sender, e) => onClick(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
+            itemView.Click += (sender, e) =>
+            {
+                itemView.Background = AppCompatResources.GetDrawable(itemView.Context, Resource.Color.background_floating_material_dark);
+                onClick(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
+            };
+
             itemView.LongClick += ItemView_LongClick;
             MileageButton.Click += (sender, e) => mileageRequest(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
             DiagnosticButton.Click += (sender, e) => diagnosticRequest(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
@@ -101,7 +120,7 @@ namespace MileageGauge.Adapters
 
         private void ItemView_LongClick(object sender, View.LongClickEventArgs e)
         {
-            if(OptionsLayout.Visibility != ViewStates.Gone)
+            if (OptionsLayout.Visibility != ViewStates.Gone)
             {
                 OptionsLayout.Visibility = ViewStates.Gone;
             }

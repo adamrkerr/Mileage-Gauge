@@ -91,6 +91,7 @@ namespace MileageGauge.ELM327.Implementation
 
             var commandAndResponse = responseString.Trim().Split('\r');
 
+            //TODO: this won't work for multiline responses
             if(commandAndResponse.Length != 2)
             {
                 return "00";
@@ -100,7 +101,8 @@ namespace MileageGauge.ELM327.Implementation
 
             var skipLength = commandLength + ((commandLength / 2) - 1);
 
-            skipLength = skipLength >= responseOnly.Length ? 0 : skipLength; //Don't overrun in case of no data or 00
+            if (skipLength >= responseOnly.Length) //Don't overrun in case of no data or 00
+                return "00";
 
             responseOnly = responseOnly
                                 .Substring(skipLength) //First 5 chars are just the command pid

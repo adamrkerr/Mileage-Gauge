@@ -5,6 +5,7 @@ using Android.Widget;
 using Android.Support.V7.Widget;
 using System.Collections.Generic;
 using System.Linq;
+using Android.Support.V7.Content.Res;
 
 namespace MileageGauge.Adapters
 {
@@ -59,7 +60,11 @@ namespace MileageGauge.Adapters
         {
             CodeText = itemView.FindViewById<TextView>(Resource.Id.CodeText);
             SearchButton = itemView.FindViewById<ImageButton>(Resource.Id.SearchButton);
-            SearchButton.Click += (sender, e) => clickListener(new DiagnosticCodeAdapterClickEventArgs { Code = CodeText.Text });            
+            SearchButton.Click += (sender, e) =>
+            {
+                itemView.Background = AppCompatResources.GetDrawable(itemView.Context, Resource.Color.background_floating_material_dark);
+                clickListener(new DiagnosticCodeAdapterClickEventArgs { Code = CodeText.Text });
+            };            
         }
     }
 

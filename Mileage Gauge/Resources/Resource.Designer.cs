@@ -1641,52 +1641,58 @@ namespace MileageGauge
 			public const int ic_check_black_24px = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int ic_local_gas_station_black_24px = 2130837588;
+			public const int ic_delete_black_24px = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int ic_search_black_24px = 2130837589;
+			public const int ic_local_gas_station_black_24px = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int ic_settings_remote_black_24px = 2130837590;
+			public const int ic_search_black_24px = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int Icon = 2130837591;
+			public const int ic_settings_remote_black_24px = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int notification_action_background = 2130837592;
+			public const int ic_warning_black_24px = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int notification_bg = 2130837593;
+			public const int Icon = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int notification_bg_low = 2130837594;
+			public const int notification_action_background = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int notification_bg_low_normal = 2130837595;
+			public const int notification_bg = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int notification_bg_low_pressed = 2130837596;
+			public const int notification_bg_low = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int notification_bg_normal = 2130837597;
+			public const int notification_bg_low_normal = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int notification_bg_normal_pressed = 2130837598;
+			public const int notification_bg_low_pressed = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int notification_icon_background = 2130837599;
-			
-			// aapt resource value: 0x7f020062
-			public const int notification_template_icon_bg = 2130837602;
-			
-			// aapt resource value: 0x7f020063
-			public const int notification_template_icon_low_bg = 2130837603;
+			public const int notification_bg_normal = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int notification_tile_bg = 2130837600;
+			public const int notification_bg_normal_pressed = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int notify_panel_notification_icon_bg = 2130837601;
+			public const int notification_icon_background = 2130837601;
+			
+			// aapt resource value: 0x7f020064
+			public const int notification_template_icon_bg = 2130837604;
+			
+			// aapt resource value: 0x7f020065
+			public const int notification_template_icon_low_bg = 2130837605;
+			
+			// aapt resource value: 0x7f020062
+			public const int notification_tile_bg = 2130837602;
+			
+			// aapt resource value: 0x7f020063
+			public const int notify_panel_notification_icon_bg = 2130837603;
 			
 			static Drawable()
 			{
@@ -1701,8 +1707,8 @@ namespace MileageGauge
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070099
-			public const int AddNewVehicleButton = 2131165337;
+			// aapt resource value: 0x7f07009d
+			public const int AddNewVehicleButton = 2131165341;
 			
 			// aapt resource value: 0x7f070061
 			public const int AddVehicleButton = 2131165281;
@@ -1734,8 +1740,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070065
 			public const int ConnectingLayout = 2131165285;
 			
-			// aapt resource value: 0x7f070098
-			public const int DeleteButton = 2131165336;
+			// aapt resource value: 0x7f07009c
+			public const int DeleteButton = 2131165340;
 			
 			// aapt resource value: 0x7f070064
 			public const int DeviceName = 2131165284;
@@ -1746,8 +1752,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070067
 			public const int DeviceSelectionLayout = 2131165287;
 			
-			// aapt resource value: 0x7f070097
-			public const int DiagnosticButton = 2131165335;
+			// aapt resource value: 0x7f07009b
+			public const int DiagnosticButton = 2131165339;
 			
 			// aapt resource value: 0x7f07006d
 			public const int DiagnosticCodeRecyclerView = 2131165293;
@@ -1773,14 +1779,23 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07005d
 			public const int MakeText = 2131165277;
 			
-			// aapt resource value: 0x7f070096
-			public const int MileageButton = 2131165334;
+			// aapt resource value: 0x7f07009a
+			public const int MileageButton = 2131165338;
+			
+			// aapt resource value: 0x7f070097
+			public const int MileageText = 2131165335;
 			
 			// aapt resource value: 0x7f07005e
 			public const int ModelText = 2131165278;
 			
 			// aapt resource value: 0x7f070095
 			public const int OptionsLayout = 2131165333;
+			
+			// aapt resource value: 0x7f070096
+			public const int OptionsLeftLayout = 2131165334;
+			
+			// aapt resource value: 0x7f070099
+			public const int OptionsRightLayout = 2131165337;
 			
 			// aapt resource value: 0x7f070070
 			public const int RefreshButton = 2131165296;
@@ -1806,14 +1821,17 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07005b
 			public const int VehicleInfoLayout = 2131165275;
 			
-			// aapt resource value: 0x7f07009a
-			public const int VehicleRecyclerView = 2131165338;
+			// aapt resource value: 0x7f07009e
+			public const int VehicleRecyclerView = 2131165342;
 			
 			// aapt resource value: 0x7f07006b
 			public const int VehicleText = 2131165291;
 			
 			// aapt resource value: 0x7f070058
 			public const int VinEntryText = 2131165272;
+			
+			// aapt resource value: 0x7f070098
+			public const int VinText = 2131165336;
 			
 			// aapt resource value: 0x7f07005c
 			public const int YearText = 2131165276;

@@ -6,6 +6,7 @@ using Android.Support.V7.Widget;
 using MileageGauge.CSharp.Abstractions.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Android.Support.V7.Content.Res;
 
 namespace MileageGauge.Adapters
 {
@@ -62,7 +63,10 @@ namespace MileageGauge.Adapters
                             Action<BluetoothDeviceAdapterClickEventArgs> longClickListener) : base(itemView)
         {
             DeviceName = itemView.FindViewById<TextView>(Resource.Id.DeviceName);
-            itemView.Click += (sender, e) => clickListener(new BluetoothDeviceAdapterClickEventArgs { DeviceName = DeviceName?.Text, DeviceAddress = DeviceAddress });
+            itemView.Click += (sender, e) => {
+                itemView.Background = AppCompatResources.GetDrawable(itemView.Context, Resource.Color.background_floating_material_dark);
+                clickListener(new BluetoothDeviceAdapterClickEventArgs { DeviceName = DeviceName?.Text, DeviceAddress = DeviceAddress });
+                };
             itemView.LongClick += (sender, e) => longClickListener(new BluetoothDeviceAdapterClickEventArgs { DeviceName = DeviceName?.Text, DeviceAddress = DeviceAddress });
         }
     }
