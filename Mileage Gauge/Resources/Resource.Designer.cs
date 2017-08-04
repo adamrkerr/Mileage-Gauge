@@ -813,44 +813,44 @@ namespace MileageGauge
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0a003b
-			public const int abc_background_cache_hint_selector_material_dark = 2131361851;
-			
-			// aapt resource value: 0x7f0a003c
-			public const int abc_background_cache_hint_selector_material_light = 2131361852;
-			
 			// aapt resource value: 0x7f0a003d
-			public const int abc_btn_colored_borderless_text_material = 2131361853;
+			public const int abc_background_cache_hint_selector_material_dark = 2131361853;
 			
 			// aapt resource value: 0x7f0a003e
-			public const int abc_btn_colored_text_material = 2131361854;
+			public const int abc_background_cache_hint_selector_material_light = 2131361854;
 			
 			// aapt resource value: 0x7f0a003f
-			public const int abc_color_highlight_material = 2131361855;
+			public const int abc_btn_colored_borderless_text_material = 2131361855;
 			
 			// aapt resource value: 0x7f0a0040
-			public const int abc_hint_foreground_material_dark = 2131361856;
+			public const int abc_btn_colored_text_material = 2131361856;
 			
 			// aapt resource value: 0x7f0a0041
-			public const int abc_hint_foreground_material_light = 2131361857;
+			public const int abc_color_highlight_material = 2131361857;
+			
+			// aapt resource value: 0x7f0a0042
+			public const int abc_hint_foreground_material_dark = 2131361858;
+			
+			// aapt resource value: 0x7f0a0043
+			public const int abc_hint_foreground_material_light = 2131361859;
 			
 			// aapt resource value: 0x7f0a0001
 			public const int abc_input_method_navigation_guard = 2131361793;
 			
-			// aapt resource value: 0x7f0a0042
-			public const int abc_primary_text_disable_only_material_dark = 2131361858;
-			
-			// aapt resource value: 0x7f0a0043
-			public const int abc_primary_text_disable_only_material_light = 2131361859;
-			
 			// aapt resource value: 0x7f0a0044
-			public const int abc_primary_text_material_dark = 2131361860;
+			public const int abc_primary_text_disable_only_material_dark = 2131361860;
 			
 			// aapt resource value: 0x7f0a0045
-			public const int abc_primary_text_material_light = 2131361861;
+			public const int abc_primary_text_disable_only_material_light = 2131361861;
 			
 			// aapt resource value: 0x7f0a0046
-			public const int abc_search_url_text = 2131361862;
+			public const int abc_primary_text_material_dark = 2131361862;
+			
+			// aapt resource value: 0x7f0a0047
+			public const int abc_primary_text_material_light = 2131361863;
+			
+			// aapt resource value: 0x7f0a0048
+			public const int abc_search_url_text = 2131361864;
 			
 			// aapt resource value: 0x7f0a0002
 			public const int abc_search_url_text_normal = 2131361794;
@@ -861,32 +861,32 @@ namespace MileageGauge
 			// aapt resource value: 0x7f0a0004
 			public const int abc_search_url_text_selected = 2131361796;
 			
-			// aapt resource value: 0x7f0a0047
-			public const int abc_secondary_text_material_dark = 2131361863;
-			
-			// aapt resource value: 0x7f0a0048
-			public const int abc_secondary_text_material_light = 2131361864;
-			
 			// aapt resource value: 0x7f0a0049
-			public const int abc_tint_btn_checkable = 2131361865;
+			public const int abc_secondary_text_material_dark = 2131361865;
 			
 			// aapt resource value: 0x7f0a004a
-			public const int abc_tint_default = 2131361866;
+			public const int abc_secondary_text_material_light = 2131361866;
 			
 			// aapt resource value: 0x7f0a004b
-			public const int abc_tint_edittext = 2131361867;
+			public const int abc_tint_btn_checkable = 2131361867;
 			
 			// aapt resource value: 0x7f0a004c
-			public const int abc_tint_seek_thumb = 2131361868;
+			public const int abc_tint_default = 2131361868;
 			
 			// aapt resource value: 0x7f0a004d
-			public const int abc_tint_spinner = 2131361869;
+			public const int abc_tint_edittext = 2131361869;
 			
 			// aapt resource value: 0x7f0a004e
-			public const int abc_tint_switch_thumb = 2131361870;
+			public const int abc_tint_seek_thumb = 2131361870;
 			
 			// aapt resource value: 0x7f0a004f
-			public const int abc_tint_switch_track = 2131361871;
+			public const int abc_tint_spinner = 2131361871;
+			
+			// aapt resource value: 0x7f0a0050
+			public const int abc_tint_switch_thumb = 2131361872;
+			
+			// aapt resource value: 0x7f0a0051
+			public const int abc_tint_switch_track = 2131361873;
 			
 			// aapt resource value: 0x7f0a0005
 			public const int accent_material_dark = 2131361797;
@@ -941,6 +941,12 @@ namespace MileageGauge
 			
 			// aapt resource value: 0x7f0a0016
 			public const int dim_foreground_material_light = 2131361814;
+			
+			// aapt resource value: 0x7f0a003b
+			public const int flash_red_1 = 2131361851;
+			
+			// aapt resource value: 0x7f0a003c
+			public const int flash_red_2 = 2131361852;
 			
 			// aapt resource value: 0x7f0a0017
 			public const int foreground_material_dark = 2131361815;
@@ -1047,11 +1053,11 @@ namespace MileageGauge
 			// aapt resource value: 0x7f0a0038
 			public const int switch_thumb_disabled_material_light = 2131361848;
 			
-			// aapt resource value: 0x7f0a0050
-			public const int switch_thumb_material_dark = 2131361872;
+			// aapt resource value: 0x7f0a0052
+			public const int switch_thumb_material_dark = 2131361874;
 			
-			// aapt resource value: 0x7f0a0051
-			public const int switch_thumb_material_light = 2131361873;
+			// aapt resource value: 0x7f0a0053
+			public const int switch_thumb_material_light = 2131361875;
 			
 			// aapt resource value: 0x7f0a0039
 			public const int switch_thumb_normal_material_dark = 2131361849;
@@ -1638,64 +1644,67 @@ namespace MileageGauge
 			public const int abc_vector_test = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int ic_autorenew_black_24px = 2130837587;
+			public const int danger_to_manifold_bg = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int ic_check_black_24px = 2130837588;
+			public const int ic_autorenew_black_24px = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int ic_delete_black_24px = 2130837589;
+			public const int ic_check_black_24px = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int ic_local_gas_station_black_24px = 2130837590;
+			public const int ic_delete_black_24px = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int ic_search_black_24px = 2130837591;
+			public const int ic_local_gas_station_black_24px = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int ic_settings_remote_black_24px = 2130837592;
+			public const int ic_search_black_24px = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int ic_warning_black_24px = 2130837593;
+			public const int ic_settings_remote_black_24px = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int Icon = 2130837594;
+			public const int ic_warning_black_24px = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int notification_action_background = 2130837595;
+			public const int Icon = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int notification_bg = 2130837596;
+			public const int notification_action_background = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int notification_bg_low = 2130837597;
+			public const int notification_bg = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int notification_bg_low_normal = 2130837598;
+			public const int notification_bg_low = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int notification_bg_low_pressed = 2130837599;
+			public const int notification_bg_low_normal = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int notification_bg_normal = 2130837600;
+			public const int notification_bg_low_pressed = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int notification_bg_normal_pressed = 2130837601;
+			public const int notification_bg_normal = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int notification_icon_background = 2130837602;
-			
-			// aapt resource value: 0x7f020065
-			public const int notification_template_icon_bg = 2130837605;
-			
-			// aapt resource value: 0x7f020066
-			public const int notification_template_icon_low_bg = 2130837606;
+			public const int notification_bg_normal_pressed = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int notification_tile_bg = 2130837603;
+			public const int notification_icon_background = 2130837603;
+			
+			// aapt resource value: 0x7f020066
+			public const int notification_template_icon_bg = 2130837606;
+			
+			// aapt resource value: 0x7f020067
+			public const int notification_template_icon_low_bg = 2130837607;
 			
 			// aapt resource value: 0x7f020064
-			public const int notify_panel_notification_icon_bg = 2130837604;
+			public const int notification_tile_bg = 2130837604;
+			
+			// aapt resource value: 0x7f020065
+			public const int notify_panel_notification_icon_bg = 2130837605;
 			
 			static Drawable()
 			{
@@ -1710,8 +1719,8 @@ namespace MileageGauge
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0700a4
-			public const int AddNewVehicleButton = 2131165348;
+			// aapt resource value: 0x7f0700a5
+			public const int AddNewVehicleButton = 2131165349;
 			
 			// aapt resource value: 0x7f070061
 			public const int AddVehicleButton = 2131165281;
@@ -1719,8 +1728,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07006c
 			public const int AllClearText = 2131165292;
 			
-			// aapt resource value: 0x7f070077
-			public const int AverageMPGText = 2131165303;
+			// aapt resource value: 0x7f070078
+			public const int AverageMPGText = 2131165304;
 			
 			// aapt resource value: 0x7f07006e
 			public const int BackButton = 2131165294;
@@ -1743,8 +1752,11 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070065
 			public const int ConnectingLayout = 2131165285;
 			
-			// aapt resource value: 0x7f0700a3
-			public const int DeleteButton = 2131165347;
+			// aapt resource value: 0x7f070077
+			public const int DangerToManifold = 2131165303;
+			
+			// aapt resource value: 0x7f0700a4
+			public const int DeleteButton = 2131165348;
 			
 			// aapt resource value: 0x7f070064
 			public const int DeviceName = 2131165284;
@@ -1755,8 +1767,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070067
 			public const int DeviceSelectionLayout = 2131165287;
 			
-			// aapt resource value: 0x7f0700a2
-			public const int DiagnosticButton = 2131165346;
+			// aapt resource value: 0x7f0700a3
+			public const int DiagnosticButton = 2131165347;
 			
 			// aapt resource value: 0x7f07006d
 			public const int DiagnosticCodeRecyclerView = 2131165293;
@@ -1767,17 +1779,17 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070073
 			public const int EpaMileageLayout = 2131165299;
 			
-			// aapt resource value: 0x7f070081
-			public const int GallonsTitle = 2131165313;
+			// aapt resource value: 0x7f070082
+			public const int GallonsTitle = 2131165314;
 			
 			// aapt resource value: 0x7f070076
 			public const int HighwayText = 2131165302;
 			
-			// aapt resource value: 0x7f07007c
-			public const int InstantMPGText = 2131165308;
+			// aapt resource value: 0x7f07007d
+			public const int InstantMPGText = 2131165309;
 			
-			// aapt resource value: 0x7f07007b
-			public const int MPHText = 2131165307;
+			// aapt resource value: 0x7f07007c
+			public const int MPHText = 2131165308;
 			
 			// aapt resource value: 0x7f07006a
 			public const int MainLayout = 2131165290;
@@ -1785,26 +1797,26 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07005d
 			public const int MakeText = 2131165277;
 			
-			// aapt resource value: 0x7f0700a1
-			public const int MileageButton = 2131165345;
+			// aapt resource value: 0x7f0700a2
+			public const int MileageButton = 2131165346;
 			
-			// aapt resource value: 0x7f07009e
-			public const int MileageText = 2131165342;
+			// aapt resource value: 0x7f07009f
+			public const int MileageText = 2131165343;
 			
-			// aapt resource value: 0x7f07007f
-			public const int MilesTitle = 2131165311;
+			// aapt resource value: 0x7f070080
+			public const int MilesTitle = 2131165312;
 			
 			// aapt resource value: 0x7f07005e
 			public const int ModelText = 2131165278;
 			
-			// aapt resource value: 0x7f07009c
-			public const int OptionsLayout = 2131165340;
-			
 			// aapt resource value: 0x7f07009d
-			public const int OptionsLeftLayout = 2131165341;
+			public const int OptionsLayout = 2131165341;
 			
-			// aapt resource value: 0x7f0700a0
-			public const int OptionsRightLayout = 2131165344;
+			// aapt resource value: 0x7f07009e
+			public const int OptionsLeftLayout = 2131165342;
+			
+			// aapt resource value: 0x7f0700a1
+			public const int OptionsRightLayout = 2131165345;
 			
 			// aapt resource value: 0x7f07006f
 			public const int RefreshButton = 2131165295;
@@ -1812,8 +1824,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070062
 			public const int RefreshVehicleButton = 2131165282;
 			
-			// aapt resource value: 0x7f070083
-			public const int ResetButton = 2131165315;
+			// aapt resource value: 0x7f070084
+			public const int ResetButton = 2131165316;
 			
 			// aapt resource value: 0x7f07005a
 			public const int RetrieveButton = 2131165274;
@@ -1824,23 +1836,23 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070072
 			public const int SearchButton = 2131165298;
 			
-			// aapt resource value: 0x7f07007a
-			public const int ThrottleText = 2131165306;
+			// aapt resource value: 0x7f07007b
+			public const int ThrottleText = 2131165307;
 			
-			// aapt resource value: 0x7f070082
-			public const int TotalGallons = 2131165314;
+			// aapt resource value: 0x7f070083
+			public const int TotalGallons = 2131165315;
 			
-			// aapt resource value: 0x7f070080
-			public const int TotalMiles = 2131165312;
+			// aapt resource value: 0x7f070081
+			public const int TotalMiles = 2131165313;
 			
-			// aapt resource value: 0x7f07009b
-			public const int VehicleDescription = 2131165339;
+			// aapt resource value: 0x7f07009c
+			public const int VehicleDescription = 2131165340;
 			
 			// aapt resource value: 0x7f07005b
 			public const int VehicleInfoLayout = 2131165275;
 			
-			// aapt resource value: 0x7f0700a5
-			public const int VehicleRecyclerView = 2131165349;
+			// aapt resource value: 0x7f0700a6
+			public const int VehicleRecyclerView = 2131165350;
 			
 			// aapt resource value: 0x7f07006b
 			public const int VehicleText = 2131165291;
@@ -1848,14 +1860,14 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070058
 			public const int VinEntryText = 2131165272;
 			
-			// aapt resource value: 0x7f07009f
-			public const int VinText = 2131165343;
+			// aapt resource value: 0x7f0700a0
+			public const int VinText = 2131165344;
 			
 			// aapt resource value: 0x7f07005c
 			public const int YearText = 2131165276;
 			
-			// aapt resource value: 0x7f070087
-			public const int action0 = 2131165319;
+			// aapt resource value: 0x7f070088
+			public const int action0 = 2131165320;
 			
 			// aapt resource value: 0x7f070048
 			public const int action_bar = 2131165256;
@@ -1878,17 +1890,17 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070025
 			public const int action_bar_title = 2131165221;
 			
-			// aapt resource value: 0x7f070084
-			public const int action_container = 2131165316;
+			// aapt resource value: 0x7f070085
+			public const int action_container = 2131165317;
 			
 			// aapt resource value: 0x7f070049
 			public const int action_context_bar = 2131165257;
 			
-			// aapt resource value: 0x7f07008b
-			public const int action_divider = 2131165323;
+			// aapt resource value: 0x7f07008c
+			public const int action_divider = 2131165324;
 			
-			// aapt resource value: 0x7f070085
-			public const int action_image = 2131165317;
+			// aapt resource value: 0x7f070086
+			public const int action_image = 2131165318;
 			
 			// aapt resource value: 0x7f070003
 			public const int action_menu_divider = 2131165187;
@@ -1905,11 +1917,11 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070027
 			public const int action_mode_close_button = 2131165223;
 			
-			// aapt resource value: 0x7f070086
-			public const int action_text = 2131165318;
+			// aapt resource value: 0x7f070087
+			public const int action_text = 2131165319;
 			
-			// aapt resource value: 0x7f070094
-			public const int actions = 2131165332;
+			// aapt resource value: 0x7f070095
+			public const int actions = 2131165333;
 			
 			// aapt resource value: 0x7f070028
 			public const int activity_chooser_view_content = 2131165224;
@@ -1932,14 +1944,14 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07002f
 			public const int buttonPanel = 2131165231;
 			
-			// aapt resource value: 0x7f070088
-			public const int cancel_action = 2131165320;
+			// aapt resource value: 0x7f070089
+			public const int cancel_action = 2131165321;
 			
 			// aapt resource value: 0x7f07003f
 			public const int checkbox = 2131165247;
 			
-			// aapt resource value: 0x7f070090
-			public const int chronometer = 2131165328;
+			// aapt resource value: 0x7f070091
+			public const int chronometer = 2131165329;
 			
 			// aapt resource value: 0x7f07001f
 			public const int collapseActionView = 2131165215;
@@ -1968,8 +1980,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07001c
 			public const int end = 2131165212;
 			
-			// aapt resource value: 0x7f07009a
-			public const int end_padder = 2131165338;
+			// aapt resource value: 0x7f07009b
+			public const int end_padder = 2131165339;
 			
 			// aapt resource value: 0x7f070029
 			public const int expand_activities_button = 2131165225;
@@ -1977,8 +1989,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07003e
 			public const int expanded_menu = 2131165246;
 			
-			// aapt resource value: 0x7f070078
-			public const int gridLayout1 = 2131165304;
+			// aapt resource value: 0x7f070079
+			public const int gridLayout1 = 2131165305;
 			
 			// aapt resource value: 0x7f070005
 			public const int home = 2131165189;
@@ -1989,8 +2001,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07002d
 			public const int icon = 2131165229;
 			
-			// aapt resource value: 0x7f070095
-			public const int icon_group = 2131165333;
+			// aapt resource value: 0x7f070096
+			public const int icon_group = 2131165334;
 			
 			// aapt resource value: 0x7f070020
 			public const int ifRoom = 2131165216;
@@ -1998,26 +2010,26 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07002a
 			public const int image = 2131165226;
 			
-			// aapt resource value: 0x7f070091
-			public const int info = 2131165329;
+			// aapt resource value: 0x7f070092
+			public const int info = 2131165330;
 			
 			// aapt resource value: 0x7f070000
 			public const int item_touch_helper_previous_elevation = 2131165184;
 			
-			// aapt resource value: 0x7f070096
-			public const int line1 = 2131165334;
+			// aapt resource value: 0x7f070097
+			public const int line1 = 2131165335;
 			
-			// aapt resource value: 0x7f070098
-			public const int line3 = 2131165336;
+			// aapt resource value: 0x7f070099
+			public const int line3 = 2131165337;
 			
 			// aapt resource value: 0x7f070060
 			public const int linearLayout1 = 2131165280;
 			
-			// aapt resource value: 0x7f07007d
-			public const int linearLayout2 = 2131165309;
-			
 			// aapt resource value: 0x7f07007e
-			public const int linearLayout3 = 2131165310;
+			public const int linearLayout2 = 2131165310;
+			
+			// aapt resource value: 0x7f07007f
+			public const int linearLayout3 = 2131165311;
 			
 			// aapt resource value: 0x7f07000a
 			public const int listMode = 2131165194;
@@ -2025,8 +2037,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07002c
 			public const int list_item = 2131165228;
 			
-			// aapt resource value: 0x7f07008a
-			public const int media_actions = 2131165322;
+			// aapt resource value: 0x7f07008b
+			public const int media_actions = 2131165323;
 			
 			// aapt resource value: 0x7f07001d
 			public const int middle = 2131165213;
@@ -2043,14 +2055,14 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07000b
 			public const int normal = 2131165195;
 			
-			// aapt resource value: 0x7f070093
-			public const int notification_background = 2131165331;
+			// aapt resource value: 0x7f070094
+			public const int notification_background = 2131165332;
+			
+			// aapt resource value: 0x7f07008e
+			public const int notification_main_column = 2131165326;
 			
 			// aapt resource value: 0x7f07008d
-			public const int notification_main_column = 2131165325;
-			
-			// aapt resource value: 0x7f07008c
-			public const int notification_main_column_container = 2131165324;
+			public const int notification_main_column_container = 2131165325;
 			
 			// aapt resource value: 0x7f070031
 			public const int parentPanel = 2131165233;
@@ -2064,11 +2076,11 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070041
 			public const int radio = 2131165249;
 			
-			// aapt resource value: 0x7f070092
-			public const int right_icon = 2131165330;
+			// aapt resource value: 0x7f070093
+			public const int right_icon = 2131165331;
 			
-			// aapt resource value: 0x7f07008e
-			public const int right_side = 2131165326;
+			// aapt resource value: 0x7f07008f
+			public const int right_side = 2131165327;
 			
 			// aapt resource value: 0x7f070016
 			public const int screen = 2131165206;
@@ -2142,8 +2154,8 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070019
 			public const int src_over = 2131165209;
 			
-			// aapt resource value: 0x7f070089
-			public const int status_bar_latest_event_content = 2131165321;
+			// aapt resource value: 0x7f07008a
+			public const int status_bar_latest_event_content = 2131165322;
 			
 			// aapt resource value: 0x7f070042
 			public const int submenuarrow = 2131165250;
@@ -2154,11 +2166,11 @@ namespace MileageGauge
 			// aapt resource value: 0x7f07000c
 			public const int tabMode = 2131165196;
 			
-			// aapt resource value: 0x7f070099
-			public const int text = 2131165337;
+			// aapt resource value: 0x7f07009a
+			public const int text = 2131165338;
 			
-			// aapt resource value: 0x7f070097
-			public const int text2 = 2131165335;
+			// aapt resource value: 0x7f070098
+			public const int text2 = 2131165336;
 			
 			// aapt resource value: 0x7f070036
 			public const int textSpacerNoButtons = 2131165238;
@@ -2172,14 +2184,14 @@ namespace MileageGauge
 			// aapt resource value: 0x7f070068
 			public const int textView2 = 2131165288;
 			
-			// aapt resource value: 0x7f070079
-			public const int textView3 = 2131165305;
+			// aapt resource value: 0x7f07007a
+			public const int textView3 = 2131165306;
 			
 			// aapt resource value: 0x7f070057
 			public const int textView6 = 2131165271;
 			
-			// aapt resource value: 0x7f07008f
-			public const int time = 2131165327;
+			// aapt resource value: 0x7f070090
+			public const int time = 2131165328;
 			
 			// aapt resource value: 0x7f07002e
 			public const int title = 2131165230;
