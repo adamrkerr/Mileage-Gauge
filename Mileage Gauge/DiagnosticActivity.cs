@@ -85,7 +85,7 @@ namespace MileageGauge
 
             RefreshButton.Click += RefreshButton_Click;
 
-            ClearCodeButton.Click += ClearCodeButton_Click;
+            ClearCodeButton.LongClick += ClearCodeButton_Click;
 
             ViewModel = ContainerManager.Container.Resolve<IMainViewModel>();
             DiagnosticModel = ContainerManager.Container.Resolve<IDiagnosticViewModel>();

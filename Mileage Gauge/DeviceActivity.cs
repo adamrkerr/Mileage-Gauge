@@ -52,6 +52,10 @@ namespace MileageGauge
         {
             base.OnCreate(bundle);
 
+            AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.DeviceSelection);
 
@@ -65,6 +69,16 @@ namespace MileageGauge
             {
                 RestoreValues(bundle);
             }
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         protected async override void OnResume()

@@ -9,10 +9,12 @@ namespace MileageGauge.CSharp.Abstractions.ViewModels
 {
     public interface IMPGMonitorViewModel : IDisposable
     {
-        Task BeginMonitoringMPG();
+        Task BeginMonitoringMPG(string vehicleVin);
 
         Task EndMonitoringMPG();
 
         Action<MPGUpdateResponse> UpdateMPG { get; set; }
+
+        void RequestTripReset();
     }
 }

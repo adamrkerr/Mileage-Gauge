@@ -47,6 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DiagnosticDeviceService.cs" />
     <Compile Include="Services\RestUtility.cs" />
+    <Compile Include="Services\TripHistoryService.cs" />
     <Compile Include="Services\VehicleHistoryService.cs" />
     <Compile Include="Services\VehicleInformationService.cs" />
     <Compile Include="ViewModels\AddVehicleViewModel.cs" />

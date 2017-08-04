@@ -114,7 +114,7 @@ namespace MileageGauge.Adapters
             itemView.LongClick += ItemView_LongClick;
             MileageButton.Click += (sender, e) => mileageRequest(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
             DiagnosticButton.Click += (sender, e) => diagnosticRequest(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
-            DeleteButton.Click += (sender, e) => deleteRequest(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
+            DeleteButton.LongClick += (sender, e) => deleteRequest(new VehicleHistoryAdapterClickEventArgs { ViewModel = ViewModel });
         }
 
 

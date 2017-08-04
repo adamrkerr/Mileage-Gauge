@@ -35,6 +35,7 @@ namespace MileageGauge.DI
             builder.RegisterType<RestUtility>().As<IRestUtility>();
             builder.RegisterType<MPGMonitorViewModel>().As<IMPGMonitorViewModel>();
             builder.RegisterType<VehicleHistoryService>().As<IVehicleHistoryService>();
+            builder.RegisterType<TripHistoryService>().As<ITripHistoryService>();
             builder.RegisterType<AddVehicleViewModel>().As<IAddVehicleViewModel>();
             builder.RegisterType<DeviceFileSystemService>().As<IDeviceFileSystemService>().InstancePerLifetimeScope();
             builder.RegisterType<CommunicationServiceResolver>().As<ICommunicationServiceResolver>().InstancePerLifetimeScope();

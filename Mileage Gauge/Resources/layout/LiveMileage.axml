@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -148,6 +149,55 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center" />
         </GridLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout2"
+            android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/linearLayout3">
+                <TextView
+                    android:text="Miles"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/MilesTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp" />
+                <TextView
+                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/TotalMiles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp" />
+                <TextView
+                    android:text="Gallons"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/GallonsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp" />
+                <TextView
+                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/TotalGallons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp" />
+            </LinearLayout>
+            <ImageButton
+                android:id="@+id/ResetButton"
+                app:srcCompat="@drawable/ic_autorenew_black_24px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:hapticFeedbackEnabled="true" />
+        </LinearLayout>
     </LinearLayout>
     <Button
         android:text="Back"

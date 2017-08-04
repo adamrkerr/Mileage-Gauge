@@ -6,17 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
 using MileageGauge.CSharp.Abstractions.Services;
+using MileageGauge.CSharp.Abstractions.Models;
 
 namespace MileageGauge.CSharp.Implementations.ViewModels
 {
     public class MPGMonitorViewModel : IMPGMonitorViewModel
     {
         private readonly IDiagnosticDeviceService _diagnosticDeviceService;
-        public MPGMonitorViewModel(IDiagnosticDeviceService diagnosticeService)
+        private readonly ITripHistoryService _tripService;
+        private readonly object _locker;
+        public MPGMonitorViewModel(IDiagnosticDeviceService diagnosticeService, ITripHistoryService tripService)
         {
             _diagnosticDeviceService = diagnosticeService;
+            _tripService = tripService;
 
             MonitorFlag = false;
+
+            _locker = new object();
         }
 
         bool MonitorFlag { get; set; }
@@ -25,7 +31,7 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         //double PointsSampled { get; set; }
 
-        double AverageMPG { get; set; }
+        private double AverageMPG { get; set; }
 
         private DateTime TimeOfLastSample { get; set; }
 
@@ -33,26 +39,34 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         private decimal MilesTravelled { get; set; }
 
-        public double PreviousMPH { get; set; }
+        private double PreviousMPH { get; set; }
 
-        public double PreviousGPH { get; set; }
+        private double PreviousGPH { get; set; }
+
+        private string VehicleVin { get; set; }
 
         public Action<MPGUpdateResponse> UpdateMPG
         {
             get; set;
         }
 
-        public async Task BeginMonitoringMPG()
+        private bool TripResetRequested { get; set; }
+
+        public async Task BeginMonitoringMPG(string vehicleVin)
         {
+            VehicleVin = vehicleVin;
+
+            var existingTrip = await _tripService.GetTripHistory(vehicleVin);
+
             MonitorFlag = true;
 
             //PointsSampled = 0;
 
             AverageMPG = 0;
 
-            MilesTravelled = 0;
+            MilesTravelled = existingTrip?.MilesTravelled ?? 0;
 
-            GallonsUsed = 0;
+            GallonsUsed = existingTrip?.GallonsUsed ?? 0;
 
             PreviousGPH = 0;
 
@@ -64,19 +78,29 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
             {
                 while (MonitorFlag)
                 {
+                    lock (_locker)
+                    {
+                        if (TripResetRequested)
+                        {
+                            MilesTravelled = 0;
+                            GallonsUsed = 0;
+                            TripResetRequested = false;
+                        }
+                    }
+
                     var rnd = new Random();
                     var throttleInt = await _diagnosticDeviceService.GetThrottlePercentage();
                     var mph = await _diagnosticDeviceService.GetMPH();
                     var gph = await _diagnosticDeviceService.GetGPH();
 
                     var timeOfCurrentSample = DateTime.Now;
-                    
+
                     var instantMpg = mph / gph;
 
                     GallonsUsed += GetGallonsUsed(gph, PreviousGPH, timeOfCurrentSample, TimeOfLastSample);
 
                     MilesTravelled += GetMilesTravelled(mph, PreviousMPH, timeOfCurrentSample, TimeOfLastSample);
-                    
+
                     if (GallonsUsed != 0)
                     {
                         AverageMPG = (double)(MilesTravelled / GallonsUsed);
@@ -88,13 +112,15 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
                         CurrentThrottlePercentage = throttleInt,
                         CurrentMPH = mph,
                         InstantMPG = instantMpg,
-                        AverageMPG = AverageMPG
+                        AverageMPG = AverageMPG,
+                        MilesTravelled = MilesTravelled,
+                        GallonsUsed = GallonsUsed
                     });
 
                     PreviousMPH = mph;
 
                     PreviousGPH = gph;
-                    
+
                     TimeOfLastSample = timeOfCurrentSample;
                 }
             });
@@ -128,13 +154,26 @@ namespace MileageGauge.CSharp.Implementations.ViewModels
 
         public async Task EndMonitoringMPG()
         {
+
+            await _tripService.AddOrUpdateTripHistory(new TripHistory { Vin = VehicleVin, GallonsUsed = GallonsUsed, MilesTravelled = MilesTravelled }).ConfigureAwait(false);
+
             MonitorFlag = false;
+
             MonitorTask?.Wait();
+
         }
 
         public void Dispose()
         {
             Task.WaitAll(EndMonitoringMPG());
+        }
+
+        public void RequestTripReset()
+        {
+            lock (_locker)
+            {
+                TripResetRequested = true;
+            }
         }
     }
 }

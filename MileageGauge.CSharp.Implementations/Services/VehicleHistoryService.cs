@@ -15,10 +15,12 @@ namespace MileageGauge.CSharp.Implementations.Services
         private const string VEHICLE_HISTORY_FILE = "vehicle_history.txt";
 
         private readonly IDeviceFileSystemService _fileSystemService;
+        private readonly ITripHistoryService _tripService;
 
-        public VehicleHistoryService(IDeviceFileSystemService fileSystemService)
+        public VehicleHistoryService(IDeviceFileSystemService fileSystemService, ITripHistoryService tripService)
         {
             _fileSystemService = fileSystemService;
+            _tripService = tripService;
         }
         
         public async Task AddOrUpdateVehicle(VehicleModel newVehicle)
@@ -78,7 +80,9 @@ namespace MileageGauge.CSharp.Implementations.Services
                 currentCollection.Remove(match);
             }
 
-            await SaveVehicleHistory(currentCollection); 
+            await SaveVehicleHistory(currentCollection);
+
+            await _tripService.RemoveTripHistoryForVehicle(vin);
         }
 
         private async Task SaveVehicleHistory(List<VehicleModel> collection)

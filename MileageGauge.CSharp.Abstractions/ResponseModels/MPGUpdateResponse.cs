@@ -16,6 +16,10 @@ namespace MileageGauge.CSharp.Abstractions.ResponseModels
 
         public double CurrentThrottlePercentage { get; set; }
 
+        public decimal MilesTravelled { get; set; }
+
+        public decimal GallonsUsed { get; set; }
+
         public bool Success
         {
             get; set;

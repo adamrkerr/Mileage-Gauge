@@ -71,6 +71,22 @@ namespace MileageGauge
             }
         }
 
+        private TextView TotalGallons
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.TotalGallons);
+            }
+        }
+
+        private TextView TotalMiles
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.TotalMiles);
+            }
+        }
+
         private TextView MPHText
         {
             get
@@ -84,6 +100,14 @@ namespace MileageGauge
             get
             {
                 return FindViewById<Button>(Resource.Id.BackButton);
+            }
+        }
+
+        private ImageButton ResetButton
+        {
+            get
+            {
+                return FindViewById<ImageButton>(Resource.Id.ResetButton);
             }
         }
 
@@ -107,6 +131,13 @@ namespace MileageGauge
             
             MileageBack.Click += MileageBack_Click;
 
+            ResetButton.LongClick += ResetButton_Click;
+
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            MonitorViewModel?.RequestTripReset();
         }
 
         protected async override void OnResume()
@@ -117,7 +148,7 @@ namespace MileageGauge
 
             MonitorViewModel.UpdateMPG = MonitorViewModel_UpdateMPG;
 
-            await MonitorViewModel.BeginMonitoringMPG();
+            await MonitorViewModel.BeginMonitoringMPG(ViewModel.CurrentVehicle.VIN);
         }
 
         protected override void OnPause()
@@ -134,12 +165,12 @@ namespace MileageGauge
             base.OnDestroy();
 
             //this should already be done, but be safe in case of background termination
-            if (MonitorViewModel != null)
-            {
-                MonitorViewModel.UpdateMPG = null;
+            //if (MonitorViewModel != null)
+            //{
+            //    MonitorViewModel.UpdateMPG = null;
 
-                MonitorViewModel.EndMonitoringMPG().Wait();
-            }
+            //    MonitorViewModel.EndMonitoringMPG().Wait();
+            //}
         }
 
         private void MonitorViewModel_UpdateMPG(MPGUpdateResponse response)
@@ -189,6 +220,39 @@ namespace MileageGauge
                 {
                     AverageMPGText.SetTextColor(new Android.Graphics.Color(14, 234, 14));
                 }
+
+                var gallonString = "0";
+                if(response.GallonsUsed < 10)
+                {
+                    gallonString = response.GallonsUsed.ToString("0.000");
+                }
+                else if (response.GallonsUsed < 100)
+                {
+                    gallonString = response.GallonsUsed.ToString("#.00");
+                }
+                else{
+                    gallonString = response.GallonsUsed.ToString("#.0");
+                }
+
+                TotalGallons.Text = gallonString;
+
+                var milesString = "0";
+
+                if(response.MilesTravelled < 10)
+                {
+                    milesString = response.MilesTravelled.ToString("0.00");
+                }
+                else if(response.MilesTravelled < 100)
+                {
+                    milesString = response.MilesTravelled.ToString("#.0");
+                }
+                else
+                {
+                    milesString = response.MilesTravelled.ToString("#");
+                }
+
+                TotalMiles.Text = milesString;
+
             });
         }
 
