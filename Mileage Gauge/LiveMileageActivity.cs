@@ -9,6 +9,9 @@ using Autofac;
 using MileageGauge.CSharp.Abstractions.ViewModels;
 using MileageGauge.CSharp.Abstractions.ResponseModels;
 using Android.Support.V7.App;
+using Android.Support.V7.Content.Res;
+using Android.Graphics.Drawables;
+using Android.Views;
 
 namespace MileageGauge
 {
@@ -95,6 +98,14 @@ namespace MileageGauge
             }
         }
 
+        private TextView DangerToManifold
+        {
+            get
+            {
+                return FindViewById<TextView>(Resource.Id.DangerToManifold);
+            }
+        }
+
         private Button MileageBack
         {
             get
@@ -128,7 +139,9 @@ namespace MileageGauge
             CityText.Text = ViewModel.CurrentVehicle.CityMPG.ToString();
             CombinedText.Text = ViewModel.CurrentVehicle.CombinedMPG.ToString();
             HighwayText.Text = ViewModel.CurrentVehicle.HighwayMPG.ToString();
-            
+
+            DangerToManifold.Background = this.GetDrawable(Resource.Drawable.danger_to_manifold_bg); 
+
             MileageBack.Click += MileageBack_Click;
 
             ResetButton.LongClick += ResetButton_Click;
@@ -149,6 +162,7 @@ namespace MileageGauge
             MonitorViewModel.UpdateMPG = MonitorViewModel_UpdateMPG;
 
             await MonitorViewModel.BeginMonitoringMPG(ViewModel.CurrentVehicle.VIN);
+
         }
 
         protected override void OnPause()
@@ -252,6 +266,20 @@ namespace MileageGauge
                 }
 
                 TotalMiles.Text = milesString;
+
+                //Show "DANGER TO MANIFOLD" when driver floors it! xD
+                if(DangerToManifold.Visibility == ViewStates.Invisible && response.CurrentThrottlePercentage >= 70)
+                {
+                    DangerToManifold.Visibility = ViewStates.Visible;
+                    var animationDrawable = (AnimationDrawable)DangerToManifold.Background;
+                    animationDrawable.Start();
+                }
+                else if (DangerToManifold.Visibility == ViewStates.Visible && response.CurrentThrottlePercentage < 70)
+                {
+                    DangerToManifold.Visibility = ViewStates.Invisible;
+                    var animationDrawable = (AnimationDrawable)DangerToManifold.Background;
+                    animationDrawable.Stop();
+                }
 
             });
         }

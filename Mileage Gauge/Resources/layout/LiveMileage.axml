@@ -62,8 +62,18 @@
         android:layout_height="match_parent"
         android:id="@+id/linearLayout1"
         android:layout_weight="1"
-        android:layout_gravity="fill_vertical"
+        android:layout_gravity="fill_vertical|center_horizontal"
         android:gravity="center_vertical">
+        <TextView
+            android:text="DANGER TO MANIFOLD"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/DangerToManifold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:visibility="invisible" />
         <TextView
             android:text="0.0"
             android:textAppearance="?android:attr/textAppearanceLarge"
